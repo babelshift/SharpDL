@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SharpDL
 {
-    public class Game : IDisposable
+	public class Game : IDisposable
 	{
 		private static int EMPTY_INT = -1;
 
@@ -16,16 +16,16 @@ namespace SharpDL
 		public Renderer Renderer { get; private set; }
 		public bool IsActive { get; private set; }
 
-        public Game()
-            : this(SDL.SDL_INIT_EVERYTHING)
-        {
-        }
+		public Game()
+			: this(SDL.SDL_INIT_EVERYTHING)
+		{
+		}
 
-        public Game(uint flags)
-        {
-            if (SDL.SDL_Init(flags) != 0)
-                throw new Exception(String.Format("SDL_Init: {0}", SDL.SDL_GetError()));
-        }
+		public Game(uint flags)
+		{
+			if (SDL.SDL_Init(flags) != 0)
+				throw new Exception(String.Format("SDL_Init: {0}", SDL.SDL_GetError()));
+		}
 
 		protected void CreateWindow(string title, int x, int y, int width, int height, SDL.SDL_WindowFlags flags)
 		{
@@ -60,32 +60,32 @@ namespace SharpDL
 		{
 		}
 
-        public void Quit()
-        {
-            SDL.SDL_Quit();
-        }
+		public void Quit()
+		{
+			SDL.SDL_Quit();
+		}
 
-        public void Sleep(TimeSpan delayTime)
-        {
-            Thread.Sleep(delayTime);
-            //SDL.SDL_Delay((uint)delayTime.TotalMilliseconds);
-        }
+		public void Sleep(TimeSpan delayTime)
+		{
+			Thread.Sleep(delayTime);
+			//SDL.SDL_Delay((uint)delayTime.TotalMilliseconds);
+		}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
-        ~Game()
-        {
-            Dispose(false);
-        }
+		~Game()
+		{
+			Dispose(false);
+		}
 
-        protected virtual void Dispose(bool disposing)
-        {
+		protected virtual void Dispose(bool disposing)
+		{
 			SDL.SDL_DestroyWindow(this.Window.Handle);
 			SDL.SDL_DestroyRenderer(this.Renderer.Handle);
-        }
-    }
+		}
+	}
 }

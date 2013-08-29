@@ -1,0 +1,3 @@
+[submodule "Libs"]
+	path = Libs
+	url = https://github.com/babelshift/SharpDL-Dependencies.git

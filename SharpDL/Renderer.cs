@@ -6,18 +6,25 @@ namespace SharpDL
 {
 	public class Renderer : IDisposable
 	{
+		[Flags]
+		public enum RendererFlags
+		{
+			RendererAccelerated = SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED,
+			RendererPresentVSync = SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC
+		}
+
 		public Window Window { get; private set; }
 		public int Index { get; private set; }
-		public IEnumerable<SDL.SDL_WindowFlags> Flags { get; private set; }
+		public IEnumerable<Renderer.RendererFlags> Flags { get; private set; }
 		public IntPtr Handle { get; private set; }
 
-		public Renderer(Window window, int index, SDL.SDL_RendererFlags flags)
+		public Renderer(Window window, int index, RendererFlags flags)
 		{
 			this.Window = window;
 			this.Index = index;
 
-			List<SDL.SDL_RendererFlags> copyFlags = new List<SDL.SDL_RendererFlags>();
-			foreach (SDL.SDL_RendererFlags flag in Enum.GetValues(typeof(SDL.SDL_RendererFlags)))
+			List<Renderer.RendererFlags> copyFlags = new List<Renderer.RendererFlags>();
+			foreach (Renderer.RendererFlags flag in Enum.GetValues(typeof(Renderer.RendererFlags)))
 				if (flags.HasFlag(flag))
 					copyFlags.Add(flag);
 

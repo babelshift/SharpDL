@@ -25,7 +25,6 @@ namespace SharpDL
 				if (surface.Handle != null)
 				{
 					this.Handle = SDL.SDL_CreateTextureFromSurface(this.Renderer.Handle, this.Surface.Handle);
-					this.Surface.Dispose();
 					if (this.Handle != null)
 						success = true;
 				}
@@ -35,6 +34,8 @@ namespace SharpDL
 				throw new Exception("SDL_CreateTextureFromSurface");
 			else
 			{
+				this.Surface.Dispose();
+
 				uint format;
 				int access, width, height;
 				SDL.SDL_QueryTexture(this.Handle, out format, out access, out width, out height);

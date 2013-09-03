@@ -82,6 +82,7 @@ namespace SharpDL
 
 		public void Run()
 		{
+			Initialize();
 			LoadContent();
 
 			while (!IsExiting)
@@ -108,8 +109,7 @@ namespace SharpDL
 		{
 			if (rawEvent.type == SDL.SDL_EventType.SDL_FIRSTEVENT)
 				return;
-
-			if (rawEvent.type == SDL.SDL_EventType.SDL_WINDOWEVENT)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_WINDOWEVENT)
 			{
 				WindowEventArgs eventArgs = GameEventFactory<WindowEventArgs>.CreateGameEvent(rawEvent);
 				if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Close)
@@ -141,20 +141,17 @@ namespace SharpDL
 				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.SizeChanged)
 					RaiseEvent<WindowEventArgs>(Window.SizeChanged, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_QUIT)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_QUIT)
 			{
 				QuitEventArgs eventArgs = GameEventFactory<QuitEventArgs>.CreateGameEvent(rawEvent);
 				RaiseEvent<QuitEventArgs>(Quitting, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_SYSWMEVENT)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_SYSWMEVENT)
 			{
 				VideoDeviceSystemEventArgs eventArgs = GameEventFactory<VideoDeviceSystemEventArgs>.CreateGameEvent(rawEvent);
 				RaiseEvent<VideoDeviceSystemEventArgs>(VideoDeviceSystemEvent, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_KEYDOWN
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_KEYDOWN
 				|| rawEvent.type == SDL.SDL_EventType.SDL_KEYUP)
 			{
 				KeyboardEventArgs eventArgs = GameEventFactory<KeyboardEventArgs>.CreateGameEvent(rawEvent);
@@ -163,26 +160,22 @@ namespace SharpDL
 				else if (eventArgs.State == KeyboardEventArgs.KeyState.Released)
 					RaiseEvent<KeyboardEventArgs>(KeyReleased, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTEDITING)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTEDITING)
 			{
 				TextEditingEventArgs eventArgs = GameEventFactory<TextEditingEventArgs>.CreateGameEvent(rawEvent);
 				RaiseEvent<TextEditingEventArgs>(TextEditing, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTINPUT)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTINPUT)
 			{
 				TextInputEventArgs eventArgs = GameEventFactory<TextInputEventArgs>.CreateGameEvent(rawEvent);
 				RaiseEvent<TextInputEventArgs>(TextInputting, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEMOTION)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEMOTION)
 			{
 				MouseMotionEventArgs eventArgs = GameEventFactory<MouseMotionEventArgs>.CreateGameEvent(rawEvent);
 				RaiseEvent<MouseMotionEventArgs>(MouseMoving, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP
 				|| rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
 			{
 				MouseButtonEventArgs eventArgs = GameEventFactory<MouseButtonEventArgs>.CreateGameEvent(rawEvent);
@@ -192,8 +185,7 @@ namespace SharpDL
 				else if(eventArgs.State == MouseButtonEventArgs.MouseButtonState.Released)
 					RaiseEvent<MouseButtonEventArgs>(MouseButtonReleased, eventArgs);
 			}
-			
-			if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)
+			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)
 			{
 				MouseWheelEventArgs eventArgs = GameEventFactory<MouseWheelEventArgs>.CreateGameEvent(rawEvent);
 				RaiseEvent<MouseWheelEventArgs>(MouseWheelScrolling, eventArgs);
@@ -232,13 +224,7 @@ namespace SharpDL
 		public void Quit()
 		{
 			RaiseEvent(Exiting, EventArgs.Empty);
-			SDL.SDL_Quit();
-		}
-
-		public void Sleep(TimeSpan delayTime)
-		{
-			Thread.Sleep(delayTime);
-			//SDL.SDL_Delay((uint)delayTime.TotalMilliseconds);
+			Dispose();
 		}
 
 		#endregion
@@ -255,12 +241,22 @@ namespace SharpDL
 			if (flags == EMPTY_UINT)
 				flags = SDL.SDL_INIT_EVERYTHING;
 
-			if (SDL.SDL_Init(flags) != EMPTY_UINT)
+			if (SDL.SDL_Init(flags) != 0)
 				throw new Exception(String.Format("SDL_Init: {0}", SDL.SDL_GetError()));
+
+			if (SDL_ttf.TTF_Init() != 0)
+				throw new Exception(String.Format("TTF_Init: {0}", SDL.SDL_GetError()));
+
+			int initImageResult = SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
+			if ((initImageResult & (int)SDL_image.IMG_InitFlags.IMG_INIT_PNG) != (int)SDL_image.IMG_InitFlags.IMG_INIT_PNG)
+				throw new Exception(String.Format("IMG_Init: {0}", SDL.SDL_GetError()));
 		}
 
 		protected virtual void LoadContent()
 		{
+			IntPtr surfaceHandle = SDL_image.IMG_Load("Images/Tile_Plain_32.png");
+			if (surfaceHandle == null)
+				throw new Exception(String.Format("IMG_Load: {0}", SDL.SDL_GetError()));
 		}
 
 		protected virtual void Update(GameTime gameTime)
@@ -312,11 +308,6 @@ namespace SharpDL
 				eventHandler(this, eventArguments);
 		}
 
-		public TimeSpan TotalGameTime()
-		{
-			return TimeSpan.FromMilliseconds((double)SDL.SDL_GetTicks());
-		}
-
 		#endregion
 
 		#region Dispose
@@ -336,6 +327,9 @@ namespace SharpDL
 		{
 			SDL.SDL_DestroyWindow(this.Window.Handle);
 			SDL.SDL_DestroyRenderer(this.Renderer.Handle);
+			SDL_ttf.TTF_Quit();
+			SDL_image.IMG_Quit();
+			SDL.SDL_Quit();
 			RaiseEvent(Disposed, EventArgs.Empty);
 		}
 

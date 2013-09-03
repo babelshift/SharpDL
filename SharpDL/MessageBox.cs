@@ -19,8 +19,12 @@ namespace SharpDL
 		public static void Show(MessageBoxType messageBoxType, 
 			String title, String message, Window parentWindow)
 		{
+			IntPtr parentWindowHandle = IntPtr.Zero;
+			if (parentWindow != null)
+				parentWindowHandle = parentWindow.Handle;
+
 			SDL.SDL_ShowSimpleMessageBox((SDL.SDL_MessageBoxFlags)messageBoxType,
-				title, message, parentWindow.Handle);
+				title, message, parentWindowHandle);
 		}
 	}
 }

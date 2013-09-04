@@ -50,22 +50,22 @@ namespace SharpDL
 
 		public Window(string title, int x, int y, int width, int height, WindowFlags flags)
 		{
-			this.Title = title;
-			this.X = x;
-			this.Y = y;
-			this.Width = width;
-			this.Height = height;
+			Title = title;
+			X = x;
+			Y = y;
+			Width = width;
+			Height = height;
 
 			List<Window.WindowFlags> copyFlags = new List<Window.WindowFlags>();
 			foreach (Window.WindowFlags flag in Enum.GetValues(typeof(Window.WindowFlags)))
 				if (flags.HasFlag(flag))
 					copyFlags.Add(flag);
 
-			this.Flags = copyFlags;
+			Flags = copyFlags;
 
-			this.Handle = SDL.SDL_CreateWindow(this.Title, this.X, this.Y, this.Width, this.Height, (SDL.SDL_WindowFlags)flags);
-			if (this.Handle == null)
-				throw new Exception("SDL_CreateWindow");
+			Handle = SDL.SDL_CreateWindow(this.Title, this.X, this.Y, this.Width, this.Height, (SDL.SDL_WindowFlags)flags);
+			if (Handle == null || Handle == IntPtr.Zero)
+				throw new Exception(String.Format("SDL_CreateWindow: {0}", SDL.SDL_GetError()));
 		}
 
 
@@ -83,7 +83,7 @@ namespace SharpDL
 
 		private void Dispose(bool isDisposing)
 		{
-			SDL.SDL_DestroyWindow(this.Handle);
+			SDL.SDL_DestroyWindow(Handle);
 		}
 	}
 }

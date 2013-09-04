@@ -35,10 +35,10 @@ namespace SharpDL
 			CreateTextureAndCleanup();
 		}
 
-		protected void UpdateSurfaceAndTexture(Surface surface)
+		public void UpdateSurfaceAndTexture(Surface surface)
 		{
 			SDL.SDL_DestroyTexture(this.Handle);
-			this.Surface = surface;
+			Surface = surface;
 
 			CreateTextureAndCleanup();
 		}
@@ -128,7 +128,8 @@ namespace SharpDL
 		private void Dispose(bool disposing)
 		{
 			if (AccessMode == TextureAccessMode.Streaming)
-				SDL.SDL_FreeSurface(Surface.Handle);
+				if(Surface != null)
+					SDL.SDL_FreeSurface(Surface.Handle);
 
 			SDL.SDL_DestroyTexture(Handle);
 		}

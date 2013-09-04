@@ -1,6 +1,7 @@
 ﻿using SDL2;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,16 +15,11 @@ namespace SharpDL
 
 		private const int EMPTY_UINT = 0;
 		private const int EMPTY_INT = -1;
-
 		private const float FRAMES_PER_SECOND = 60f;
-		private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
 
 		private GameTime gameTime = new GameTime();
 
 		private bool isFrameRateCapped = true;
-		private Timer gameTimer = new Timer();
-
-		private TimeSpan lastTickEndTime;
 
 		#endregion
 
@@ -179,10 +175,10 @@ namespace SharpDL
 				|| rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
 			{
 				MouseButtonEventArgs eventArgs = GameEventFactory<MouseButtonEventArgs>.CreateGameEvent(rawEvent);
-				
-				if(eventArgs.State == MouseButtonEventArgs.MouseButtonState.Pressed)
+
+				if (eventArgs.State == MouseButtonEventArgs.MouseButtonState.Pressed)
 					RaiseEvent<MouseButtonEventArgs>(MouseButtonPressed, eventArgs);
-				else if(eventArgs.State == MouseButtonEventArgs.MouseButtonState.Released)
+				else if (eventArgs.State == MouseButtonEventArgs.MouseButtonState.Released)
 					RaiseEvent<MouseButtonEventArgs>(MouseButtonReleased, eventArgs);
 			}
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)
@@ -192,33 +188,45 @@ namespace SharpDL
 			}
 		}
 
+		private Timer gameTimer = new Timer();
+		private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
+		private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
+
 		private void Tick()
 		{
-			// get the elapsed time since the last tick
-			gameTime.TotalGameTime = TimeSpan.FromMilliseconds(SDL.SDL_GetTicks());
-			gameTime.ElapsedGameTime = gameTime.TotalGameTime - lastTickEndTime;
-
-			// start timer to determine how long the tick takes
-			gameTimer.Start();
-
-			Update(gameTime);
-
-			Draw(gameTime);
-
-			// if this tick was faster than our minimum, delay
-			if (isFrameRateCapped && (gameTimer.TotalTime.TotalMilliseconds < (1000 / FRAMES_PER_SECOND)))
+			while (isFrameRateCapped && (accumulatedElapsedTime < targetElapsedTime))
 			{
-				UInt32 millisecondsToDelay = (UInt32)((1000 / FRAMES_PER_SECOND) - gameTimer.TotalTime.TotalMilliseconds);
-				SDL.SDL_Delay(millisecondsToDelay);
+				accumulatedElapsedTime += gameTimer.ElapsedTime;
+				gameTimer.Stop();
+				gameTimer.Start();
+
+				if (isFrameRateCapped && (accumulatedElapsedTime < targetElapsedTime))
+				{
+					TimeSpan sleepTime = targetElapsedTime - accumulatedElapsedTime;
+					SDL.SDL_Delay((UInt32)sleepTime.TotalMilliseconds);
+				}
 			}
 
-			gameTimer.Stop();
+			if (accumulatedElapsedTime > TimeSpan.FromSeconds(0.5))
+				accumulatedElapsedTime = TimeSpan.FromSeconds(0.5);
 
-			// reset the elapsed time because we are done with the tick
-			gameTime.ElapsedGameTime = TimeSpan.Zero;
+			if (isFrameRateCapped)
+			{
+				int stepCount = 0;
 
-			// record the time at which this tick ended
-			lastTickEndTime = TimeSpan.FromMilliseconds(SDL.SDL_GetTicks());
+				while (accumulatedElapsedTime >= targetElapsedTime)
+				{
+					gameTime.TotalGameTime += targetElapsedTime;
+					accumulatedElapsedTime -= targetElapsedTime;
+					stepCount++;
+
+					Update(gameTime);
+				}
+
+				gameTime.ElapsedGameTime = TimeSpan.FromTicks(targetElapsedTime.Ticks * stepCount);
+			}
+
+			Draw(gameTime);
 		}
 
 		public void Quit()
@@ -254,18 +262,40 @@ namespace SharpDL
 
 		protected virtual void LoadContent()
 		{
-			IntPtr surfaceHandle = SDL_image.IMG_Load("Images/Tile_Plain_32.png");
-			if (surfaceHandle == null)
-				throw new Exception(String.Format("IMG_Load: {0}", SDL.SDL_GetError()));
+			//Color color = new Color(255, 165, 0, 255);
+			//Font font = new Font("Fonts/lazy.ttf", 28);
+			//Surface fontSurface = new Surface(font, ".", color);
+			//fpsText = new TrueTypeText(Renderer, fontSurface, ".", font, color);
 		}
 
+		//TimeSpan elapsedTime = TimeSpan.Zero;
+		//int frameRate = 0;
+		//int frameCounter = 0;
 		protected virtual void Update(GameTime gameTime)
 		{
+			//elapsedTime += gameTime.ElapsedGameTime;
 
+			//if (elapsedTime >= TimeSpan.FromSeconds(1))
+			//{
+			//	elapsedTime -= TimeSpan.FromSeconds(1);
+			//	frameRate = frameCounter;
+			//	frameCounter = 0;
+			//}
 		}
+
+		//TrueTypeText fpsText;
 
 		protected virtual void Draw(GameTime gameTime)
 		{
+			//frameCounter++;
+
+			//string fps = String.Format("FPS: {0}", frameRate);
+
+			//fpsText.UpdateText(fps);
+
+			//Renderer.RenderTexture(fpsText.Texture, 0, 100);
+
+			//Renderer.RenderPresent();
 		}
 
 		protected virtual void UnloadContent()
@@ -325,8 +355,12 @@ namespace SharpDL
 
 		protected virtual void Dispose(bool disposing)
 		{
-			SDL.SDL_DestroyWindow(this.Window.Handle);
-			SDL.SDL_DestroyRenderer(this.Renderer.Handle);
+			if(Window != null)
+				SDL.SDL_DestroyWindow(Window.Handle);
+
+			if(Renderer != null)
+				SDL.SDL_DestroyRenderer(Renderer.Handle);
+	
 			SDL_ttf.TTF_Quit();
 			SDL_image.IMG_Quit();
 			SDL.SDL_Quit();

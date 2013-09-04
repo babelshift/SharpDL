@@ -19,8 +19,8 @@ namespace SharpDL
 			PointSize = fontPointSize;
 
 			Handle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
-			if (Handle == IntPtr.Zero)
-				MessageBox.Show(MessageBox.MessageBoxType.Error, "Font Error", SDL.SDL_GetError(), null); 
+			if (Handle == null || Handle == IntPtr.Zero)
+				throw new Exception(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
 		}
 
 		public void Dispose()

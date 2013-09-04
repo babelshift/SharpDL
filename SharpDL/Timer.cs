@@ -20,7 +20,7 @@ namespace SharpDL
 			get { return TimeSpan.FromMilliseconds((double)startTicks); }
 		}
 
-		public TimeSpan TotalTime
+		public TimeSpan ElapsedTime
 		{
 			get
 			{

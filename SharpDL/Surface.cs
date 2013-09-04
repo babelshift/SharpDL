@@ -32,7 +32,7 @@ namespace SharpDL
 			else if (surfaceType == SurfaceType.PNG)
 				Handle = SDL_image.IMG_Load(FilePath);
 
-			if (Handle == null)
+			if (Handle == null || Handle == IntPtr.Zero)
 				throw new Exception(String.Format("Error while loading image surface: {0}", SDL.SDL_GetError()));
 
 			GetSurfaceMetaData();
@@ -42,8 +42,10 @@ namespace SharpDL
 		{
 			Type = SurfaceType.Text;
 			SDL.SDL_Color rawColor = new SDL.SDL_Color() { r = color.R, g = color.G, b = color.B };
+
 			Handle = SDL_ttf.TTF_RenderText_Solid(font.Handle, text, rawColor);
-			if (Handle == null)
+
+			if (Handle == null || Handle == IntPtr.Zero)
 				throw new Exception(String.Format("Error while loading text surface: {0}", SDL.SDL_GetError()));
 
 			GetSurfaceMetaData();
@@ -71,7 +73,7 @@ namespace SharpDL
 
 		private void Dispose(bool disposing)
 		{
-			SDL.SDL_FreeSurface(this.Handle);
+			SDL.SDL_FreeSurface(Handle);
 		}
 	}
 }

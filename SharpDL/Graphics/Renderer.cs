@@ -43,7 +43,7 @@ namespace SharpDL.Graphics
 			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = x, y = y, w = texture.Width, h = texture.Height };
 			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = 0, y = 0, w = texture.Width, h = texture.Height };
 
-			SDL.SDL_RenderCopy(Handle, texture.Handle, IntPtr.Zero, ref destinationRectangle);
+			int result = SDL.SDL_RenderCopy(Handle, texture.Handle, IntPtr.Zero, ref destinationRectangle);
 		}
 
 		public void RenderPresent()

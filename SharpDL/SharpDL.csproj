@@ -52,6 +52,7 @@
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Input\KeyboardEventArgs.cs" />
     <Compile Include="Input\KeyInformation.cs" />
+    <Compile Include="Input\Mouse.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MessageBox.cs" />
     <Compile Include="Input\MouseButtonEventArgs.cs" />

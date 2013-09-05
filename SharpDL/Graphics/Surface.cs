@@ -2,7 +2,7 @@
 using SDL2;
 using System.Runtime.InteropServices;
 
-namespace SharpDL
+namespace SharpDL.Graphics
 {
 	public class Surface : IDisposable
 	{

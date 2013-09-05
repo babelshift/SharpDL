@@ -1,4 +1,6 @@
 ﻿using SDL2;
+using SharpDL.Graphics;
+using SharpDL.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -70,6 +72,13 @@ namespace SharpDL
 		protected virtual void OnExiting(object sender, EventArgs args)
 		{
 			RaiseEvent(Exiting, args);
+		}
+
+		private void RaiseEvent<T>(EventHandler<T> eventHandler, T eventArguments)
+			where T : EventArgs
+		{
+			if (eventHandler != null)
+				eventHandler(this, eventArguments);
 		}
 
 		#endregion
@@ -329,17 +338,6 @@ namespace SharpDL
 
 		#endregion
 
-		#region General
-
-		private void RaiseEvent<T>(EventHandler<T> eventHandler, T eventArguments)
-			where T : EventArgs
-		{
-			if (eventHandler != null)
-				eventHandler(this, eventArguments);
-		}
-
-		#endregion
-
 		#region Dispose
 
 		public void Dispose()
@@ -355,12 +353,12 @@ namespace SharpDL
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if(Window != null)
+			if (Window != null)
 				SDL.SDL_DestroyWindow(Window.Handle);
 
-			if(Renderer != null)
+			if (Renderer != null)
 				SDL.SDL_DestroyRenderer(Renderer.Handle);
-	
+
 			SDL_ttf.TTF_Quit();
 			SDL_image.IMG_Quit();
 			SDL.SDL_Quit();

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SDL2;
 
-namespace SharpDL
+namespace SharpDL.Input
 {
 	public class MouseButtonEventArgs : GameEventArgs
 	{

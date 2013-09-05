@@ -1,7 +1,7 @@
 ﻿using SDL2;
 using System;
 
-namespace SharpDL
+namespace SharpDL.Graphics
 {
 	public class Texture : IDisposable
 	{

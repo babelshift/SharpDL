@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpDL
+namespace SharpDL.Graphics
 {
 	public class Image : IDisposable
 	{
@@ -20,16 +20,16 @@ namespace SharpDL
 
 		public Image(Renderer renderer, Surface surface, ImageFormat imageFormat)
 		{
-			if (surface.Type == SharpDL.Surface.SurfaceType.Text)
+			if (surface.Type == Surface.SurfaceType.Text)
 				throw new Exception("Cannot create images from text surfaces.");
 
 			Format = imageFormat;
 
-			if (surface.Type == SharpDL.Surface.SurfaceType.BMP)
+			if (surface.Type == Surface.SurfaceType.BMP)
 				Format = ImageFormat.BMP;
-			else if (surface.Type == SharpDL.Surface.SurfaceType.PNG)
+			else if (surface.Type == Surface.SurfaceType.PNG)
 				Format = ImageFormat.PNG;
-			else if (surface.Type == SharpDL.Surface.SurfaceType.JPG)
+			else if (surface.Type == Surface.SurfaceType.JPG)
 				Format = ImageFormat.JPG;
 
 			Texture = new Texture(renderer, surface);

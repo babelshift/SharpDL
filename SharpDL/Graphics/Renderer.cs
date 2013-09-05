@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SharpDL
+namespace SharpDL.Graphics
 {
 	public class Renderer : IDisposable
 	{

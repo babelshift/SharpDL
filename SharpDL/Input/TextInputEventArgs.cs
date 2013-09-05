@@ -5,19 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpDL
+namespace SharpDL.Input
 {
-	public class TextEditingEventArgs : GameEventArgs
+	public class TextInputEventArgs : GameEventArgs
 	{
-		public int Length { get; set; }
-		public int Start { get; set; }
 		public String Text { get; set; }
 		public UInt32 WindowID { get; set; }
 
-		public TextEditingEventArgs(SDL.SDL_Event rawEvent)
+		public TextInputEventArgs(SDL.SDL_Event rawEvent)
 			: base(rawEvent)
 		{
-			RawTimeStamp = rawEvent.edit.timestamp;
+			RawTimeStamp = rawEvent.text.timestamp;
 		}
 	}
 }

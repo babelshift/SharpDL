@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL", "SharpDL\SharpDL.csproj", "{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Graphics", "SharpDL.Graphics\SharpDL.Graphics.csproj", "{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Events", "SharpDL.Events\SharpDL.Events.csproj", "{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

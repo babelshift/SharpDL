@@ -2,8 +2,9 @@
 using SDL2;
 using System.Collections;
 using System.Collections.Generic;
+using SharpDL.Events;
 
-namespace SharpDL
+namespace SharpDL.Graphics
 {
 	public class Window : IDisposable
 	{
@@ -67,8 +68,6 @@ namespace SharpDL
 			if (Handle == null || Handle == IntPtr.Zero)
 				throw new Exception(String.Format("SDL_CreateWindow: {0}", SDL.SDL_GetError()));
 		}
-
-
 
 		public void Dispose()
 		{

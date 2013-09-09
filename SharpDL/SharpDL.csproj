@@ -44,22 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
-    <Compile Include="GameEventFactory.cs" />
     <Compile Include="GameTime.cs" />
-    <Compile Include="Input\KeyboardEventArgs.cs" />
-    <Compile Include="Input\KeyInformation.cs" />
-    <Compile Include="Input\Mouse.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MessageBox.cs" />
-    <Compile Include="Input\MouseButtonEventArgs.cs" />
-    <Compile Include="Input\MouseMotionEventArgs.cs" />
-    <Compile Include="Input\MouseWheelEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuitEventArgs.cs" />
-    <Compile Include="Input\TextEditingEventArgs.cs" />
-    <Compile Include="Input\TextInputEventArgs.cs" />
     <Compile Include="Timer.cs" />
-    <Compile Include="VideoDeviceSystemEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj">
@@ -70,7 +59,12 @@
       <Project>{da5e47bc-f509-40f5-9fc7-9c94d1d70809}</Project>
       <Name>SharpDL.Graphics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj">
+      <Project>{91ebb67f-91dc-4721-a62e-02b39f821062}</Project>
+      <Name>SharpDL.Input</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

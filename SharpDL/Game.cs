@@ -16,13 +16,15 @@ namespace SharpDL
 	{
 		#region Members
 
-		private const int EMPTY_UINT = 0;
+		private const uint EMPTY_UINT = 0;
 		private const int EMPTY_INT = -1;
 		private const float FRAMES_PER_SECOND = 60f;
-
-		private GameTime gameTime = new GameTime();
+		private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
+		private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
 
 		private bool isFrameRateCapped = true;
+		private GameTime gameTime = new GameTime();
+		private Timer gameTimer = new Timer();
 
 		#endregion
 
@@ -31,12 +33,15 @@ namespace SharpDL
 		public Window Window { get; private set; }
 		public Renderer Renderer { get; private set; }
 		public bool IsActive { get; private set; }
-		internal bool IsExiting { get; set; }
+		public bool IsExiting { get; private set; }
 
 		#endregion
 
 		#region Constructors
 
+		/// <summary>Default constructor of the base Game class does nothing. Only when Initialize is called 
+		/// is anything useful done.
+		/// </summary>
 		public Game() { }
 
 		#endregion
@@ -58,23 +63,39 @@ namespace SharpDL
 		public event EventHandler<EventArgs> Disposed;
 		public event EventHandler<EventArgs> Exiting;
 
-		public EventHandler<WindowEventArgs> WindowEvent;
-
+		/// <summary>Raises the Activated event. Activation occurs when the game gains focus.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
 		protected virtual void OnActivated(object sender, EventArgs args)
 		{
 			RaiseEvent(Activated, args);
 		}
 
+		/// <summary>Raises the Deactivated event. Deactivation occurs when the game loses focus.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
 		protected virtual void OnDeactivated(object sender, EventArgs args)
 		{
 			RaiseEvent(Deactivated, args);
 		}
 
+		/// <summary>Raises the Exiting event. Exiting occurs when an unrecoverable exception occurs or the
+		/// user directly exits the game.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
 		protected virtual void OnExiting(object sender, EventArgs args)
 		{
 			RaiseEvent(Exiting, args);
 		}
 
+		/// <summary>Checks if there are any event subscribers prior to raising the event.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="eventHandler"></param>
+		/// <param name="eventArguments"></param>
 		private void RaiseEvent<T>(EventHandler<T> eventHandler, T eventArguments)
 			where T : EventArgs
 		{
@@ -86,6 +107,9 @@ namespace SharpDL
 
 		#region Game Cycle Control
 
+		/// <summary>Begins the game by performing the following cycle events in this order: Initialize, LoadContent, 
+		/// CheckInputs, Update, Draw, UnloadContent.
+		/// </summary>
 		public void Run()
 		{
 			Initialize();
@@ -111,6 +135,10 @@ namespace SharpDL
 			UnloadContent();
 		}
 
+		/// <summary>The passed raw SDL_Event object is translated into a SharpDL game object and raised using
+		/// the appropriate EventHandler.
+		/// </summary>
+		/// <param name="rawEvent"></param>
 		private void RaiseGameEventFromRawEvent(SDL.SDL_Event rawEvent)
 		{
 			if (rawEvent.type == SDL.SDL_EventType.SDL_FIRSTEVENT)
@@ -198,10 +226,12 @@ namespace SharpDL
 			}
 		}
 
-		private Timer gameTimer = new Timer();
-		private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
-		private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
-
+		/// <summary>A tick is equal to a single time step forward in the game state. During each tick, the game will update total game time,
+		/// elapsed update time, and frame rates. It is important to note that the implementation is based on a Fixed Time Step algorithm where
+		/// each update and draw occur in the same constant fixed intervals. Additionally, the game will call the Update and Draw game cycle 
+		/// methods to be overridden by each implementation's specific Game Update and Draw logic. This method is based heavily on MonoGame's 
+		/// tick implementation and suggestions from Glenn Fiedler's blog (http://gafferongames.com/game-physics/fix-your-timestep/).
+		/// </summary>
 		private void Tick()
 		{
 			while (isFrameRateCapped && (accumulatedElapsedTime < targetElapsedTime))
@@ -239,8 +269,11 @@ namespace SharpDL
 			Draw(gameTime);
 		}
 
+		/// <summary>Raises the Exiting event and disposes of this instance.
+		/// </summary>
 		public void Quit()
 		{
+			IsExiting = true;
 			RaiseEvent(Exiting, EventArgs.Empty);
 			Dispose();
 		}
@@ -248,12 +281,19 @@ namespace SharpDL
 		#endregion
 
 		#region Game Cycle
-
+		
+		/// <summary>
+		/// Initializes the game by calling initialize on the SDL2 instance with "EVERYTHING".
+		/// </summary>
 		protected virtual void Initialize()
 		{
 			Initialize(SDL.SDL_INIT_EVERYTHING);
 		}
 
+		/// <summary>Initializes the game by calling initialize on the SDL2 instance with the passed flags 
+		/// or "EVERYTHING" if 0. Additionally, this method will initialize SDL_ttf and SDL_image to load fonts and images.
+		/// </summary>
+		/// <param name="flags">Bit flags indicating the way in which SDL should be initialized</param>
 		protected virtual void Initialize(uint flags)
 		{
 			if (flags == EMPTY_UINT)
@@ -270,6 +310,9 @@ namespace SharpDL
 				throw new Exception(String.Format("IMG_Init: {0}", SDL.SDL_GetError()));
 		}
 
+		/// <summary>Used for potentially long lasting operations that should only occur relatively rarely. Usually, this
+		/// method is used to load images, textures, maps, sounds, videos, and other game assets at the beginning of a level or area.
+		/// </summary>
 		protected virtual void LoadContent()
 		{
 			//Color color = new Color(255, 165, 0, 255);
@@ -281,6 +324,11 @@ namespace SharpDL
 		//TimeSpan elapsedTime = TimeSpan.Zero;
 		//int frameRate = 0;
 		//int frameCounter = 0;
+
+		/// <summary>Update the state of the game such as positions, health, entity properties, and more. 
+		/// This is called before Draw in the main game loop.
+		/// </summary>
+		/// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
 		protected virtual void Update(GameTime gameTime)
 		{
 			//elapsedTime += gameTime.ElapsedGameTime;
@@ -295,6 +343,10 @@ namespace SharpDL
 
 		//TrueTypeText fpsText;
 
+		/// <summary>Draw the current state of the game such as textures, surfaces, maps, and other visual content. 
+		/// This is called after Update in the main game loop.
+		/// </summary>
+		/// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
 		protected virtual void Draw(GameTime gameTime)
 		{
 			//frameCounter++;
@@ -308,6 +360,9 @@ namespace SharpDL
 			//Renderer.RenderPresent();
 		}
 
+		/// <summary>Used to unload game assets that were loaded during the LoadContent method. Usually, you use this to free
+		/// any resources that should not be lingering any longer or are no longer required.
+		/// </summary>
 		protected virtual void UnloadContent()
 		{
 		}
@@ -316,16 +371,31 @@ namespace SharpDL
 
 		#region Initializers
 
+		/// <summary>Creates a SDL window to render content within.
+		/// </summary>
+		/// <param name="title">Title of the window</param>
+		/// <param name="x">X position of the top left corner</param>
+		/// <param name="y">Y position of the top left corner</param>
+		/// <param name="width">Width of the window</param>
+		/// <param name="height">Height of the window</param>
+		/// <param name="flags">Bit flags indicating the way in which the window should be created</param>
 		protected void CreateWindow(string title, int x, int y, int width, int height, Window.WindowFlags flags)
 		{
 			this.Window = new Window(title, x, y, width, height, flags);
 		}
 
+		/// <summary>Creates a SDL Renderer to copy and draw textures to a window
+		/// </summary>
+		/// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
 		protected void CreateRenderer(Renderer.RendererFlags flags)
 		{
 			this.CreateRenderer(EMPTY_INT, flags);
 		}
 
+		/// <summary>Creates a SDL Renderer to copy and draw textures to a window
+		/// </summary>
+		/// <param name="index">Index of the renderering driver. -1 to choose the first available.</param>
+		/// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
 		protected void CreateRenderer(int index, Renderer.RendererFlags flags)
 		{
 			if (this.Window == null)

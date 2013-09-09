@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpDL.Input
+namespace SharpDL.Events
 {
 	public class MouseMotionEventArgs : GameEventArgs
 	{

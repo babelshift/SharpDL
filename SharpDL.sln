@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Graphics", "SharpDL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Events", "SharpDL.Events\SharpDL.Events.csproj", "{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Input", "SharpDL.Input\SharpDL.Input.csproj", "{91EBB67F-91DC-4721-A62E-02B39F821062}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

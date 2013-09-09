@@ -1,11 +1,12 @@
 ﻿using SDL2;
+using SharpDL.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpDL.Input
+namespace SharpDL.Events
 {
 	public class KeyboardEventArgs : GameEventArgs
 	{

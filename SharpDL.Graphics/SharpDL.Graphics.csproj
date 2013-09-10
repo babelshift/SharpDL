@@ -51,6 +51,7 @@
     <Compile Include="Surface.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="TrueTypeText.cs" />
+    <Compile Include="Vector.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

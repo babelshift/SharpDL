@@ -41,13 +41,13 @@ namespace SharpDL.Graphics
 		public void RenderTexture(Texture texture, int positionX, int positionY)
 		{
 			Rectangle source = new Rectangle(0, 0, texture.Width, texture.Height);
-			RenderTexture(texture, positionX, positionX, source);
+			RenderTexture(texture, positionX, positionY, source);
 		}
 
 		public void RenderTexture(Texture texture, int positionX, int positionY, Rectangle source)
 		{
 			int width = texture.Width;
-			int height = texture.Height; ;
+			int height = texture.Height;
 
 			if (source.Width > 0 && source.Height > 0)
 			{

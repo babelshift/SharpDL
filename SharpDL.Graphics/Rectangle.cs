@@ -43,7 +43,7 @@ namespace SharpDL.Graphics
 			}
 		}
 
-		public Point Location { get { return new Point((float)X, (float)Y); } }
+		public Point Location { get { return new Point(X, Y); } }
 
 		public Rectangle(int x, int y, int width, int height)
 			: this()

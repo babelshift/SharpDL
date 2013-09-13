@@ -8,10 +8,10 @@ namespace SharpDL.Graphics
 {
 	public struct Point
 	{
-		public float X { get; private set; }
-		public float Y { get; private set; }
+		public int X { get; private set; }
+		public int Y { get; private set; }
 
-		public Point(float x, float y) : this()
+		public Point(int x, int y) : this()
 		{
 			X = x;
 			Y = y;

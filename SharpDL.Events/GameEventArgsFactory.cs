@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SharpDL.Events
 {
-	public static class GameEventFactory<T>
-		where T : GameEventArgs
+	public static class GameEventArgsFactory<T>
+		where T : class
 	{
-		public static T CreateGameEvent(SDL.SDL_Event rawEvent)
+		public static T Create(SDL.SDL_Event rawEvent)
 		{
 			return Activator.CreateInstance(typeof(T),
 				new object[] { rawEvent }) as T;

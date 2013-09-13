@@ -11,8 +11,8 @@ namespace SharpDL.Graphics
 		public float X { get; private set; }
 		public float Y { get; private set; }
 
-		public Vector One { get { return new Vector() { X = 1, Y = 1 }; } }
-		public Vector Zero { get { return new Vector() { X = 0, Y = 0 }; } }
+		public static Vector One { get { return new Vector() { X = 1, Y = 1 }; } }
+		public static Vector Zero { get { return new Vector() { X = 0, Y = 0 }; } }
 
 		public Vector(float x, float y) : this()
 		{

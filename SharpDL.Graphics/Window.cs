@@ -26,21 +26,6 @@ namespace SharpDL.Graphics
 			Foreign = SDL.SDL_WindowFlags.SDL_WINDOW_FOREIGN
 		}
 
-		public EventHandler<WindowEventArgs> Shown;
-		public EventHandler<WindowEventArgs> Hidden;
-		public EventHandler<WindowEventArgs> Exposed;
-		public EventHandler<WindowEventArgs> Moved;
-		public EventHandler<WindowEventArgs> Resized;
-		public EventHandler<WindowEventArgs> SizeChanged;
-		public EventHandler<WindowEventArgs> Minimized;
-		public EventHandler<WindowEventArgs> Maximized;
-		public EventHandler<WindowEventArgs> Restored;
-		public EventHandler<WindowEventArgs> Enter;
-		public EventHandler<WindowEventArgs> Leave;
-		public EventHandler<WindowEventArgs> FocusGained;
-		public EventHandler<WindowEventArgs> FocusLost;
-		public EventHandler<WindowEventArgs> Close;
-
 		public string Title { get; private set; }
 		public int X { get; private set; }
 		public int Y { get; private set; }

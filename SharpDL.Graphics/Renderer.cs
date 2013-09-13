@@ -38,13 +38,13 @@ namespace SharpDL.Graphics
 			SDL.SDL_RenderClear(Handle);
 		}
 
-		public void RenderTexture(Texture texture, int positionX, int positionY)
+		public void RenderTexture(Texture texture, float positionX, float positionY)
 		{
 			Rectangle source = new Rectangle(0, 0, texture.Width, texture.Height);
 			RenderTexture(texture, positionX, positionY, source);
 		}
 
-		public void RenderTexture(Texture texture, int positionX, int positionY, Rectangle source)
+		public void RenderTexture(Texture texture, float positionX, float positionY, Rectangle source)
 		{
 			int width = texture.Width;
 			int height = texture.Height;
@@ -55,7 +55,8 @@ namespace SharpDL.Graphics
 				height = source.Height;
 			}
 
-			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = positionX, y = positionY, w = width, h = height };
+			// SDL only accepts integer positions (x,y) in the rendering Rect
+			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = (int)positionX, y = (int)positionY, w = width, h = height };
 			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = source.X, y = source.Y, w = source.Width, h = source.Height };
 
 			int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);

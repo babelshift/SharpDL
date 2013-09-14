@@ -150,7 +150,7 @@ namespace SharpDL
 			{
 				SDL.SDL_Event rawEvent = new SDL.SDL_Event();
 				while (SDL.SDL_PollEvent(out rawEvent) == 1)
-					rawEvents.Enqueue(rawEvent);
+					RaiseGameEventFromRawEvent(rawEvent);
 
 				Tick();
 			}
@@ -354,8 +354,8 @@ namespace SharpDL
 		/// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
 		protected virtual void Update(GameTime gameTime)
 		{
-			if (rawEvents.Count > 0)
-				RaiseGameEventFromRawEvent(rawEvents.Dequeue());
+			//if (rawEvents.Count > 0)
+			//	RaiseGameEventFromRawEvent(rawEvents.Dequeue());
 
 			//elapsedTime += gameTime.ElapsedGameTime;
 

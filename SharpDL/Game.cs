@@ -405,7 +405,7 @@ namespace SharpDL
 		/// <param name="width">Width of the window</param>
 		/// <param name="height">Height of the window</param>
 		/// <param name="flags">Bit flags indicating the way in which the window should be created</param>
-		protected void CreateWindow(string title, int x, int y, int width, int height, Window.WindowFlags flags)
+		protected void CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags)
 		{
 			this.Window = new Window(title, x, y, width, height, flags);
 		}
@@ -413,7 +413,7 @@ namespace SharpDL
 		/// <summary>Creates a SDL Renderer to copy and draw textures to a window
 		/// </summary>
 		/// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
-		protected void CreateRenderer(Renderer.RendererFlags flags)
+		protected void CreateRenderer(RendererFlags flags)
 		{
 			this.CreateRenderer(EMPTY_INT, flags);
 		}
@@ -422,7 +422,7 @@ namespace SharpDL
 		/// </summary>
 		/// <param name="index">Index of the renderering driver. -1 to choose the first available.</param>
 		/// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
-		protected void CreateRenderer(int index, Renderer.RendererFlags flags)
+		protected void CreateRenderer(int index, RendererFlags flags)
 		{
 			if (this.Window == null)
 				throw new Exception("Window has not been initialized. You must first create a Window before creating a Renderer.");

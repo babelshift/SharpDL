@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace SharpDL.Graphics
 {
+	[Flags]
+	public enum RendererFlags
+	{
+		RendererAccelerated = SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED,
+		RendererPresentVSync = SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC
+	}
+
 	public class Renderer : IDisposable
 	{
-		[Flags]
-		public enum RendererFlags
-		{
-			RendererAccelerated = SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED,
-			RendererPresentVSync = SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC
-		}
-
 		public Window Window { get; private set; }
 		public int Index { get; private set; }
-		public IEnumerable<Renderer.RendererFlags> Flags { get; private set; }
+		public IEnumerable<RendererFlags> Flags { get; private set; }
 		public IntPtr Handle { get; private set; }
 
 		public Renderer(Window window, int index, RendererFlags flags)
@@ -23,8 +23,8 @@ namespace SharpDL.Graphics
 			Window = window;
 			Index = index;
 
-			List<Renderer.RendererFlags> copyFlags = new List<Renderer.RendererFlags>();
-			foreach (Renderer.RendererFlags flag in Enum.GetValues(typeof(Renderer.RendererFlags)))
+			List<RendererFlags> copyFlags = new List<RendererFlags>();
+			foreach (RendererFlags flag in Enum.GetValues(typeof(RendererFlags)))
 				if (flags.HasFlag(flag))
 					copyFlags.Add(flag);
 

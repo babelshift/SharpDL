@@ -27,6 +27,18 @@ namespace SharpDL.Graphics
 			return new Vector(x, y);
 		}
 
+		public Vector Subtract(Vector vector)
+		{
+			float x = X - vector.X;
+			float y = Y - vector.Y;
+			return new Vector(x, y);
+		}
+
+		public static Vector operator -(Vector value1, Vector value2)
+		{
+			return value1.Subtract(value2);
+		}
+
 		public static Vector operator +(Vector value1, Vector value2)
 		{
 			return value1.Add(value2);

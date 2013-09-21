@@ -18,7 +18,7 @@ namespace SharpDL
 		}
 
 		public static void Show(MessageBoxType messageBoxType, 
-			String title, String message, Window parentWindow)
+			String title, String message, Window parentWindow = null)
 		{
 			IntPtr parentWindowHandle = IntPtr.Zero;
 			if (parentWindow != null)

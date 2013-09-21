@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameEvent.cs" />
     <Compile Include="GameEventArgs.cs" />
     <Compile Include="GameEventArgsFactory.cs" />
     <Compile Include="KeyboardEventArgs.cs" />

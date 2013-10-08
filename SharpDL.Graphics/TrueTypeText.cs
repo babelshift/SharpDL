@@ -50,8 +50,8 @@ namespace SharpDL.Graphics
 		{
 			if(Texture != null)
 				Texture.Dispose();
-	
-			if(Font != null)
+
+			if (Font != null)
 				Font.Dispose();
 		}
 	}

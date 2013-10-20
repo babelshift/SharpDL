@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using SharpDL.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace SharpDL.Events
 	{
 		public UInt32 WindowID { get; private set; }
 		public UInt32 MouseDeviceID { get; private set; }
-		public IList<MouseButtonEventArgs.MouseButtonCode> MouseButtonsPressed { get; private set; }
+		public IList<MouseButtonCode> MouseButtonsPressed { get; private set; }
 		public int RelativeToWindowX { get; private set; }
 		public int RelativeToWindowY { get; private set; }
 		public int RelativeToLastMotionEventX { get; private set; }
@@ -28,17 +29,17 @@ namespace SharpDL.Events
 			RelativeToLastMotionEventX = rawEvent.motion.xrel;
 			RelativeToLastMotionEventY = rawEvent.motion.yrel;
 
-			List<MouseButtonEventArgs.MouseButtonCode> buttonsPressed = new List<MouseButtonEventArgs.MouseButtonCode>();
+			List<MouseButtonCode> buttonsPressed = new List<MouseButtonCode>();
 			if (SDL.SDL_BUTTON(rawEvent.motion.state) == SDL.SDL_BUTTON_LEFT)
-				buttonsPressed.Add(MouseButtonEventArgs.MouseButtonCode.Left);
+				buttonsPressed.Add(MouseButtonCode.Left);
 			if (SDL.SDL_BUTTON(rawEvent.motion.state) == SDL.SDL_BUTTON_MIDDLE)
-				buttonsPressed.Add(MouseButtonEventArgs.MouseButtonCode.Middle);
+				buttonsPressed.Add(MouseButtonCode.Middle);
 			if (SDL.SDL_BUTTON(rawEvent.motion.state) == SDL.SDL_BUTTON_RIGHT)
-				buttonsPressed.Add(MouseButtonEventArgs.MouseButtonCode.Right);
+				buttonsPressed.Add(MouseButtonCode.Right);
 			if (SDL.SDL_BUTTON(rawEvent.motion.state) == SDL.SDL_BUTTON_X1)
-				buttonsPressed.Add(MouseButtonEventArgs.MouseButtonCode.X1);
+				buttonsPressed.Add(MouseButtonCode.X1);
 			if (SDL.SDL_BUTTON(rawEvent.motion.state) == SDL.SDL_BUTTON_X2)
-				buttonsPressed.Add(MouseButtonEventArgs.MouseButtonCode.X2);
+				buttonsPressed.Add(MouseButtonCode.X2);
 			MouseButtonsPressed = buttonsPressed;
 		}
 	}

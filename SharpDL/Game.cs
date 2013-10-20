@@ -237,9 +237,9 @@ namespace SharpDL
 			{
 				MouseButtonEventArgs eventArgs = GameEventArgsFactory<MouseButtonEventArgs>.Create(rawEvent);
 
-				if (eventArgs.State == MouseButtonEventArgs.MouseButtonState.Pressed)
+				if (eventArgs.State == MouseButtonState.Pressed)
 					RaiseEvent<MouseButtonEventArgs>(MouseButtonPressed, eventArgs);
-				else if (eventArgs.State == MouseButtonEventArgs.MouseButtonState.Released)
+				else if (eventArgs.State == MouseButtonState.Released)
 					RaiseEvent<MouseButtonEventArgs>(MouseButtonReleased, eventArgs);
 			}
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)

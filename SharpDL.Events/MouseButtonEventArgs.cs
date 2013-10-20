@@ -4,26 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SDL2;
+using SharpDL.Input;
 
 namespace SharpDL.Events
 {
 	public class MouseButtonEventArgs : GameEventArgs
 	{
-		public enum MouseButtonCode : uint
-		{
-			Left = SDL.SDL_BUTTON_LEFT,
-			Right = SDL.SDL_BUTTON_RIGHT,
-			Middle = SDL.SDL_BUTTON_MIDDLE,
-			X1 = SDL.SDL_BUTTON_X1,
-			X2 = SDL.SDL_BUTTON_X2
-		}
-
-		public enum MouseButtonState
-		{
-			Pressed = SDL.SDL_PRESSED,
-			Released = SDL.SDL_RELEASED
-		}
-
 		public UInt32 WindowID { get; private set; }
 		public UInt32 MouseDeviceID { get; private set; }
 		public MouseButtonCode MouseButton { get; private set; }

@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SDL2#, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SDL2#\SDL2#.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +38,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="SDL2#">
+      <HintPath>..\Libs\SDL2#\SDL2#.Mono.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
@@ -72,6 +71,10 @@
     <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.Mono.csproj">
       <Project>{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}</Project>
       <Name>SharpDL.Events.Mono</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.Mono.csproj">
+      <Project>{91EBB67F-91DC-4721-A62E-02B39F821062}</Project>
+      <Name>SharpDL.Input.Mono</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

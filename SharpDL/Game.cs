@@ -49,13 +49,6 @@ namespace SharpDL
 
 		void Game_WindowClosed(object sender, GameEventArgs e)
 		{
-			WindowEventArgs ea = e as WindowEventArgs;
-			if (ea != null)
-			{
-				uint i = ea.WindowID;
-				int j = 0;
-			}
-
 			IsExiting = true;
 		}
 
@@ -135,8 +128,6 @@ namespace SharpDL
 		#endregion
 
 		#region Game Cycle Control
-
-		private Queue<SDL.SDL_Event> rawEvents = new Queue<SDL.SDL_Event>();
 
 		/// <summary>Begins the game by performing the following cycle events in this order: Initialize, LoadContent, 
 		/// CheckInputs, Update, Draw, UnloadContent.

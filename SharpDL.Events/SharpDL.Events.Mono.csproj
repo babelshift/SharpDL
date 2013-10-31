@@ -4,12 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{91EBB67F-91DC-4721-A62E-02B39F821062}</ProjectGuid>
+    <ProjectGuid>{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpDL.Input</RootNamespace>
-    <AssemblyName>SharpDL.Input</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SharpDL.Events</RootNamespace>
+    <AssemblyName>SharpDL.Events</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -44,9 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyInformation.cs" />
-    <Compile Include="Mouse.cs" />
+    <Compile Include="GameEventArgs.cs" />
+    <Compile Include="GameEventArgsFactory.cs" />
+    <Compile Include="KeyboardEventArgs.cs" />
+    <Compile Include="MouseButtonEventArgs.cs" />
+    <Compile Include="MouseMotionEventArgs.cs" />
+    <Compile Include="MouseWheelEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuitEventArgs.cs" />
+    <Compile Include="TextEditingEventArgs.cs" />
+    <Compile Include="TextInputEventArgs.cs" />
+    <Compile Include="VideoDeviceSystemEventArgs.cs" />
+    <Compile Include="WindowEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

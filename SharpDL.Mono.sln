@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Mono", "SharpDL\SharpDL.Mono.csproj", "{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Events.Mono", "SharpDL.Events\SharpDL.Events.Mono.csproj", "{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Graphics.Mono", "SharpDL.Graphics\SharpDL.Graphics.Mono.csproj", "{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Input.Mono", "SharpDL.Input\SharpDL.Input.Mono.csproj", "{91EBB67F-91DC-4721-A62E-02B39F821062}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91EBB67F-91DC-4721-A62E-02B39F821062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SharpDL\SharpDL.Mono.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

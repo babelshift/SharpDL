@@ -57,6 +57,12 @@
     <Compile Include="VideoDeviceSystemEventArgs.cs" />
     <Compile Include="WindowEventArgs.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj">
+      <Project>{91ebb67f-91dc-4721-a62e-02b39f821062}</Project>
+      <Name>SharpDL.Input</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

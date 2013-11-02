@@ -2,33 +2,65 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release_x86-64_Linux_Mint_15</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpDL</RootNamespace>
-    <AssemblyName>SharpDL</AssemblyName>
+    <AssemblyName>SharpDL.Mono</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_x86-64_Linux_Mint_15|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\Release_x86-64_Linux_Mint_15\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="cp &quot;${SolutionDir}/Libs/x86-64/Linux/Mint 15&quot;/*.* ${TargetDir}" externalConsole="True" />
+        <Command type="BeforeBuild" command="cp ${SolutionDir}/Libs/x86-64/*.* ${TargetDir}" externalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_x86-64_Linux_Mint_15|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug_x86-64_Linux_Mint_15\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="cp &quot;${SolutionDir}/Libs/x86-64/Linux/Mint 15&quot;/*.* ${TargetDir}" externalConsole="True" />
+        <Command type="Build" command="cp ${SolutionDir}/Libs/x86-64/*.* ${TargetDir}" externalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_x86_Linux_Mint_15|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug_x86_Linux_Mint_15\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_x86_Linux_Mint_15|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_x86_Linux_Mint_15\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,7 +71,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="SDL2#">
-      <HintPath>..\Libs\SDL2#\SDL2#.Mono.dll</HintPath>
+      <HintPath>..\Libs\x86-64\SDL2#.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -64,13 +96,13 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.Mono.csproj">
-      <Project>{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}</Project>
-      <Name>SharpDL.Graphics.Mono</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.Mono.csproj">
       <Project>{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}</Project>
       <Name>SharpDL.Events.Mono</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.Mono.csproj">
+      <Project>{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}</Project>
+      <Name>SharpDL.Graphics.Mono</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.Mono.csproj">
       <Project>{91EBB67F-91DC-4721-A62E-02B39F821062}</Project>

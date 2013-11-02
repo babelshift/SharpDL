@@ -17,14 +17,14 @@ Global
 		Release_x86_Linux_Mint_15|Any CPU = Release_x86_Linux_Mint_15|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86_Linux_Mint_15|Any CPU.ActiveCfg = Debug|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86_Linux_Mint_15|Any CPU.Build.0 = Debug|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86-64_Linux_Mint_15|Any CPU.ActiveCfg = Debug|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86-64_Linux_Mint_15|Any CPU.Build.0 = Debug|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86_Linux_Mint_15|Any CPU.ActiveCfg = Release|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86_Linux_Mint_15|Any CPU.Build.0 = Release|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86-64_Linux_Mint_15|Any CPU.ActiveCfg = Release|Any CPU
-		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86-64_Linux_Mint_15|Any CPU.Build.0 = Release|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86_Linux_Mint_15|Any CPU.ActiveCfg = Debug_x86_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86_Linux_Mint_15|Any CPU.Build.0 = Debug_x86_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86-64_Linux_Mint_15|Any CPU.ActiveCfg = Debug_x86-64_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Debug_x86-64_Linux_Mint_15|Any CPU.Build.0 = Debug_x86-64_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86_Linux_Mint_15|Any CPU.ActiveCfg = Release_x86_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86_Linux_Mint_15|Any CPU.Build.0 = Release_x86_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86-64_Linux_Mint_15|Any CPU.ActiveCfg = Release_x86-64_Linux_Mint_15|Any CPU
+		{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}.Release_x86-64_Linux_Mint_15|Any CPU.Build.0 = Release_x86-64_Linux_Mint_15|Any CPU
 		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug_x86_Linux_Mint_15|Any CPU.ActiveCfg = Debug_x86_Linux_Mint_15|Any CPU
 		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug_x86_Linux_Mint_15|Any CPU.Build.0 = Debug_x86_Linux_Mint_15|Any CPU
 		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug_x86-64_Linux_Mint_15|Any CPU.ActiveCfg = Debug_x86-64_Linux_Mint_15|Any CPU
@@ -51,7 +51,7 @@ Global
 		{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}.Release_x86-64_Linux_Mint_15|Any CPU.Build.0 = Release_x86-64_Linux_Mint_15|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = SharpDL.Events\SharpDL.Events.Mono.csproj
+		StartupItem = SharpDL\SharpDL.Mono.csproj
 		Policies = $0
 		$0.ChangeLogPolicy = $1
 		$1.UpdateMode = None

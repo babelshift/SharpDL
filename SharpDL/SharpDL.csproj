@@ -59,6 +59,10 @@
       <Project>{da5e47bc-f509-40f5-9fc7-9c94d1d70809}</Project>
       <Name>SharpDL.Graphics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj">
+      <Project>{91ebb67f-91dc-4721-a62e-02b39f821062}</Project>
+      <Name>SharpDL.Input</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

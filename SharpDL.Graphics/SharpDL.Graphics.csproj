@@ -58,6 +58,12 @@
     <Compile Include="Window.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj">
+      <Project>{cbac74b4-d9cd-4e22-afc8-c9553423a6c5}</Project>
+      <Name>SharpDL.Events</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

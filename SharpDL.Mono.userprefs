@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug_x86-64_Linux_Mint_15" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL/Game.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release_x86-64_Linux_Mint_15" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Rectangle.cs">
     <Files>
       <File FileName="SharpDL/Game.cs" Line="12" Column="1" />
+      <File FileName="SharpDL.Graphics/Rectangle.cs" Line="77" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

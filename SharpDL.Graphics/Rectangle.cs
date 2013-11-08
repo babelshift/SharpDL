@@ -64,7 +64,7 @@ namespace SharpDL.Graphics
 
 		public bool Contains(Point point)
 		{
-			if (point.X >= Left && point.X <= Right && point.Y >= Top && point.Y <= Bottom)
+			if(Left <= point.X && Right >= point.X && Top <= point.Y && Bottom >= point.Y)
 				return true;
 			else
 				return false;
@@ -72,23 +72,19 @@ namespace SharpDL.Graphics
 
 		public bool Contains(Rectangle rectangle)
 		{
-			if (rectangle.Left >= Left && rectangle.Right <= Right && rectangle.Top >= Top && rectangle.Bottom <= Bottom)
+			if(Left <= rectangle.Left && Right >= rectangle.Right && Top <= rectangle.Top && Bottom >= rectangle.Bottom)
 				return true;
 			else
 				return false;
 		}
 
+		/// <summary>
+		/// Determines if two rectangles intersect.
+		/// </summary>
+		/// <param name="rectangle">Rectangle.</param>
 		public bool Intersects(Rectangle rectangle)
 		{
-			Point topLeft = new Point(rectangle.X, rectangle.Y);
-			Point bottomLeft = new Point(rectangle.X, rectangle.Bottom);
-			Point topRight = new Point(rectangle.Y, rectangle.Right);
-			Point bottomRight = new Point(rectangle.Right, rectangle.Bottom);
-
-			if(this.Contains(topLeft) || this.Contains(bottomLeft) || this.Contains(topRight) || this.Contains(bottomRight))
-				return true;
-			else
-				return false;
+			return rectangle.Left < Right && Left < rectangle.Right && rectangle.Top < Bottom && Top < rectangle.Bottom; 
 		}
 
 		public Vector GetIntersectionDepth(Rectangle rectangle)

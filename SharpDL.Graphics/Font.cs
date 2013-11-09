@@ -20,7 +20,7 @@ namespace SharpDL.Graphics
 			PointSize = fontPointSize;
 
 			Handle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
-			if (Handle == null || Handle == IntPtr.Zero)
+			if (Handle == IntPtr.Zero)
 				throw new Exception(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
 
 			IsDisposed = false;

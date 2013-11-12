@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpDL</RootNamespace>
-    <AssemblyName>SharpDL.Mono</AssemblyName>
+    <AssemblyName>SharpDL</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -103,18 +103,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.Mono.csproj">
-      <Project>{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}</Project>
-      <Name>SharpDL.Events.Mono</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.Mono.csproj">
-      <Project>{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}</Project>
-      <Name>SharpDL.Graphics.Mono</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.Mono.csproj">
-      <Project>{91EBB67F-91DC-4721-A62E-02B39F821062}</Project>
-      <Name>SharpDL.Input.Mono</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

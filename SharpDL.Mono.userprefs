@@ -1,13 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release_x86-64_Linux_Mint_15" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Texture.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Vector.cs">
     <Files>
-      <File FileName="SharpDL/Game.cs" Line="15" Column="33" />
+      <File FileName="SharpDL/Game.cs" Line="1" Column="1" />
       <File FileName="SharpDL.Graphics/Rectangle.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Texture.cs" Line="70" Column="22" />
-      <File FileName="SharpDL.Graphics/Renderer.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Window.cs" Line="5" Column="15" />
-      <File FileName="SharpDL.Graphics/Font.cs" Line="44" Column="5" />
+      <File FileName="SharpDL.Graphics/Texture.cs" Line="123" Column="3" />
+      <File FileName="SharpDL.Graphics/Window.cs" Line="62" Column="1" />
+      <File FileName="SharpDL.Graphics/Font.cs" Line="33" Column="4" />
+      <File FileName="SharpDL.Graphics/Renderer.cs" Line="53" Column="1" />
+      <File FileName="SharpDL.Graphics/TrueTypeText.cs" Line="50" Column="14" />
+      <File FileName="SharpDL.Graphics/Color.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Graphics/Image.cs" Line="43" Column="1" />
+      <File FileName="SharpDL.Graphics/Point.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Graphics/Surface.cs" Line="68" Column="1" />
+      <File FileName="SharpDL.Graphics/TrueTypeTextFactory.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Graphics/Vector.cs" Line="33" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

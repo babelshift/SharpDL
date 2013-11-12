@@ -9,7 +9,9 @@ namespace SharpDL.Graphics
 	public struct Color
 	{
 		public byte R { get; private set; }
+
 		public byte G { get; private set; }
+
 		public byte B { get; private set; }
 
 		public Color(byte red, byte green, byte blue)

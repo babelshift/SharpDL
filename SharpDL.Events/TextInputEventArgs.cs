@@ -10,6 +10,7 @@ namespace SharpDL.Events
 	public class TextInputEventArgs : GameEventArgs
 	{
 		public String Text { get; set; }
+
 		public UInt32 WindowID { get; set; }
 
 		public TextInputEventArgs(SDL.SDL_Event rawEvent)

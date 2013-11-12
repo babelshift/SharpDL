@@ -10,6 +10,7 @@ namespace SharpDL
 	public class GameTime
 	{
 		public TimeSpan TotalGameTime { get; set; }
+
 		public TimeSpan ElapsedGameTime { get; set; }
 
 		public GameTime()

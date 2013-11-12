@@ -9,13 +9,19 @@ namespace SharpDL.Graphics
 	public struct Rectangle
 	{
 		public int X { get; private set; }
+
 		public int Y { get; private set; }
+
 		public int Width { get; private set; }
+
 		public int Height { get; private set; }
 
 		public int Bottom { get { return Y + Height; } }
+
 		public int Top { get { return Y; } }
+
 		public int Left { get { return X; } }
+
 		public int Right { get { return X + Width; } }
 
 		public static Rectangle Empty
@@ -64,7 +70,7 @@ namespace SharpDL.Graphics
 
 		public bool Contains(Point point)
 		{
-			if(Left <= point.X && Right >= point.X && Top <= point.Y && Bottom >= point.Y)
+			if (Left <= point.X && Right >= point.X && Top <= point.Y && Bottom >= point.Y)
 				return true;
 			else
 				return false;
@@ -72,7 +78,7 @@ namespace SharpDL.Graphics
 
 		public bool Contains(Rectangle rectangle)
 		{
-			if(Left <= rectangle.Left && Right >= rectangle.Right && Top <= rectangle.Top && Bottom >= rectangle.Bottom)
+			if (Left <= rectangle.Left && Right >= rectangle.Right && Top <= rectangle.Top && Bottom >= rectangle.Bottom)
 				return true;
 			else
 				return false;
@@ -84,7 +90,7 @@ namespace SharpDL.Graphics
 		/// <param name="rectangle">Rectangle.</param>
 		public bool Intersects(Rectangle rectangle)
 		{
-            return rectangle.Left <= Right && Left <= rectangle.Right && rectangle.Top <= Bottom && Top <= rectangle.Bottom; 
+			return rectangle.Left <= Right && Left <= rectangle.Right && rectangle.Top <= Bottom && Top <= rectangle.Bottom; 
 		}
 
 		public Vector GetIntersectionDepth(Rectangle rectangle)

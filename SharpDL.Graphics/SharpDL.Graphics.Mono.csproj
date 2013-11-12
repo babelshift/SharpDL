@@ -57,6 +57,9 @@
     <Reference Include="SDL2#">
       <HintPath>..\Libs\SDL2#.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Libs\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Color.cs" />
@@ -81,4 +84,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.Mono.csproj">
+      <Project>{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}</Project>
+      <Name>SharpDL.Events.Mono</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

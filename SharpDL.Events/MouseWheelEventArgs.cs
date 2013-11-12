@@ -10,8 +10,11 @@ namespace SharpDL.Events
 	public class MouseWheelEventArgs : GameEventArgs
 	{
 		public UInt32 WindowID { get; private set; }
+
 		public UInt32 MouseDeviceID { get; private set; }
+
 		public int HorizontalScrollAmount { get; private set; }
+
 		public int VerticalScrollAmount { get; private set; }
 
 		public MouseWheelEventArgs(SDL.SDL_Event rawEvent)

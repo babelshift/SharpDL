@@ -1,29 +1,40 @@
-﻿using SDL2;
+﻿﻿using SDL2;
 using System;
 
 namespace SharpDL.Graphics
 {
+	public enum TextureAccessMode
+	{
+		Static = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC,
+		Streaming = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING
+	}
+
 	public class Texture : IDisposable
 	{
-		public enum TextureAccessMode
-		{
-			Static = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC,
-			Streaming = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING
-		}
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		public string FilePath { get; private set; }
+
 		public uint PixelFormat { get; private set; }
+
 		public int Access { get; private set; }
+
 		public int Width { get; private set; }
+
 		public int Height { get; private set; }
+
 		public Surface Surface { get; private set; }
+
 		public Renderer Renderer { get; private set; }
+
 		public IntPtr Handle { get; private set; }
+
 		public TextureAccessMode AccessMode { get; private set; }
 
 		public Texture(Renderer renderer, Surface surface)
 			: this(renderer, surface, TextureAccessMode.Static)
-		{ }
+		{
+		}
 
 		public Texture(Renderer renderer, Surface surface, TextureAccessMode accessMode)
 		{
@@ -100,19 +111,15 @@ namespace SharpDL.Graphics
 		//	{
 		//		IntPtr pixels = IntPtr.Zero;
 		//		int pitch = 0;
-				
 		//		int result = SDL.SDL_LockTexture(Handle, IntPtr.Zero, out pixels, out pitch);
 		//		if (result < 0)
 		//			throw new Exception(String.Format("SDL_LockTexture: {0}", SDL.SDL_GetError()));
-
 		//		surface.Pixels = pixels;
 		//		surface.Pitch = pitch;
 		//	}
 		//}
-
 		//public void UpdateTexture(Surface surface)
 		//{
-
 		//}
 
 		public virtual void Dispose()
@@ -121,13 +128,18 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
+		~Texture()
+		{
+			log.Debug("A texture resource has leaked. Did you forget to dispose the object?");
+		}
+
 		private void Dispose(bool disposing)
 		{
 			if (AccessMode == TextureAccessMode.Streaming)
-				if(Surface != null)
-					SDL.SDL_FreeSurface(Surface.Handle);
+			if (Surface != null)
+				SDL.SDL_FreeSurface(Surface.Handle);
 
-			if(this.Handle != IntPtr.Zero)
+			if (this.Handle != IntPtr.Zero)
 				SDL.SDL_DestroyTexture(Handle);
 		}
 	}

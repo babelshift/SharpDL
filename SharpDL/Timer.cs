@@ -11,7 +11,6 @@ namespace SharpDL
 	{
 		private UInt32 startTicks;
 		private UInt32 pausedTicks;
-
 		bool isStarted;
 		bool isPaused;
 
@@ -24,14 +23,14 @@ namespace SharpDL
 		{
 			get
 			{
-				if(isStarted)
+				if (isStarted)
 				{
-					if(isPaused)
+					if (isPaused)
 						return TimeSpan.FromMilliseconds((double)pausedTicks);
 					else
 						return TimeSpan.FromMilliseconds((double)(SDL.SDL_GetTicks() - startTicks));
 				}
-				else 
+				else
 					return TimeSpan.Zero;
 			}
 		}

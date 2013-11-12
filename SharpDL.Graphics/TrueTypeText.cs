@@ -10,16 +10,19 @@ namespace SharpDL.Graphics
 	public class TrueTypeText : IDisposable
 	{
 		public string Text { get; private set; }
+
 		public Font Font { get; private set; }
+
 		public Color Color { get; private set; }
+
 		public Texture Texture { get; private set; }
 
 		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color)
-			: this(renderer, surface, text, textFont, color, Texture.TextureAccessMode.Static)
+			: this(renderer, surface, text, textFont, color, TextureAccessMode.Static)
 		{
 		}
 
-		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, Texture.TextureAccessMode accessMode)
+		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, TextureAccessMode accessMode)
 		{
 			Text = text;
 			Font = textFont;
@@ -43,7 +46,7 @@ namespace SharpDL.Graphics
 
 		private void Dispose(bool disposing)
 		{
-			if(Texture != null)
+			if (Texture != null)
 				Texture.Dispose();
 
 			if (Font != null)

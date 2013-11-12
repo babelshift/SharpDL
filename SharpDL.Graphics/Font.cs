@@ -9,9 +9,14 @@ namespace SharpDL.Graphics
 {
 	public class Font : IDisposable
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		public string FilePath { get; private set; }
+
 		public int PointSize { get; private set; }
+
 		public IntPtr Handle { get; private set; }
+
 		private bool IsDisposed { get; set; }
 
 		public Font(string path, int fontPointSize)
@@ -30,6 +35,11 @@ namespace SharpDL.Graphics
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~Font()
+		{
+			log.Debug("A font resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool disposing)

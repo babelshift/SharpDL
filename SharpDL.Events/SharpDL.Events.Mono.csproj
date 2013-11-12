@@ -71,6 +71,8 @@
     <Compile Include="TextInputEventArgs.cs" />
     <Compile Include="VideoDeviceSystemEventArgs.cs" />
     <Compile Include="WindowEventArgs.cs" />
+    <Compile Include="GameEventType.cs" />
+    <Compile Include="WindowEventType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

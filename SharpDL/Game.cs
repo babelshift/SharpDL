@@ -203,9 +203,9 @@ namespace SharpDL
 				|| rawEvent.type == SDL.SDL_EventType.SDL_KEYUP)
 			{
 				KeyboardEventArgs eventArgs = GameEventArgsFactory<KeyboardEventArgs>.Create(rawEvent);
-				if (eventArgs.State == KeyboardEventArgs.KeyState.Pressed)
+				if (eventArgs.State == KeyState.Pressed)
 					RaiseEvent<KeyboardEventArgs>(KeyPressed, eventArgs);
-				else if (eventArgs.State == KeyboardEventArgs.KeyState.Released)
+				else if (eventArgs.State == KeyState.Released)
 					RaiseEvent<KeyboardEventArgs>(KeyReleased, eventArgs);
 			}
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTEDITING)

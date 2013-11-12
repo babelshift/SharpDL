@@ -1,20 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release_x86-64_Linux_Mint_15" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Vector.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Events/WindowEventArgs.cs">
     <Files>
-      <File FileName="SharpDL/Game.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Rectangle.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Texture.cs" Line="123" Column="3" />
-      <File FileName="SharpDL.Graphics/Window.cs" Line="62" Column="1" />
-      <File FileName="SharpDL.Graphics/Font.cs" Line="33" Column="4" />
-      <File FileName="SharpDL.Graphics/Renderer.cs" Line="53" Column="1" />
-      <File FileName="SharpDL.Graphics/TrueTypeText.cs" Line="50" Column="14" />
-      <File FileName="SharpDL.Graphics/Color.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Image.cs" Line="43" Column="1" />
-      <File FileName="SharpDL.Graphics/Point.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Surface.cs" Line="68" Column="1" />
-      <File FileName="SharpDL.Graphics/TrueTypeTextFactory.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Vector.cs" Line="33" Column="27" />
+      <File FileName="SharpDL/Game.cs" Line="208" Column="33" />
+      <File FileName="SharpDL/GameTime.cs" Line="1" Column="1" />
+      <File FileName="SharpDL/Logger.cs" Line="1" Column="1" />
+      <File FileName="SharpDL/MessageBox.cs" Line="1" Column="1" />
+      <File FileName="SharpDL/Timer.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/GameEventArgs.cs" Line="9" Column="2" />
+      <File FileName="SharpDL.Events/GameEventArgsFactory.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/GameEventType.cs" Line="45" Column="3" />
+      <File FileName="SharpDL.Events/KeyboardEventArgs.cs" Line="11" Column="2" />
+      <File FileName="SharpDL.Events/MouseButtonEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/MouseMotionEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/MouseWheelEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/QuitEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/TextEditingEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/TextInputEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SharpDL.Events/WindowEventArgs.cs" Line="21" Column="20" />
+      <File FileName="SharpDL.Events/WindowEventType.cs" Line="26" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

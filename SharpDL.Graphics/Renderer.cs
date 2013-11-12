@@ -75,11 +75,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Renderer()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool disposing)
 		{
 			SDL.SDL_DestroyRenderer(Handle);

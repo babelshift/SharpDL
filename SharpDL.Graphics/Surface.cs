@@ -66,11 +66,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Surface()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool disposing)
 		{
 			SDL.SDL_FreeSurface(Handle);

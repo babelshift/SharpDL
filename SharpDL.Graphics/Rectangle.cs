@@ -84,7 +84,7 @@ namespace SharpDL.Graphics
 		/// <param name="rectangle">Rectangle.</param>
 		public bool Intersects(Rectangle rectangle)
 		{
-			return rectangle.Left < Right && Left < rectangle.Right && rectangle.Top < Bottom && Top < rectangle.Bottom; 
+            return rectangle.Left <= Right && Left <= rectangle.Right && rectangle.Top <= Bottom && Top <= rectangle.Bottom; 
 		}
 
 		public Vector GetIntersectionDepth(Rectangle rectangle)

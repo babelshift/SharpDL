@@ -41,11 +41,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Image()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool disposing)
 		{
 			Texture.Dispose();

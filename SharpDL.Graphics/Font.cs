@@ -32,11 +32,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Font()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool disposing)
 		{
 			if (!IsDisposed)

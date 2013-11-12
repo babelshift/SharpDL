@@ -60,11 +60,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Window()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool isDisposing)
 		{
 			SDL.SDL_DestroyWindow(Handle);

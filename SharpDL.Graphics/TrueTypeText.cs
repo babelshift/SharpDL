@@ -41,11 +41,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~TrueTypeText()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool disposing)
 		{
 			if(Texture != null)

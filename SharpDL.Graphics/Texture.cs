@@ -38,6 +38,7 @@ namespace SharpDL.Graphics
 		public void UpdateSurfaceAndTexture(Surface surface)
 		{
 			SDL.SDL_DestroyTexture(this.Handle);
+			this.Handle = IntPtr.Zero;
 			Surface = surface;
 
 			CreateTextureAndCleanup();
@@ -59,7 +60,7 @@ namespace SharpDL.Graphics
 
 			if (Surface != null)
 			{
-				if (Surface.Handle != null)
+				if (Surface.Handle != IntPtr.Zero)
 				{
 					if (AccessMode == TextureAccessMode.Static)
 						this.Handle = SDL.SDL_CreateTextureFromSurface(Renderer.Handle, Surface.Handle);
@@ -120,18 +121,14 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Texture()
-		{
-			Dispose(false);
-		}
-
 		private void Dispose(bool disposing)
 		{
 			if (AccessMode == TextureAccessMode.Streaming)
 				if(Surface != null)
 					SDL.SDL_FreeSurface(Surface.Handle);
 
-			SDL.SDL_DestroyTexture(Handle);
+			if(this.Handle != IntPtr.Zero)
+				SDL.SDL_DestroyTexture(Handle);
 		}
 	}
 }

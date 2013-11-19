@@ -68,6 +68,8 @@
     <Compile Include="MouseButtonCode.cs" />
     <Compile Include="MouseButtonState.cs" />
     <Compile Include="MouseState.cs" />
+    <Compile Include="KeyboardState.cs" />
+    <Compile Include="Keyboard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

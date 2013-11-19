@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace SharpDL.Input
 {
-
 	public enum KeyModifier
 	{
 		None = SDL.SDL_Keymod.KMOD_NONE,
@@ -25,5 +24,4 @@ namespace SharpDL.Input
 		WindowsKey = SDL.SDL_Keymod.KMOD_GUI,
 		NumLock = SDL.SDL_Keymod.KMOD_NUM
 	}
-	
 }

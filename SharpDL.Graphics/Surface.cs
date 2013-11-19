@@ -4,14 +4,6 @@ using System.Runtime.InteropServices;
 
 namespace SharpDL.Graphics
 {
-	public enum SurfaceType
-	{
-		BMP,
-		PNG,
-		JPG,
-		Text
-	}
-
 	public class Surface : IDisposable
 	{
 		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

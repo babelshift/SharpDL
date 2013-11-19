@@ -38,5 +38,15 @@ namespace SharpDL.Input
 			else
 				return false;
 		}
+
+		public static void ShowCursor()
+		{
+			SDL2.SDL.SDL_ShowCursor(SDL2.SDL.SDL_ENABLE);
+		}
+
+		public static void HideCursor()
+		{
+			SDL2.SDL.SDL_ShowCursor(SDL2.SDL.SDL_DISABLE);
+		}
 	}
 }

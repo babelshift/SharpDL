@@ -160,33 +160,33 @@ namespace SharpDL
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_WINDOWEVENT)
 			{
 				WindowEventArgs eventArgs = GameEventArgsFactory<WindowEventArgs>.Create(rawEvent);
-				if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Close)
+				if (eventArgs.SubEventType == WindowEventType.Close)
 					RaiseEvent<WindowEventArgs>(WindowClosed, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Enter)
+				else if (eventArgs.SubEventType == WindowEventType.Enter)
 					RaiseEvent<WindowEventArgs>(WindowEntered, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Exposed)
+				else if (eventArgs.SubEventType == WindowEventType.Exposed)
 					RaiseEvent<WindowEventArgs>(WindowExposed, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.FocusGained)
+				else if (eventArgs.SubEventType == WindowEventType.FocusGained)
 					RaiseEvent<WindowEventArgs>(WindowFocusGained, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.FocusLost)
+				else if (eventArgs.SubEventType == WindowEventType.FocusLost)
 					RaiseEvent<WindowEventArgs>(WindowFocusLost, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Hidden)
+				else if (eventArgs.SubEventType == WindowEventType.Hidden)
 					RaiseEvent<WindowEventArgs>(WindowHidden, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Leave)
+				else if (eventArgs.SubEventType == WindowEventType.Leave)
 					RaiseEvent<WindowEventArgs>(WindowLeave, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Maximized)
+				else if (eventArgs.SubEventType == WindowEventType.Maximized)
 					RaiseEvent<WindowEventArgs>(WindowMaximized, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Minimized)
+				else if (eventArgs.SubEventType == WindowEventType.Minimized)
 					RaiseEvent<WindowEventArgs>(WindowMinimized, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Moved)
+				else if (eventArgs.SubEventType == WindowEventType.Moved)
 					RaiseEvent<WindowEventArgs>(WindowMoved, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Resized)
+				else if (eventArgs.SubEventType == WindowEventType.Resized)
 					RaiseEvent<WindowEventArgs>(WindowResized, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Restored)
+				else if (eventArgs.SubEventType == WindowEventType.Restored)
 					RaiseEvent<WindowEventArgs>(WindowRestored, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.Shown)
+				else if (eventArgs.SubEventType == WindowEventType.Shown)
 					RaiseEvent<WindowEventArgs>(WindowShown, eventArgs);
-				else if (eventArgs.SubEventType == WindowEventArgs.WindowEventType.SizeChanged)
+				else if (eventArgs.SubEventType == WindowEventType.SizeChanged)
 					RaiseEvent<WindowEventArgs>(WindowSizeChanged, eventArgs);
 			}
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_QUIT)

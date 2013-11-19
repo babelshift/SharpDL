@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace SharpDL.Graphics
 {
-	public enum ImageFormat
-	{
-		BMP,
-		PNG,
-		JPG
-	}
-
 	public class Image : IDisposable
 	{
 		public ImageFormat Format { get; private set; }

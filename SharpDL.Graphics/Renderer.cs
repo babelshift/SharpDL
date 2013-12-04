@@ -74,6 +74,14 @@ namespace SharpDL.Graphics
 			SDL.SDL_RenderPresent(Handle);
 		}
 
+		public void SetDrawColor(byte r, byte g, byte b, byte a)
+		{
+			int result = SDL.SDL_SetRenderDrawColor(Handle, r, g, b, a);
+
+			if(result < 0)
+				throw new Exception(String.Format("SDL_SetRenderDrawColor: {0}", SDL.SDL_GetError()));
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);

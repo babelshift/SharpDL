@@ -84,6 +84,14 @@ namespace SharpDL.Graphics
 				return false;
 		}
 
+		public bool Contains(Vector vector)
+		{
+			if (Left <= vector.X && Right >= vector.X && Top <= vector.Y && Bottom >= vector.Y)
+				return true;
+			else
+				return false;
+		}
+
 		/// <summary>
 		/// Determines if two rectangles intersect.
 		/// </summary>

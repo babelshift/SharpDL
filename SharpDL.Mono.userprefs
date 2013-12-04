@@ -1,23 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release_x86-64_Linux_Mint_15" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Rectangle.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Renderer.cs">
     <Files>
-      <File FileName="SharpDL.Input/KeyboardState.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Input/MouseState.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Input/Mouse.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Input/Keyboard.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Input/VirtualKeyCode.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Input/KeyModifier.cs" Line="1" Column="1" />
-      <File FileName="SharpDL/Game.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Events/WindowEventType.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Events/WindowEventArgs.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Surface.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/SurfaceType.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Image.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/ImageFormat.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Point.cs" Line="26" Column="61" />
-      <File FileName="SharpDL.Graphics/Vector.cs" Line="1" Column="1" />
-      <File FileName="SharpDL.Graphics/Rectangle.cs" Line="89" Column="84" />
+      <File FileName="SharpDL.Graphics/Primitive.cs" Line="13" Column="4" />
+      <File FileName="SharpDL.Graphics/Renderer.cs" Line="70" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -33,7 +33,9 @@ namespace SharpDL.Input
 
 		private static bool IsButtonPressed(uint buttonsPressedBitmask, MouseButtonCode mouseButtonCode)
 		{
-			if ((buttonsPressedBitmask & (uint)mouseButtonCode) == 1)
+			var buttonPressedMacroResult = SDL2.SDL.SDL_BUTTON((uint)mouseButtonCode);
+			var bitmaskComparisonResult = buttonsPressedBitmask & buttonPressedMacroResult;
+			if (bitmaskComparisonResult > 0)
 				return true;
 			else
 				return false;

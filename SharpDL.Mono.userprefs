@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release_x86-64_Linux_Mint_15" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SharpDL.Graphics/Renderer.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="SharpDL.Graphics/Primitive.cs" Line="13" Column="4" />
-      <File FileName="SharpDL.Graphics/Renderer.cs" Line="70" Column="4" />
+      <File FileName="SharpDL.Graphics/Primitive.cs" Line="8" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

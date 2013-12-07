@@ -10,8 +10,8 @@ namespace SharpDL.Input
 	public enum MouseButtonCode : uint
 	{
 		Left = SDL.SDL_BUTTON_LEFT,
-		Right = SDL.SDL_BUTTON_RIGHT,
 		Middle = SDL.SDL_BUTTON_MIDDLE,
+		Right = SDL.SDL_BUTTON_RIGHT,
 		X1 = SDL.SDL_BUTTON_X1,
 		X2 = SDL.SDL_BUTTON_X2
 	}

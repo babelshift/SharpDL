@@ -12,6 +12,8 @@ namespace SharpDL.Graphics
 		public string FilePath { get; private set; }
 		public int PointSize { get; private set; }
 		public IntPtr Handle { get; private set; }
+		public int OutlineSize { get; private set; }
+
 		private bool IsDisposed { get; set; }
 
 		public Font(string path, int fontPointSize)
@@ -24,6 +26,11 @@ namespace SharpDL.Graphics
 				throw new Exception(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
 
 			IsDisposed = false;
+		}
+
+		public void SetOutlineSize(int outlineSize)
+		{
+			SDL_ttf.TTF_SetFontOutline(Handle, outlineSize);
 		}
 
 		public void Dispose()

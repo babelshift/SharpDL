@@ -13,6 +13,7 @@ namespace SharpDL.Graphics
 		public Font Font { get; private set; }
 		public Color Color { get; private set; }
 		public Texture Texture { get; private set; }
+		public int OutlineSize { get { return Font.OutlineSize; } }
 
 		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color)
 			: this(renderer, surface, text, textFont, color, Texture.TextureAccessMode.Static)
@@ -33,6 +34,11 @@ namespace SharpDL.Graphics
 
 			Surface surface = new Surface(Font, Text, Color);
 			Texture.UpdateSurfaceAndTexture(surface);
+		}
+
+		public void SetOutlineSize(int outlineSize)
+		{
+			Font.SetOutlineSize(outlineSize);
 		}
 
 		public void Dispose()

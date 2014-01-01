@@ -132,6 +132,8 @@ namespace SharpDL.Graphics
 					SDL.SDL_FreeSurface(Surface.Handle);
 
 			SDL.SDL_DestroyTexture(Handle);
+
+            Handle = IntPtr.Zero;
 		}
 	}
 }

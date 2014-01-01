@@ -59,9 +59,19 @@ namespace SharpDL.Graphics
 			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = (int)positionX, y = (int)positionY, w = width, h = height };
 			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = source.X, y = source.Y, w = source.Width, h = source.Height };
 
-			int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
-			if (result != 0)
-				throw new Exception(String.Format("SDL_RenderCopy: {0}", SDL.SDL_GetError()));
+            if (texture != null)
+            {
+                if (texture.Handle != IntPtr.Zero)
+                {
+                    int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
+                    if (result != 0)
+                        throw new Exception(String.Format("SDL_RenderCopy: {0}", SDL.SDL_GetError()));
+                }
+                else 
+                    throw new Exception("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
+            }
+            else
+                throw new Exception("Attempted to draw a null texture. Maybe it was instantiated incorrectly or disposed?");
 		}
 
 		public void RenderPresent()

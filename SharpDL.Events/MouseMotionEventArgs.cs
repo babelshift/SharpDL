@@ -11,11 +11,17 @@ namespace SharpDL.Events
 	public class MouseMotionEventArgs : GameEventArgs
 	{
 		public UInt32 WindowID { get; private set; }
+
 		public UInt32 MouseDeviceID { get; private set; }
+
 		public IList<MouseButtonCode> MouseButtonsPressed { get; private set; }
+
 		public int RelativeToWindowX { get; private set; }
+
 		public int RelativeToWindowY { get; private set; }
+
 		public int RelativeToLastMotionEventX { get; private set; }
+
 		public int RelativeToLastMotionEventY { get; private set; }
 
 		public MouseMotionEventArgs(SDL.SDL_Event rawEvent)

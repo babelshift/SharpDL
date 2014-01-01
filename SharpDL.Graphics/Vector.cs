@@ -9,9 +9,11 @@ namespace SharpDL.Graphics
 	public struct Vector
 	{
 		public float X { get; private set; }
+
 		public float Y { get; private set; }
 
 		public static Vector One { get { return new Vector() { X = 1, Y = 1 }; } }
+
 		public static Vector Zero { get { return new Vector() { X = 0, Y = 0 }; } }
 
 		public Vector(float x, float y) : this()
@@ -52,6 +54,25 @@ namespace SharpDL.Graphics
 		public static bool operator !=(Vector value1, Vector value2)
 		{
 			return value1.X != value2.X || value1.Y != value2.Y;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is Vector)
+			{
+				var o = (Vector)obj;
+				if (this.X == o.X && this.Y == o.Y)
+					return true;
+				else
+					return false; 
+			}
+			else
+				return base.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
 		}
 	}
 }

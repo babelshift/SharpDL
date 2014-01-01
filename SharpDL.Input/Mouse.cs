@@ -7,28 +7,6 @@ using System.Threading.Tasks;
 
 namespace SharpDL.Input
 {
-	public enum MouseButtonCode : uint
-	{
-		Left = SDL.SDL_BUTTON_LEFT,
-		Right = SDL.SDL_BUTTON_RIGHT,
-		Middle = SDL.SDL_BUTTON_MIDDLE,
-		X1 = SDL.SDL_BUTTON_X1,
-		X2 = SDL.SDL_BUTTON_X2
-	}
-
-	public enum MouseButtonState
-	{
-		Pressed = SDL.SDL_PRESSED,
-		Released = SDL.SDL_RELEASED
-	}
-
-	public struct MouseState
-	{
-		public IEnumerable<MouseButtonCode> ButtonsPressed;
-		public int X;
-		public int Y;
-	}
-
 	public static class Mouse
 	{
 		public static MouseState GetState()
@@ -55,10 +33,22 @@ namespace SharpDL.Input
 
 		private static bool IsButtonPressed(uint buttonsPressedBitmask, MouseButtonCode mouseButtonCode)
 		{
-			if ((buttonsPressedBitmask & (uint)mouseButtonCode) == 1)
+			var buttonPressedMacroResult = SDL2.SDL.SDL_BUTTON((uint)mouseButtonCode);
+			var bitmaskComparisonResult = buttonsPressedBitmask & buttonPressedMacroResult;
+			if (bitmaskComparisonResult > 0)
 				return true;
 			else
 				return false;
+		}
+
+		public static void ShowCursor()
+		{
+			SDL2.SDL.SDL_ShowCursor(SDL2.SDL.SDL_ENABLE);
+		}
+
+		public static void HideCursor()
+		{
+			SDL2.SDL.SDL_ShowCursor(SDL2.SDL.SDL_DISABLE);
 		}
 	}
 }

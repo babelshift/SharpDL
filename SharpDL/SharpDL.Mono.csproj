@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpDL</RootNamespace>
-    <AssemblyName>SharpDL.Mono</AssemblyName>
+    <AssemblyName>SharpDL</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -20,7 +20,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
         <Command type="BeforeBuild" command="cp &quot;${SolutionDir}/Libs/x86-64/Linux/Mint 15&quot;/*.* ${TargetDir}" externalConsole="True" />
@@ -36,11 +35,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
     <CustomCommands>
       <CustomCommands>
         <Command type="BeforeBuild" command="cp &quot;${SolutionDir}/Libs/x86-64/Linux/Mint 15&quot;/*.* ${TargetDir}" externalConsole="True" />
-        <Command type="Build" command="cp ${SolutionDir}/Libs/x86-64/*.* ${TargetDir}" externalConsole="True" />
+        <Command type="BeforeBuild" command="cp ${SolutionDir}/Libs/x86-64/*.* ${TargetDir}" externalConsole="True" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -52,7 +50,12 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="cp &quot;${SolutionDir}/Libs/x86/Linux/Mint 15&quot;/*.* ${TargetDir}" externalConsole="True" />
+        <Command type="BeforeBuild" command="cp ${SolutionDir}/Libs/x86/*.* ${TargetDir}" externalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_x86_Linux_Mint_15|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -60,7 +63,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeBuild" command="cp &quot;${SolutionDir}/Libs/x86/Linux/Mint 15&quot;/*.* ${TargetDir}" externalConsole="True" />
+        <Command type="BeforeBuild" command="cp ${SolutionDir}/Libs/x86/*.* ${TargetDir}" externalConsole="True" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -71,7 +79,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="SDL2#">
-      <HintPath>..\Libs\x86-64\SDL2#.dll</HintPath>
+      <HintPath>..\Libs\SDL2#.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

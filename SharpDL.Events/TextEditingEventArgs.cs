@@ -10,8 +10,11 @@ namespace SharpDL.Events
 	public class TextEditingEventArgs : GameEventArgs
 	{
 		public int Length { get; set; }
+
 		public int Start { get; set; }
+
 		public String Text { get; set; }
+
 		public UInt32 WindowID { get; set; }
 
 		public TextEditingEventArgs(SDL.SDL_Event rawEvent)

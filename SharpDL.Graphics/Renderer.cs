@@ -13,9 +13,14 @@ namespace SharpDL.Graphics
 
 	public class Renderer : IDisposable
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		public Window Window { get; private set; }
+
 		public int Index { get; private set; }
+
 		public IEnumerable<RendererFlags> Flags { get; private set; }
+
 		public IntPtr Handle { get; private set; }
 
 		public Renderer(Window window, int index, RendererFlags flags)
@@ -29,7 +34,7 @@ namespace SharpDL.Graphics
 					copyFlags.Add(flag);
 
 			Handle = SDL.SDL_CreateRenderer(this.Window.Handle, this.Index, (uint)flags);
-			if (Handle == null || Handle == IntPtr.Zero)
+			if (Handle == IntPtr.Zero)
 				throw new Exception(String.Format("SDL_CreateRenderer: {0}", SDL.SDL_GetError()));
 		}
 
@@ -79,6 +84,14 @@ namespace SharpDL.Graphics
 			SDL.SDL_RenderPresent(Handle);
 		}
 
+		public void SetDrawColor(byte r, byte g, byte b, byte a)
+		{
+			int result = SDL.SDL_SetRenderDrawColor(Handle, r, g, b, a);
+
+			if(result < 0)
+				throw new Exception(String.Format("SDL_SetRenderDrawColor: {0}", SDL.SDL_GetError()));
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);
@@ -87,7 +100,7 @@ namespace SharpDL.Graphics
 
 		~Renderer()
 		{
-			Dispose(false);
+			log.Debug("A renderer resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool disposing)

@@ -9,10 +9,17 @@ namespace SharpDL.Graphics
 {
 	public class Font : IDisposable
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		public string FilePath { get; private set; }
+
 		public int PointSize { get; private set; }
+
 		public IntPtr Handle { get; private set; }
+<<<<<<< HEAD
 		public int OutlineSize { get; private set; }
+=======
+>>>>>>> fea2db1f717c721a6f6764343ec5d9fe26ca480b
 
 		private bool IsDisposed { get; set; }
 
@@ -22,7 +29,7 @@ namespace SharpDL.Graphics
 			PointSize = fontPointSize;
 
 			Handle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
-			if (Handle == null || Handle == IntPtr.Zero)
+			if (Handle == IntPtr.Zero)
 				throw new Exception(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
 
 			IsDisposed = false;
@@ -41,7 +48,7 @@ namespace SharpDL.Graphics
 
 		~Font()
 		{
-			Dispose(false);
+			log.Debug("A font resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool disposing)

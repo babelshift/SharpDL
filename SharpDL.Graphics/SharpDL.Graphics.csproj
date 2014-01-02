@@ -47,10 +47,13 @@
     <Compile Include="Color.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="ImageFormat.cs" />
     <Compile Include="Point.cs" />
+    <Compile Include="Primitive.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Surface.cs" />
+    <Compile Include="SurfaceType.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="TrueTypeText.cs" />
     <Compile Include="TrueTypeTextFactory.cs" />

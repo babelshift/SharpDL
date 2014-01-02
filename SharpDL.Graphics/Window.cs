@@ -26,7 +26,7 @@ namespace SharpDL.Graphics
 
 	public class Window : IDisposable
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		public string Title { get; private set; }
 
@@ -70,7 +70,7 @@ namespace SharpDL.Graphics
 
 		~Window()
 		{
-			log.Debug("A window resource has leaked. Did you forget to dispose the object?");
+			//log.Debug("A window resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool isDisposing)

@@ -11,7 +11,7 @@ namespace SharpDL.Graphics
 
 	public class Texture : IDisposable
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		public string FilePath { get; private set; }
 
@@ -130,7 +130,7 @@ namespace SharpDL.Graphics
 
 		~Texture()
 		{
-			log.Debug("A texture resource has leaked. Did you forget to dispose the object?");
+			//log.Debug("A texture resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool disposing)
@@ -139,14 +139,11 @@ namespace SharpDL.Graphics
 			if (Surface != null)
 				SDL.SDL_FreeSurface(Surface.Handle);
 
-<<<<<<< HEAD
 			SDL.SDL_DestroyTexture(Handle);
 
             Handle = IntPtr.Zero;
-=======
 			if (this.Handle != IntPtr.Zero)
 				SDL.SDL_DestroyTexture(Handle);
->>>>>>> fea2db1f717c721a6f6764343ec5d9fe26ca480b
 		}
 	}
 }

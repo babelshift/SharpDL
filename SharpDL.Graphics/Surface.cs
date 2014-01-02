@@ -6,7 +6,7 @@ namespace SharpDL.Graphics
 {
 	public class Surface : IDisposable
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		public string FilePath { get; private set; }
 
@@ -65,7 +65,7 @@ namespace SharpDL.Graphics
 
 		~Surface()
 		{
-			log.Debug("A surface resource has leaked. Did you forget to dispose the object?");
+			//log.Debug("A surface resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool disposing)

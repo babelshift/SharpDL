@@ -44,9 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="KeyboardState.cs" />
     <Compile Include="KeyInformation.cs" />
+    <Compile Include="KeyModifier.cs" />
     <Compile Include="Mouse.cs" />
+    <Compile Include="MouseButtonCode.cs" />
+    <Compile Include="MouseButtonState.cs" />
+    <Compile Include="MouseState.cs" />
+    <Compile Include="PhysicalKeyCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualKeyCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

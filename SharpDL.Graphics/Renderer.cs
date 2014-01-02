@@ -13,7 +13,7 @@ namespace SharpDL.Graphics
 
 	public class Renderer : IDisposable
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 		public Window Window { get; private set; }
 
@@ -100,7 +100,7 @@ namespace SharpDL.Graphics
 
 		~Renderer()
 		{
-			log.Debug("A renderer resource has leaked. Did you forget to dispose the object?");
+			//log.Debug("A renderer resource has leaked. Did you forget to dispose the object?");
 		}
 
 		private void Dispose(bool disposing)

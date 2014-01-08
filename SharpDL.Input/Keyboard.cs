@@ -25,6 +25,16 @@ namespace SharpDL.Input
 
 			return keyboardState;
 		}
+
+		public static void StartTextInput()
+		{
+			SDL2.SDL.SDL_StartTextInput();
+		}
+
+		public static void StopTextInput()
+		{
+			SDL2.SDL.SDL_StopTextInput();
+		}
     }
 }
 

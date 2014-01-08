@@ -92,6 +92,19 @@ namespace SharpDL.Graphics
 				throw new Exception(String.Format("SDL_SetRenderDrawColor: {0}", SDL.SDL_GetError()));
 		}
 
+		public static void SetTextInputRectangle(Rectangle rectangle)
+		{
+			SDL2.SDL.SDL_Rect rect = new SDL.SDL_Rect()
+			{
+				h = rectangle.Height,
+				w = rectangle.Width,
+				x = rectangle.X,
+				y = rectangle.Y
+			};
+
+			SDL2.SDL.SDL_SetTextInputRect(ref rect);
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);

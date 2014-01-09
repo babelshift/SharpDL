@@ -28,19 +28,10 @@ namespace SharpDL.Events
 				Marshal.Copy((IntPtr)rawEvent.text.text, rawBytes, 0, SDL2.SDL.SDL_TEXTINPUTEVENT_TEXT_SIZE);
 			}
 
-			List<byte> bytes = new List<byte>();
-
-			// the char array is null terminated, so read the bytes until we reach a terminator
-			for (int i = 0; i < rawBytes.Count(); i++)
-			{
-				if (rawBytes[i] == 0)
-					break;
-
-				bytes.Add(rawBytes[i]);
-			}
+			int length = Array.IndexOf(rawBytes, (byte)0);
 
 			// according to the SDL2 migration guide, TextInputEvent will have a UTF-8 encoded string
-			Text = System.Text.Encoding.UTF8.GetString(bytes.ToArray());
+			Text = System.Text.Encoding.UTF8.GetString(rawBytes, 0, length);
 		}
 	}
 }

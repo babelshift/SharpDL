@@ -16,6 +16,7 @@ namespace SharpDL.Graphics
 		public Color Color { get; private set; }
 
 		public Texture Texture { get; private set; }
+
 		public int OutlineSize { get { return Font.OutlineSize; } }
 
 		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color)

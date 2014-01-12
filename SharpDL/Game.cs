@@ -47,7 +47,7 @@ namespace SharpDL
 			WindowClosed += Game_WindowClosed;
 		}
 
-		void Game_WindowClosed(object sender, GameEventArgs e)
+		private void Game_WindowClosed(object sender, GameEventArgs e)
 		{
 			IsExiting = true;
 		}
@@ -289,7 +289,6 @@ namespace SharpDL
 		{
 			IsExiting = true;
 			RaiseEvent(Exiting, EventArgs.Empty);
-			Dispose();
 		}
 
 		#endregion
@@ -382,6 +381,7 @@ namespace SharpDL
 		/// </summary>
 		protected virtual void UnloadContent()
 		{
+			Dispose();
 		}
 
 		#endregion
@@ -422,6 +422,8 @@ namespace SharpDL
 				throw new Exception("Window has been initialized, but the handle to the SDL_Window is null. Maybe SDL_CreateWindow failed?");
 
 			this.Renderer = new Renderer(this.Window, index, flags);
+
+			SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 		}
 
 		#endregion

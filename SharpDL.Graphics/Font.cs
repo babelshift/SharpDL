@@ -44,11 +44,6 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Font()
-		{
-			//log.Debug("A font resource has leaked. Did you forget to dispose the object?");
-		}
-
 		private void Dispose(bool disposing)
 		{
 			if (!IsDisposed)

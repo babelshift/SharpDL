@@ -221,6 +221,7 @@ namespace SharpDL
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEMOTION)
 			{
 				MouseMotionEventArgs eventArgs = GameEventArgsFactory<MouseMotionEventArgs>.Create(rawEvent);
+				Mouse.UpdateMousePosition(eventArgs.RelativeToWindowX, eventArgs.RelativeToWindowY);
 				RaiseEvent<MouseMotionEventArgs>(MouseMoving, eventArgs);
 			}
 			else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP
@@ -344,6 +345,8 @@ namespace SharpDL
 		/// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
 		protected virtual void Update(GameTime gameTime)
 		{
+			Mouse.UpdateMouseState();
+
 			//if (rawEvents.Count > 0)
 			//	RaiseGameEventFromRawEvent(rawEvents.Dequeue());
 

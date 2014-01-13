@@ -9,7 +9,32 @@ namespace SharpDL.Input
 {
 	public static class Mouse
 	{
-		public static MouseState GetState()
+		public static int X { get; private set; }
+
+		public static int Y { get; private set; }
+
+		public static IEnumerable<MouseButtonCode> ButtonsPressed { get; private set; }
+
+		public static IEnumerable<MouseButtonCode> PreviousButtonsPressed { get; private set; }
+
+		/// <summary>
+		/// Updates the mouse position to be used throughout the game update that takes place after mouse motion. You should 
+		/// </summary>
+		/// <param name="currentPosition"></param>
+		public static void UpdateMousePosition(int x, int y)
+		{
+			X = x;
+			Y = y;
+		}
+
+		public static void UpdateMouseState()
+		{
+			PreviousButtonsPressed = ButtonsPressed;
+			var currentMouseState = GetState();
+			ButtonsPressed = currentMouseState.ButtonsPressed;
+		}
+
+		private static MouseState GetState()
 		{
 			int x = 0;
 			int y = 0;

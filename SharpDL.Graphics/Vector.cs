@@ -22,6 +22,11 @@ namespace SharpDL.Graphics
 			Y = y;
 		}
 
+		public Vector Transform(Matrix matrix)
+		{
+			return new Vector((X * matrix.Row1Col1) + (Y * matrix.Row2Col1), (X * matrix.Row2Col1) + (Y * matrix.Row2Col2));
+		}
+
 		public Vector Add(Vector vector)
 		{
 			float x = X + vector.X;

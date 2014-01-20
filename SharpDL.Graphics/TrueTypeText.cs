@@ -19,16 +19,25 @@ namespace SharpDL.Graphics
 
 		public int OutlineSize { get { return Font.OutlineSize; } }
 
-		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color)
-			: this(renderer, surface, text, textFont, color, TextureAccessMode.Static)
+		public bool IsWrapped { get; set; }
+
+		public int WrapLength { get; set; }
+
+		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, int wrapLength)
+			: this(renderer, surface, text, textFont, color, TextureAccessMode.Static, wrapLength)
 		{
 		}
 
-		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, TextureAccessMode accessMode)
+		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, TextureAccessMode accessMode, int wrapLength)
 		{
 			Text = text;
 			Font = textFont;
 			Color = color;
+			WrapLength = wrapLength;
+			if (wrapLength > 0)
+				IsWrapped = true;
+			else
+				IsWrapped = false;
 			Texture = new Texture(renderer, surface, accessMode);
 		}
 

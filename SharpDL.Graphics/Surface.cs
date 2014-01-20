@@ -36,11 +36,22 @@ namespace SharpDL.Graphics
 		}
 
 		public Surface(Font font, string text, Color color)
+			: this(font, text, color, 0)
 		{
+		}
+
+		public Surface(Font font, string text, Color color, int wrapLength)
+		{
+			if (wrapLength < 0)
+				throw new ArgumentOutOfRangeException("wrapLength", "Wrap length must be greater than 0.");
+
 			Type = SurfaceType.Text;
 			SDL.SDL_Color rawColor = new SDL.SDL_Color() { r = color.R, g = color.G, b = color.B };
 
-			Handle = SDL_ttf.TTF_RenderText_Solid(font.Handle, text, rawColor);
+			if (wrapLength > 0)
+				Handle = SDL_ttf.TTF_RenderText_Blended_Wrapped(font.Handle, text, rawColor, (uint)wrapLength);
+			else
+				Handle = SDL_ttf.TTF_RenderText_Solid(font.Handle, text, rawColor);
 
 			if (Handle == IntPtr.Zero)
 				throw new Exception(String.Format("Error while loading text surface: {0}", SDL.SDL_GetError()));

@@ -63,7 +63,7 @@ To simply make a game without worrying about the way the library works, follow t
 
 2. Override the `Initialize` method. Call `base.Initialize()` to initialize SDL.
 
-3. You are now free to create surfaces and textures to render to the screen with your renderer object. However, you will want to override the `LoadContent`, `Update`, and `Draw` methods of the `Game` class in order to get the timing of your texture creation, updating, and rendering to work with SharpDL's game loop.
+You are now free to create surfaces and textures to render to the screen with your renderer object. However, you will want to override the `LoadContent`, `Update`, and `Draw` methods of the `Game` class in order to get the timing of your texture creation, updating, and rendering to work with SharpDL's game loop.
 
     Texture myTexture;
     int myTexturePositionX = 100;

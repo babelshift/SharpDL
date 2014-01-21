@@ -75,13 +75,13 @@ You are now free to create surfaces and textures to render to the screen with yo
         // creates a GPU-driven SDL texture using the initialized renderer and created surface
         myTexture = new Texture(renderer, surface);
     }
-		
-		// update the game state here such as entity positions
-		protected override void Update(GameTime gameTime)
-		{
-		}
-		
-		// draw loaded assets here
+    
+    // update the game state here such as entity positions
+    protected override void Update(GameTime gameTime)
+    {
+    }
+    
+    // draw loaded assets here
     protected override void Draw(GameTime gameTime)
     {
         renderer.RenderTexture(myTexture, positionX, positionY);

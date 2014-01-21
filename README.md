@@ -22,26 +22,23 @@ Code Organization
 
 SharpDL consists of four main projects: SharpDL, SharpDL.Events, SharpDL.Graphics, and SharpDL.Input. A project for audio is not yet available.
 
-The main SharpDL project is responsible for the base `Game` class, `GameTime`, and some experimental classes such as `Logger` and `Timer`.
-
-SharpDL.Events is responsible for various `EventArgs` implementations that are based on the `SDL_Event` union. For example, the [SDL_Event] [2] union is processed in the SharpDL's `Run` loop, `EventArgs` of the proper type are created, and an `event` of that handles that type is fired. This allows for a more .NET-like event system.
-
-  [2]: http://wiki.libsdl.org/SDL_Event        "SDL_Event"
-
-SharpDL.Graphics contains any class that is responsible for graphical operations such as creating a SDL_Window, rendering with a SDL_Renderer, creating a SDL_Surface, or loading a SDL_Texture. Examples of some of these classes are `Color`, `Font`, `Renderer`, `Window`, `Texture`, `TrueTypeText`, and more. Some classes do not have direct relations to SDL structures such as `Vector`, which represents an X,Y coordinate in a 2D space.
-
-SharpDL.Input contains classes to handle Keyboard and Mouse input by capturing mapped SDL structures into .NET-style enumerators. Joystick and controller input is not yet available.
+<dl>
+    <dt>SharpDL</dt>
+    <dd>Responsible for the base `Game` class, `GameTime`, and some experimental classes such as `Logger` and `Timer`.</dd>
+    <dt>SharpDL.Events</dt>
+    <dd>responsible for various `EventArgs` implementations that are based on the `SDL_Event` union. For example, the SDL_Event union is processed in the SharpDL's `Run` loop, `EventArgs` of the proper type are created, and an `event` of that handles that type is fired. This allows for a more .NET-like event system.</dd>
+    <dt>SharpDL.Graphics</dt>
+    <dd>Contains any class that is responsible for graphical operations such as creating a SDL_Window, rendering with a SDL_Renderer, creating a SDL_Surface, or loading a SDL_Texture. Examples of some of these classes are `Color`, `Font`, `Renderer`, `Window`, `Texture`, `TrueTypeText`, and more. Some classes do not have direct relations to SDL structures such as `Vector`, which represents an X,Y coordinate in a 2D space.</dd>
+    <dt>SharpDL.Input</dt>
+    <dd>Contains classes to handle Keyboard and Mouse input by capturing mapped SDL structures into .NET-style enumerators. Joystick and controller input is not yet available.</dd>
+</dl>
 
 Examples
 --------
 
-The base `Game` class offers options to initialize SDL, create windows, create renderers, and process events. 
+The base `Game` class offers options to initialize SDL, create windows, create renderers, and process events. Two important steps to the initialization of the library is to create a SDL window and create a SDL renderer as shown below.
 
-1. Inherit from the SharpDL.Game class.
-
-2. Override the `Initialize` method. Call `base.Initialize()` to initialize SDL.
-
-2. `SDL_CreateWindow` is wrapped by the `Window` class. Creating a window:
+`SDL_CreateWindow` is wrapped by the `Window` class. Creating a window:
   
         string title = "My Window"
         int x = 0;
@@ -52,7 +49,7 @@ The base `Game` class offers options to initialize SDL, create windows, create r
     
         Window window = new Window(title, x, y, width, height, flags);
 
-3. `SDL_CreateRenderer` is wrapped by the `Renderer` class. Creating a renderer:
+`SDL_CreateRenderer` is wrapped by the `Renderer` class. Creating a renderer:
     
         int index = -1;
         RendererFlags flags = RendererFlags.RendererAccelerated;
@@ -60,7 +57,13 @@ The base `Game` class offers options to initialize SDL, create windows, create r
         Renderer renderer = new Renderer(window, index, flags);
         renderer.SetRenderLogicalSize(640, 480); // or however large we want to render to
 
-You are now free to create surfaces and textures to render to the screen with your renderer object. However, you will want to override the `LoadContent`, `Update`, and `Draw` methods of the `Game` class in order to get the timing of your texture creation, updating, and rendering to work with SharpDL's game loop.
+To simply make a game without worrying about the way the library works, follow these steps (or look at the examples folder in the project).
+
+1. Inherit from the SharpDL.Game class.
+
+2. Override the `Initialize` method. Call `base.Initialize()` to initialize SDL.
+
+3. You are now free to create surfaces and textures to render to the screen with your renderer object. However, you will want to override the `LoadContent`, `Update`, and `Draw` methods of the `Game` class in order to get the timing of your texture creation, updating, and rendering to work with SharpDL's game loop.
 
     Texture myTexture;
     int myTexturePositionX = 100;

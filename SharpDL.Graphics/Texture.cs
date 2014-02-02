@@ -48,8 +48,8 @@ namespace SharpDL.Graphics
 
 		public void UpdateSurfaceAndTexture(Surface surface)
 		{
-			SDL.SDL_DestroyTexture(this.Handle);
-			this.Handle = IntPtr.Zero;
+			SDL.SDL_DestroyTexture(Handle);
+			Handle = IntPtr.Zero;
 			Surface = surface;
 
 			CreateTextureAndCleanup();
@@ -61,27 +61,25 @@ namespace SharpDL.Graphics
 
 			if (!success)
 				throw new Exception(String.Format("SDL_CreateTextureFromSurface / SDL_CreateTexture: {0}", SDL.SDL_GetError()));
-			else
-				CleanupAndQueryTexture();
+			
+			CleanupAndQueryTexture();
 		}
 
 		private bool CreateTexture()
 		{
 			bool success = false;
 
-			if (Surface != null)
-			{
-				if (Surface.Handle != IntPtr.Zero)
-				{
-					if (AccessMode == TextureAccessMode.Static)
-						this.Handle = SDL.SDL_CreateTextureFromSurface(Renderer.Handle, Surface.Handle);
-					else if (AccessMode == TextureAccessMode.Streaming)
-						this.Handle = SDL.SDL_CreateTexture(Renderer.Handle, SDL.SDL_PIXELFORMAT_ARGB8888, (int)AccessMode, Surface.Width, Surface.Height);
+			if (Surface == null) return success;
 
-					if (this.Handle != IntPtr.Zero)
-						success = true;
-				}
-			}
+			if (Surface.Handle == IntPtr.Zero) return success;
+			
+			if (AccessMode == TextureAccessMode.Static)
+				Handle = SDL.SDL_CreateTextureFromSurface(Renderer.Handle, Surface.Handle);
+			else if (AccessMode == TextureAccessMode.Streaming)
+				Handle = SDL.SDL_CreateTexture(Renderer.Handle, SDL.SDL_PIXELFORMAT_ARGB8888, (int)AccessMode, Surface.Width, Surface.Height);
+
+			if (Handle != IntPtr.Zero)
+				success = true;
 
 			return success;
 		}
@@ -95,10 +93,10 @@ namespace SharpDL.Graphics
 			int access, width, height;
 			SDL.SDL_QueryTexture(Handle, out format, out access, out width, out height);
 
-			this.PixelFormat = format;
-			this.Access = access;
-			this.Width = width;
-			this.Height = height;
+			PixelFormat = format;
+			Access = access;
+			Width = width;
+			Height = height;
 		}
 
 		//public void LockTexture(Surface surface)
@@ -128,22 +126,15 @@ namespace SharpDL.Graphics
 			GC.SuppressFinalize(this);
 		}
 
-		~Texture()
-		{
-			//log.Debug("A texture resource has leaked. Did you forget to dispose the object?");
-		}
-
 		private void Dispose(bool disposing)
 		{
 			if (AccessMode == TextureAccessMode.Streaming)
-			if (Surface != null)
-				SDL.SDL_FreeSurface(Surface.Handle);
+				if (Surface != null)
+					SDL.SDL_FreeSurface(Surface.Handle);
 
 			SDL.SDL_DestroyTexture(Handle);
 
-            Handle = IntPtr.Zero;
-			if (this.Handle != IntPtr.Zero)
-				SDL.SDL_DestroyTexture(Handle);
+			Handle = IntPtr.Zero;
 		}
 	}
 }

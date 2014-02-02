@@ -41,11 +41,11 @@ namespace SharpDL.Graphics
 			Texture = new Texture(renderer, surface, accessMode);
 		}
 
-		public void UpdateText(string text)
+		public void UpdateText(string text, int wrapLength = 0)
 		{
 			Text = text;
 
-			Surface surface = new Surface(Font, Text, Color);
+			Surface surface = new Surface(Font, Text, Color, wrapLength);
 			Texture.UpdateSurfaceAndTexture(surface);
 		}
 

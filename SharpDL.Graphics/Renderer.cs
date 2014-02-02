@@ -33,7 +33,7 @@ namespace SharpDL.Graphics
 				if (flags.HasFlag(flag))
 					copyFlags.Add(flag);
 
-			Handle = SDL.SDL_CreateRenderer(this.Window.Handle, this.Index, (uint)flags);
+			Handle = SDL.SDL_CreateRenderer(Window.Handle, Index, (uint)flags);
 			if (Handle == IntPtr.Zero)
 				throw new Exception(String.Format("SDL_CreateRenderer: {0}", SDL.SDL_GetError()));
 		}
@@ -64,19 +64,19 @@ namespace SharpDL.Graphics
 			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = (int)positionX, y = (int)positionY, w = width, h = height };
 			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = source.X, y = source.Y, w = source.Width, h = source.Height };
 
-            if (texture != null)
-            {
-                if (texture.Handle != IntPtr.Zero)
-                {
-                    int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
-                    if (result != 0)
-                        throw new Exception(String.Format("SDL_RenderCopy: {0}", SDL.SDL_GetError()));
-                }
-                else 
-                    throw new Exception("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
-            }
-            else
-                throw new Exception("Attempted to draw a null texture. Maybe it was instantiated incorrectly or disposed?");
+			if (texture != null)
+			{
+				if (texture.Handle != IntPtr.Zero)
+				{
+					int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
+					if (result != 0)
+						throw new Exception(String.Format("SDL_RenderCopy: {0}", SDL.SDL_GetError()));
+				}
+				else
+					throw new Exception("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
+			}
+			else
+				throw new Exception("Attempted to draw a null texture. Maybe it was instantiated incorrectly or disposed?");
 		}
 
 		public void RenderPresent()
@@ -88,8 +88,16 @@ namespace SharpDL.Graphics
 		{
 			int result = SDL.SDL_SetRenderDrawColor(Handle, r, g, b, a);
 
-			if(result < 0)
+			if (result < 0)
 				throw new Exception(String.Format("SDL_SetRenderDrawColor: {0}", SDL.SDL_GetError()));
+		}
+
+		public void SetTextureColorMod(Texture texture, byte r, byte g, byte b)
+		{
+			int result = SDL.SDL_SetTextureColorMod(texture.Handle, r, g, b);
+
+			if (result < 0)
+				throw new Exception(String.Format("SDL_SetTextureColorMod: {0}", SDL.SDL_GetError()));
 		}
 
 		public void SetRenderLogicalSize(int width, int height)

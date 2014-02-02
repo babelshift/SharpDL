@@ -1,9 +1,6 @@
-﻿using SDL2;
-using System;
+﻿using System.Linq;
+using SDL2;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpDL.Input
 {
@@ -18,9 +15,10 @@ namespace SharpDL.Input
 		public static IEnumerable<MouseButtonCode> PreviousButtonsPressed { get; private set; }
 
 		/// <summary>
-		/// Updates the mouse position to be used throughout the game update that takes place after mouse motion. You should 
+		/// Updates the mouse position to be used throughout the game update that takes place after mouse motion. You should
 		/// </summary>
-		/// <param name="currentPosition"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
 		public static void UpdateMousePosition(int x, int y)
 		{
 			X = x;
@@ -58,22 +56,19 @@ namespace SharpDL.Input
 
 		private static bool IsButtonPressed(uint buttonsPressedBitmask, MouseButtonCode mouseButtonCode)
 		{
-			var buttonPressedMacroResult = SDL2.SDL.SDL_BUTTON((uint)mouseButtonCode);
+			var buttonPressedMacroResult = SDL.SDL_BUTTON((uint)mouseButtonCode);
 			var bitmaskComparisonResult = buttonsPressedBitmask & buttonPressedMacroResult;
-			if (bitmaskComparisonResult > 0)
-				return true;
-			else
-				return false;
+			return bitmaskComparisonResult > 0;
 		}
 
 		public static void ShowCursor()
 		{
-			SDL2.SDL.SDL_ShowCursor(SDL2.SDL.SDL_ENABLE);
+			SDL.SDL_ShowCursor(SDL.SDL_ENABLE);
 		}
 
 		public static void HideCursor()
 		{
-			SDL2.SDL.SDL_ShowCursor(SDL2.SDL.SDL_DISABLE);
+			SDL.SDL_ShowCursor(SDL.SDL_DISABLE);
 		}
 	}
 }

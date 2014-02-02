@@ -51,7 +51,7 @@ namespace SharpDL.Graphics
 			if (wrapLength > 0)
 				Handle = SDL_ttf.TTF_RenderText_Blended_Wrapped(font.Handle, text, rawColor, (uint)wrapLength);
 			else
-				Handle = SDL_ttf.TTF_RenderText_Solid(font.Handle, text, rawColor);
+				Handle = SDL_ttf.TTF_RenderText_Blended(font.Handle, text, rawColor);
 
 			if (Handle == IntPtr.Zero)
 				throw new Exception(String.Format("Error while loading text surface: {0}", SDL.SDL_GetError()));

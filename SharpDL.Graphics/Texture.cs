@@ -6,7 +6,8 @@ namespace SharpDL.Graphics
 	public enum TextureAccessMode
 	{
 		Static = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC,
-		Streaming = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING
+		Streaming = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
+		Target = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET
 	}
 
 	public class Texture : IDisposable
@@ -75,7 +76,7 @@ namespace SharpDL.Graphics
 			
 			if (AccessMode == TextureAccessMode.Static)
 				Handle = SDL.SDL_CreateTextureFromSurface(Renderer.Handle, Surface.Handle);
-			else if (AccessMode == TextureAccessMode.Streaming)
+			else if (AccessMode == TextureAccessMode.Streaming || AccessMode == TextureAccessMode.Target)
 				Handle = SDL.SDL_CreateTexture(Renderer.Handle, SDL.SDL_PIXELFORMAT_ARGB8888, (int)AccessMode, Surface.Width, Surface.Height);
 
 			if (Handle != IntPtr.Zero)

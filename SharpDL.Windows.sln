@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Events", "SharpDL.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Input", "SharpDL.Input\SharpDL.Input.csproj", "{91EBB67F-91DC-4721-A62E-02B39F821062}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Shared", "SharpDL.Shared\SharpDL.Shared.csproj", "{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{91EBB67F-91DC-4721-A62E-02B39F821062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91EBB67F-91DC-4721-A62E-02B39F821062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91EBB67F-91DC-4721-A62E-02B39F821062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

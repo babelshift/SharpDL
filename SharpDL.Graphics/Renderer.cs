@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using SharpDL.Shared;
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +10,15 @@ namespace SharpDL.Graphics
 	{
 		RendererAccelerated = SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED,
 		RendererPresentVSync = SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC
+	}
+
+	[Flags]
+	public enum BlendMode
+	{
+		None = SDL.SDL_BlendMode.SDL_BLENDMODE_NONE,
+		Blend = SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND,
+		Add = SDL.SDL_BlendMode.SDL_BLENDMODE_ADD,
+		Mod = SDL.SDL_BlendMode.SDL_BLENDMODE_MOD,
 	}
 
 	public class Renderer : IDisposable
@@ -35,12 +45,14 @@ namespace SharpDL.Graphics
 
 			Handle = SDL.SDL_CreateRenderer(Window.Handle, Index, (uint)flags);
 			if (Handle == IntPtr.Zero)
-				throw new Exception(String.Format("SDL_CreateRenderer: {0}", SDL.SDL_GetError()));
+				throw new Exception(Utilities.GetErrorMessage("SDL_CreateRenderer"));
 		}
 
 		public void ClearScreen()
 		{
-			SDL.SDL_RenderClear(Handle);
+			int result = SDL.SDL_RenderClear(Handle);
+			if (Utilities.IsError(result))
+				throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderClear"));
 		}
 
 		public void RenderTexture(Texture texture, float positionX, float positionY)
@@ -69,8 +81,8 @@ namespace SharpDL.Graphics
 				if (texture.Handle != IntPtr.Zero)
 				{
 					int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
-					if (result != 0)
-						throw new Exception(String.Format("SDL_RenderCopy: {0}", SDL.SDL_GetError()));
+					if (Utilities.IsError(result))
+						throw new Exception(Utilities.GetErrorMessage("SDL_RenderCopy: {0}"));
 				}
 				else
 					throw new Exception("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
@@ -84,27 +96,51 @@ namespace SharpDL.Graphics
 			SDL.SDL_RenderPresent(Handle);
 		}
 
+		public void ResetRenderTarget()
+		{
+			int result = SDL2.SDL.SDL_SetRenderTarget(Handle, IntPtr.Zero);
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderTarget: {0}"));
+		}
+
+		public void SetRenderTarget(Texture texture)
+		{
+			if (texture.AccessMode != TextureAccessMode.Target)
+				throw new InvalidOperationException("Texture cannot be used as a render target unless AccessMode is set to Target.");
+
+			int result = SDL2.SDL.SDL_SetRenderTarget(Handle, texture.Handle);
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderTarget"));
+		}
+
+		public void SetBlendMode(BlendMode blendMode)
+		{
+			int result = SDL2.SDL.SDL_SetRenderDrawBlendMode(Handle, (SDL2.SDL.SDL_BlendMode)blendMode);
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetDrawBlendMode: {0}"));
+		}
+
 		public void SetDrawColor(byte r, byte g, byte b, byte a)
 		{
 			int result = SDL.SDL_SetRenderDrawColor(Handle, r, g, b, a);
 
-			if (result < 0)
-				throw new Exception(String.Format("SDL_SetRenderDrawColor: {0}", SDL.SDL_GetError()));
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderDrawColor: {0}"));
 		}
 
 		public void SetTextureColorMod(Texture texture, byte r, byte g, byte b)
 		{
 			int result = SDL.SDL_SetTextureColorMod(texture.Handle, r, g, b);
 
-			if (result < 0)
-				throw new Exception(String.Format("SDL_SetTextureColorMod: {0}", SDL.SDL_GetError()));
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetTextureColorMod: {0}"));
 		}
 
 		public void SetRenderLogicalSize(int width, int height)
 		{
 			int result = SDL2.SDL.SDL_RenderSetLogicalSize(Handle, width, height);
-			if (result < 0)
-				throw new Exception(String.Format("SDL_RenderSetLogicalSize: {0}", SDL.SDL_GetError()));
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_RenderSetLogicalSize: {0}"));
 		}
 
 		public void Dispose()

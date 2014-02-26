@@ -1,4 +1,5 @@
 ﻿﻿using SDL2;
+using SharpDL.Shared;
 using System;
 
 namespace SharpDL.Graphics
@@ -33,18 +34,31 @@ namespace SharpDL.Graphics
 		public TextureAccessMode AccessMode { get; private set; }
 
 		public Texture(Renderer renderer, Surface surface)
-			: this(renderer, surface, TextureAccessMode.Static)
-		{
-		}
-
-		public Texture(Renderer renderer, Surface surface, TextureAccessMode accessMode)
 		{
 			FilePath = surface.FilePath;
 			Renderer = renderer;
+			AccessMode = TextureAccessMode.Static;
 			Surface = surface;
+
+			CreateTextureAndCleanup(surface.Width, surface.Height);
+		}
+
+		/// <summary>
+		/// Surface is only used when access mode is Static.
+		/// </summary>
+		/// <param name="renderer"></param>
+		/// <param name="surface"></param>
+		/// <param name="accessMode"></param>
+		public Texture(Renderer renderer, TextureAccessMode accessMode, int width, int height)
+		{
+
+			if (accessMode == TextureAccessMode.Static)
+				throw new ArgumentException("Use the constructor that takes a surface when using static texture access mode.", "accessMode");
+
+			Renderer = renderer;
 			AccessMode = accessMode;
 
-			CreateTextureAndCleanup();
+			CreateTextureAndCleanup(width, height);
 		}
 
 		public void UpdateSurfaceAndTexture(Surface surface)
@@ -53,31 +67,33 @@ namespace SharpDL.Graphics
 			Handle = IntPtr.Zero;
 			Surface = surface;
 
-			CreateTextureAndCleanup();
+			CreateTextureAndCleanup(surface.Width, surface.Height);
 		}
 
-		private void CreateTextureAndCleanup()
+		private void CreateTextureAndCleanup(int w, int h)
 		{
-			bool success = CreateTexture();
+			bool success = CreateTexture(w, h);
 
 			if (!success)
 				throw new Exception(String.Format("SDL_CreateTextureFromSurface / SDL_CreateTexture: {0}", SDL.SDL_GetError()));
-			
+
 			CleanupAndQueryTexture();
 		}
 
-		private bool CreateTexture()
+		private bool CreateTexture(int w, int h)
 		{
 			bool success = false;
 
-			if (Surface == null) return success;
-
-			if (Surface.Handle == IntPtr.Zero) return success;
-			
 			if (AccessMode == TextureAccessMode.Static)
+			{
+				if (Surface == null) return success;
+
+				if (Surface.Handle == IntPtr.Zero) return success;
+
 				Handle = SDL.SDL_CreateTextureFromSurface(Renderer.Handle, Surface.Handle);
+			}
 			else if (AccessMode == TextureAccessMode.Streaming || AccessMode == TextureAccessMode.Target)
-				Handle = SDL.SDL_CreateTexture(Renderer.Handle, SDL.SDL_PIXELFORMAT_ARGB8888, (int)AccessMode, Surface.Width, Surface.Height);
+				Handle = SDL.SDL_CreateTexture(Renderer.Handle, SDL.SDL_PIXELFORMAT_RGBA8888, (int)AccessMode, w, h);
 
 			if (Handle != IntPtr.Zero)
 				success = true;
@@ -98,6 +114,13 @@ namespace SharpDL.Graphics
 			Access = access;
 			Width = width;
 			Height = height;
+		}
+
+		public void SetBlendMode(BlendMode blendMode)
+		{
+			int result = SDL2.SDL.SDL_SetTextureBlendMode(Handle, (SDL.SDL_BlendMode)blendMode);
+			if (Utilities.IsError(result))
+				throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
 		}
 
 		//public void LockTexture(Surface surface)

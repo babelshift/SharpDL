@@ -24,11 +24,6 @@ namespace SharpDL.Graphics
 		public int WrapLength { get; set; }
 
 		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, int wrapLength)
-			: this(renderer, surface, text, textFont, color, TextureAccessMode.Static, wrapLength)
-		{
-		}
-
-		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, TextureAccessMode accessMode, int wrapLength)
 		{
 			Text = text;
 			Font = textFont;
@@ -38,7 +33,7 @@ namespace SharpDL.Graphics
 				IsWrapped = true;
 			else
 				IsWrapped = false;
-			Texture = new Texture(renderer, surface, accessMode);
+			Texture = new Texture(renderer, surface);
 		}
 
 		public void UpdateText(string text, int wrapLength = 0)

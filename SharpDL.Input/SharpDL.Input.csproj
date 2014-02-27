@@ -56,6 +56,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualKeyCode.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpDL.Shared\SharpDL.Shared.csproj">
+      <Project>{02e40af5-4608-4a26-9b4a-27eece8aea61}</Project>
+      <Name>SharpDL.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

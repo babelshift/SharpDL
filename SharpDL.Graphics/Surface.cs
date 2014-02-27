@@ -82,6 +82,7 @@ namespace SharpDL.Graphics
 		private void Dispose(bool disposing)
 		{
 			SDL.SDL_FreeSurface(Handle);
+			Handle = IntPtr.Zero;
 		}
 	}
 }

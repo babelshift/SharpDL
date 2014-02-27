@@ -5,32 +5,17 @@ using System.Collections.Generic;
 
 namespace SharpDL.Graphics
 {
-	[Flags]
-	public enum RendererFlags
-	{
-		RendererAccelerated = SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED,
-		RendererPresentVSync = SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC,
-		SupportRenderTargets = SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE
-	}
-
-	[Flags]
-	public enum BlendMode
-	{
-		None = SDL.SDL_BlendMode.SDL_BLENDMODE_NONE,
-		Blend = SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND,
-		Add = SDL.SDL_BlendMode.SDL_BLENDMODE_ADD,
-		Mod = SDL.SDL_BlendMode.SDL_BLENDMODE_MOD,
-	}
-
 	public class Renderer : IDisposable
 	{
 		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+		private List<RendererFlags> flags = new List<RendererFlags>();
 
 		public Window Window { get; private set; }
 
 		public int Index { get; private set; }
 
-		public IEnumerable<RendererFlags> Flags { get; private set; }
+		public IEnumerable<RendererFlags> Flags { get { return flags; } }
 
 		public IntPtr Handle { get; private set; }
 
@@ -42,7 +27,7 @@ namespace SharpDL.Graphics
 			List<RendererFlags> copyFlags = new List<RendererFlags>();
 			foreach (RendererFlags flag in Enum.GetValues(typeof(RendererFlags)))
 				if (flags.HasFlag(flag))
-					copyFlags.Add(flag);
+					this.flags.Add(flag);
 
 			Handle = SDL.SDL_CreateRenderer(Window.Handle, Index, (uint)flags);
 			if (Handle == IntPtr.Zero)
@@ -56,40 +41,27 @@ namespace SharpDL.Graphics
 				throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderClear"));
 		}
 
-		public void RenderTexture(Texture texture, float positionX, float positionY)
+		internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight)
 		{
-			Rectangle source = new Rectangle(0, 0, texture.Width, texture.Height);
-			RenderTexture(texture, positionX, positionY, source);
+			Rectangle source = new Rectangle(0, 0, sourceWidth, sourceHeight);
+			RenderTexture(textureHandle, positionX, positionY, source);
 		}
 
-		public void RenderTexture(Texture texture, float positionX, float positionY, Rectangle source)
+		internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, Rectangle source)
 		{
-			int width = texture.Width;
-			int height = texture.Height;
-
-			if (source.Width > 0 && source.Height > 0)
-			{
-				width = source.Width;
-				height = source.Height;
-			}
+			int width = source.Width;
+			int height = source.Height;
 
 			// SDL only accepts integer positions (x,y) in the rendering Rect
 			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = (int)positionX, y = (int)positionY, w = width, h = height };
-			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = source.X, y = source.Y, w = source.Width, h = source.Height };
+			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = source.X, y = source.Y, w = width, h = height };
 
-			if (texture != null)
-			{
-				if (texture.Handle != IntPtr.Zero)
-				{
-					int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
-					if (Utilities.IsError(result))
-						throw new Exception(Utilities.GetErrorMessage("SDL_RenderCopy: {0}"));
-				}
-				else
-					throw new Exception("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
-			}
-			else
-				throw new Exception("Attempted to draw a null texture. Maybe it was instantiated incorrectly or disposed?");
+			if (textureHandle == IntPtr.Zero)
+				throw new InvalidOperationException("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
+
+			int result = SDL.SDL_RenderCopy(Handle, textureHandle, ref sourceRectangle, ref destinationRectangle);
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_RenderCopy"));
 		}
 
 		public void RenderPresent()
@@ -101,15 +73,15 @@ namespace SharpDL.Graphics
 		{
 			int result = SDL2.SDL.SDL_SetRenderTarget(Handle, IntPtr.Zero);
 			if (Utilities.IsError(result))
-				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderTarget: {0}"));
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderTarget"));
 		}
 
-		public void SetRenderTarget(Texture texture)
+		public void SetRenderTarget(RenderTarget renderTarget)
 		{
-			if (texture.AccessMode != TextureAccessMode.Target)
-				throw new InvalidOperationException("Texture cannot be used as a render target unless AccessMode is set to Target.");
+			if (!flags.Contains(RendererFlags.SupportRenderTargets))
+				throw new InvalidOperationException("This renderer does not support render targets. Did you create the renderer with the RendererFlags.SupportRenderTargets flag?");
 
-			int result = SDL2.SDL.SDL_SetRenderTarget(Handle, texture.Handle);
+			int result = SDL2.SDL.SDL_SetRenderTarget(Handle, renderTarget.Handle);
 			if (Utilities.IsError(result))
 				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderTarget"));
 		}
@@ -118,7 +90,7 @@ namespace SharpDL.Graphics
 		{
 			int result = SDL2.SDL.SDL_SetRenderDrawBlendMode(Handle, (SDL2.SDL.SDL_BlendMode)blendMode);
 			if (Utilities.IsError(result))
-				throw new Exception(Utilities.GetErrorMessage("SDL_SetDrawBlendMode: {0}"));
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetDrawBlendMode"));
 		}
 
 		public void SetDrawColor(byte r, byte g, byte b, byte a)
@@ -126,22 +98,14 @@ namespace SharpDL.Graphics
 			int result = SDL.SDL_SetRenderDrawColor(Handle, r, g, b, a);
 
 			if (Utilities.IsError(result))
-				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderDrawColor: {0}"));
-		}
-
-		public void SetTextureColorMod(Texture texture, byte r, byte g, byte b)
-		{
-			int result = SDL.SDL_SetTextureColorMod(texture.Handle, r, g, b);
-
-			if (Utilities.IsError(result))
-				throw new Exception(Utilities.GetErrorMessage("SDL_SetTextureColorMod: {0}"));
+				throw new Exception(Utilities.GetErrorMessage("SDL_SetRenderDrawColor"));
 		}
 
 		public void SetRenderLogicalSize(int width, int height)
 		{
 			int result = SDL2.SDL.SDL_RenderSetLogicalSize(Handle, width, height);
 			if (Utilities.IsError(result))
-				throw new Exception(Utilities.GetErrorMessage("SDL_RenderSetLogicalSize: {0}"));
+				throw new Exception(Utilities.GetErrorMessage("SDL_RenderSetLogicalSize"));
 		}
 
 		public void Dispose()

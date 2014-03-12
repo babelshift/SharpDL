@@ -92,6 +92,11 @@ namespace SharpDL.Graphics
 				throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
 		}
 
+		public void Draw(int x, int y, double angle, Vector center)
+		{
+			renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
+		}
+
 		public void Draw(int x, int y, Rectangle sourceBounds)
 		{
 			renderer.RenderTexture(Handle, x, y, sourceBounds);

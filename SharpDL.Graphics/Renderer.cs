@@ -41,6 +41,21 @@ namespace SharpDL.Graphics
 				throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderClear"));
 		}
 
+		internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center)
+		{
+			// SDL only accepts integer positions (x,y) in the rendering Rect
+			SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = (int)positionX, y = (int)positionY, w = sourceWidth, h = sourceHeight };
+			SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = 0, y = 0, w = sourceWidth, h = sourceHeight };
+			SDL.SDL_Point centerPoint = new SDL.SDL_Point() { x = (int)center.X, y = (int)center.Y };
+
+			if (textureHandle == IntPtr.Zero)
+				throw new InvalidOperationException("Attempted to draw a texture with a null Handle. Maybe it was instantiated incorrectly or disposed?");
+
+			int result = SDL.SDL_RenderCopyEx(Handle, textureHandle, ref sourceRectangle, ref destinationRectangle, angle, ref centerPoint, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+			if (Utilities.IsError(result))
+				throw new Exception(Utilities.GetErrorMessage("SDL_RenderCopyEx"));
+		}
+
 		internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight)
 		{
 			Rectangle source = new Rectangle(0, 0, sourceWidth, sourceHeight);

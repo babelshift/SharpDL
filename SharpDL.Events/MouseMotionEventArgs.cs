@@ -16,9 +16,17 @@ namespace SharpDL.Events
 
 		public IList<MouseButtonCode> MouseButtonsPressed { get; private set; }
 
-		public int RelativeToWindowX { get; private set; }
+		/// <summary>
+		/// Mouse X position relative to the window origin. Setter is public because we may need to intercept and adjust the value for detecting click/hover events
+		/// for controls rendered within render targets. X position could be different relative to window origin when compared to relative to render target position.
+		/// </summary>
+		public int RelativeToWindowX { get; set; }
 
-		public int RelativeToWindowY { get; private set; }
+		/// <summary>
+		/// Mouse Y position relative to the window origin. Setter is public because we may need to intercept and adjust the value for detecting click/hover events
+		/// for controls rendered within render targets. X position could be different relative to window origin when compared to relative to render target position.
+		/// </summary>
+		public int RelativeToWindowY { get; set; }
 
 		public int RelativeToLastMotionEventX { get; private set; }
 

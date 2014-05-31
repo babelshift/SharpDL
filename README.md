@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/fea91h63ie7i8fxq)](https://ci.appveyor.com/project/JustinSkiles/sharpdl)
+
 SharpDL
 =======
 

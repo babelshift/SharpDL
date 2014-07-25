@@ -51,7 +51,7 @@ namespace SharpDL.Graphics
 
 		public void SetOutlineSize(int outlineSize)
         {
-            Assert.IsNotNull(textFont, Errors.E_FONT_NULL);
+            Assert.IsNotNull(Font, Errors.E_FONT_NULL);
 
 			Font.SetOutlineSize(outlineSize);
 		}

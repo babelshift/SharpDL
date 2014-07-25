@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using SharpDL.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,10 @@ namespace SharpDL.Graphics
 
 		public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, int wrapLength)
 		{
+            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            Assert.IsNotNull(surface, Errors.E_SURFACE_NULL);
+            Assert.IsNotNull(textFont, Errors.E_FONT_NULL);
+
 			Text = text;
 			Font = textFont;
 			Color = color;
@@ -45,7 +50,9 @@ namespace SharpDL.Graphics
 		}
 
 		public void SetOutlineSize(int outlineSize)
-		{
+        {
+            Assert.IsNotNull(textFont, Errors.E_FONT_NULL);
+
 			Font.SetOutlineSize(outlineSize);
 		}
 

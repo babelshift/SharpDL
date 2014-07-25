@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using SharpDL.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace SharpDL.Graphics
 
 		public Font(string path, int fontPointSize)
 		{
+            if (String.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException("path");
+            }
+
 			FilePath = path;
 			PointSize = fontPointSize;
 
@@ -34,7 +40,9 @@ namespace SharpDL.Graphics
 		}
 
 		public void SetOutlineSize(int outlineSize)
-		{
+        {
+            Assert.IsNotNull(Handle, Errors.E_FONT_NULL);
+
 			SDL_ttf.TTF_SetFontOutline(Handle, outlineSize);
 		}
 

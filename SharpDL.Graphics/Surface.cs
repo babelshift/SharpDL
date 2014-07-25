@@ -17,8 +17,10 @@ namespace SharpDL.Graphics
 		public int Width { get; private set; }
 
 		public int Height { get; private set; }
+
 		//public IntPtr Pixels { get; set; }
 		//public int Pitch { get; set; }
+
 		public Surface(string filePath, SurfaceType surfaceType)
 		{
 			FilePath = filePath;

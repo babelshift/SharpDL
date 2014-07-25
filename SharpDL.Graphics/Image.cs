@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpDL.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,10 @@ namespace SharpDL.Graphics
 		public Texture Texture { get; private set; }
 
 		public Image(Renderer renderer, Surface surface, ImageFormat imageFormat)
-		{
+        {
+            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            Assert.IsNotNull(surface, Errors.E_SURFACE_NULL);
+
 			if (surface.Type == SurfaceType.Text)
 				throw new Exception("Cannot create images from text surfaces.");
 

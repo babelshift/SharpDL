@@ -28,6 +28,9 @@ namespace SharpDL.Graphics
 
 		public Texture(Renderer renderer, Surface surface)
 		{
+            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            Assert.IsNotNull(surface, Errors.E_SURFACE_NULL);
+
 			this.renderer = renderer;
 			FilePath = surface.FilePath;
 			AccessMode = TextureAccessMode.Static;
@@ -38,6 +41,8 @@ namespace SharpDL.Graphics
 
 		public void UpdateSurfaceAndTexture(Surface surface)
 		{
+            Assert.IsNotNull(surface, Errors.E_SURFACE_NULL);
+
 			SDL.SDL_DestroyTexture(Handle);
 			Handle = IntPtr.Zero;
 			Surface = surface;
@@ -49,8 +54,10 @@ namespace SharpDL.Graphics
 		{
 			bool success = CreateTexture(width, height);
 
-			if (!success)
-				throw new Exception(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
+            if (!success)
+            {
+                throw new Exception(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
+            }
 
 			CleanupAndQueryTexture();
 		}
@@ -59,9 +66,9 @@ namespace SharpDL.Graphics
 		{
 			bool success = false;
 
-			if (Surface == null) return success;
+            if (Surface == null) { return success; }
 
-			if (Surface.Handle == IntPtr.Zero) return success;
+            if (Surface.Handle == IntPtr.Zero) { return success; }
 
 			Handle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, Surface.Handle);
 
@@ -87,18 +94,29 @@ namespace SharpDL.Graphics
 
 		public void SetBlendMode(BlendMode blendMode)
 		{
+            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+
 			int result = SDL2.SDL.SDL_SetTextureBlendMode(Handle, (SDL.SDL_BlendMode)blendMode);
-			if (Utilities.IsError(result))
-				throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
+
+            if (Utilities.IsError(result))
+            {
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
+            }
 		}
 
 		public void Draw(int x, int y, double angle, Vector center)
-		{
+        {
+            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+
 			renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
 		}
 
 		public void Draw(int x, int y, Rectangle sourceBounds)
-		{
+        {
+            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+
 			renderer.RenderTexture(Handle, x, y, sourceBounds);
 		}
 
@@ -108,7 +126,10 @@ namespace SharpDL.Graphics
 		}
 
 		public void Draw(int x, int y)
-		{
+        {
+            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+
 			renderer.RenderTexture(Handle, x, y, Width, Height);
 		}
 
@@ -119,6 +140,8 @@ namespace SharpDL.Graphics
 
 		public void SetColorMod(byte r, byte g, byte b)
 		{
+            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+
 			int result = SDL.SDL_SetTextureColorMod(Handle, r, g, b);
 
 			if (Utilities.IsError(result))

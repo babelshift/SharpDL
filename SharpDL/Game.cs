@@ -338,14 +338,20 @@ namespace SharpDL
                 flags = SDL.SDL_INIT_EVERYTHING;
 
             if (SDL.SDL_Init(flags) != 0)
-                throw new Exception(String.Format("SDL_Init: {0}", SDL.SDL_GetError()));
+            {
+                throw new InvalidOperationException(String.Format("SDL_Init: {0}", SDL.SDL_GetError()));
+            }
 
             if (SDL_ttf.TTF_Init() != 0)
-                throw new Exception(String.Format("TTF_Init: {0}", SDL.SDL_GetError()));
+            {
+                throw new InvalidOperationException(String.Format("TTF_Init: {0}", SDL.SDL_GetError()));
+            }
 
             int initImageResult = SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG);
             if ((initImageResult & (int)SDL_image.IMG_InitFlags.IMG_INIT_PNG) != (int)SDL_image.IMG_InitFlags.IMG_INIT_PNG)
-                throw new Exception(String.Format("IMG_Init: {0}", SDL.SDL_GetError()));
+            {
+                throw new InvalidOperationException(String.Format("IMG_Init: {0}", SDL.SDL_GetError()));
+            }
         }
 
         /// <summary>Used for potentially long lasting operations that should only occur relatively rarely. Usually, this
@@ -421,7 +427,7 @@ namespace SharpDL
         /// <param name="flags">Bit flags indicating the way in which the window should be created</param>
         protected void CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags)
         {
-            this.Window = new Window(title, x, y, width, height, flags);
+            Window = new Window(title, x, y, width, height, flags);
         }
 
         /// <summary>Creates a SDL Renderer to copy and draw textures to a window
@@ -429,7 +435,7 @@ namespace SharpDL
         /// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
         protected void CreateRenderer(RendererFlags flags)
         {
-            this.CreateRenderer(EMPTY_INT, flags);
+            CreateRenderer(EMPTY_INT, flags);
         }
 
         /// <summary>Creates a SDL Renderer to copy and draw textures to a window
@@ -438,13 +444,12 @@ namespace SharpDL
         /// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
         protected void CreateRenderer(int index, RendererFlags flags)
         {
-            if (this.Window == null)
-                throw new Exception("Window has not been initialized. You must first create a Window before creating a Renderer.");
+            if (Window == null)
+            {
+                throw new InvalidOperationException("Window has not been initialized. You must first create a Window before creating a Renderer.");
+            }
 
-            if (this.Window.Handle == IntPtr.Zero)
-                throw new Exception("Window has been initialized, but the handle to the SDL_Window is null. Maybe SDL_CreateWindow failed?");
-
-            this.Renderer = new Renderer(this.Window, index, flags);
+            Renderer = new Renderer(this.Window, index, flags);
 
             SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_RENDER_SCALE_QUALITY, "linear");
         }
@@ -467,10 +472,14 @@ namespace SharpDL
         protected virtual void Dispose(bool disposing)
         {
             if (Window != null)
-                SDL.SDL_DestroyWindow(Window.Handle);
+            {
+                Window.Dispose();
+            }
 
             if (Renderer != null)
-                SDL.SDL_DestroyRenderer(Renderer.Handle);
+            {
+                Renderer.Dispose();
+            }
 
             SDL_ttf.TTF_Quit();
             SDL_image.IMG_Quit();

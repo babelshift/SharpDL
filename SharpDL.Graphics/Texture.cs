@@ -4,186 +4,227 @@ using System;
 
 namespace SharpDL.Graphics
 {
-	public class Texture : ITexture
-	{
-		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+    public class Texture : ITexture
+    {
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private Renderer renderer;
+        private Renderer renderer;
 
-		public string FilePath { get; private set; }
+        public string FilePath { get; private set; }
 
-		public uint PixelFormat { get; private set; }
+        public uint PixelFormat { get; private set; }
 
-		public int Access { get; private set; }
+        public int Access { get; private set; }
 
-		public int Width { get; private set; }
+        public int Width { get; private set; }
 
-		public int Height { get; private set; }
+        public int Height { get; private set; }
 
-		public Surface Surface { get; private set; }
+        public Surface Surface { get; private set; }
 
-		public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get; private set; }
 
-		public TextureAccessMode AccessMode { get; private set; }
+        public TextureAccessMode AccessMode { get; private set; }
 
-		public Texture(Renderer renderer, Surface surface)
-		{
-            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
-            Assert.IsNotNull(surface, Errors.E_SURFACE_NULL);
+        public Texture(Renderer renderer, Surface surface)
+        {
+            if(renderer == null)
+            {
+                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+            }
+            if (surface == null)
+            {
+                throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
+            }
 
-			this.renderer = renderer;
-			FilePath = surface.FilePath;
-			AccessMode = TextureAccessMode.Static;
-			Surface = surface;
+            this.renderer = renderer;
+            FilePath = surface.FilePath;
+            AccessMode = TextureAccessMode.Static;
+            Surface = surface;
 
-			CreateTextureAndCleanup(surface.Width, surface.Height);
-		}
+            CreateTextureAndCleanup(surface.Width, surface.Height);
+        }
 
-		public void UpdateSurfaceAndTexture(Surface surface)
-		{
-            Assert.IsNotNull(surface, Errors.E_SURFACE_NULL);
+        public void UpdateSurfaceAndTexture(Surface surface)
+        {
+            if (surface == null)
+            {
+                throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
+            }
 
-			SDL.SDL_DestroyTexture(Handle);
-			Handle = IntPtr.Zero;
-			Surface = surface;
+            SDL.SDL_DestroyTexture(Handle);
+            Handle = IntPtr.Zero;
+            Surface = surface;
 
-			CreateTextureAndCleanup(surface.Width, surface.Height);
-		}
+            CreateTextureAndCleanup(surface.Width, surface.Height);
+        }
 
-		private void CreateTextureAndCleanup(int width, int height)
-		{
-			bool success = CreateTexture(width, height);
+        private void CreateTextureAndCleanup(int width, int height)
+        {
+            bool success = CreateTexture(width, height);
 
             if (!success)
             {
                 throw new Exception(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
             }
 
-			CleanupAndQueryTexture();
-		}
+            CleanupAndQueryTexture();
+        }
 
-		private bool CreateTexture(int width, int height)
-		{
-			bool success = false;
+        private bool CreateTexture(int width, int height)
+        {
+            bool success = false;
 
             if (Surface == null) { return success; }
 
             if (Surface.Handle == IntPtr.Zero) { return success; }
 
-			Handle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, Surface.Handle);
+            Handle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, Surface.Handle);
 
-			if (Handle != IntPtr.Zero)
-				success = true;
+            if (Handle != IntPtr.Zero)
+                success = true;
 
-			return success;
-		}
+            return success;
+        }
 
-		private void CleanupAndQueryTexture()
-		{
-			Surface.Dispose();
+        private void CleanupAndQueryTexture()
+        {
+            Surface.Dispose();
 
-			uint format;
-			int access, width, height;
-			SDL.SDL_QueryTexture(Handle, out format, out access, out width, out height);
+            uint format;
+            int access, width, height;
+            SDL.SDL_QueryTexture(Handle, out format, out access, out width, out height);
 
-			PixelFormat = format;
-			Access = access;
-			Width = width;
-			Height = height;
-		}
+            PixelFormat = format;
+            Access = access;
+            Width = width;
+            Height = height;
+        }
 
-		public void SetBlendMode(BlendMode blendMode)
-		{
-            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+        public void SetBlendMode(BlendMode blendMode)
+        {
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+            }
 
-			int result = SDL2.SDL.SDL_SetTextureBlendMode(Handle, (SDL.SDL_BlendMode)blendMode);
+            int result = SDL2.SDL.SDL_SetTextureBlendMode(Handle, (SDL.SDL_BlendMode)blendMode);
 
             if (Utilities.IsError(result))
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
             }
-		}
+        }
 
-		public void Draw(int x, int y, double angle, Vector center)
+        public void Draw(int x, int y, double angle, Vector center)
         {
-            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
-            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+            }
+            if (renderer == null)
+            {
+                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
+            }
 
-			renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
-		}
+            renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
+        }
 
-		public void Draw(int x, int y, Rectangle sourceBounds)
+        public void Draw(int x, int y, Rectangle sourceBounds)
         {
-            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
-            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+            }
+            if (renderer == null)
+            {
+                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
+            }
 
-			renderer.RenderTexture(Handle, x, y, sourceBounds);
-		}
+            renderer.RenderTexture(Handle, x, y, sourceBounds);
+        }
 
-		public void Draw(float x, float y, Rectangle sourceBounds)
-		{
-			Draw((int)x, (int)y, sourceBounds);
-		}
-
-		public void Draw(int x, int y)
+        public void Draw(float x, float y, Rectangle sourceBounds)
         {
-            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
-            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            Draw((int)x, (int)y, sourceBounds);
+        }
 
-			renderer.RenderTexture(Handle, x, y, Width, Height);
-		}
+        public void Draw(int x, int y)
+        {
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+            }
+            if (renderer == null)
+            {
+                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
+            }
 
-		public void Draw(float x, float y)
-		{
-			Draw((int)x, (int)y);
-		}
+            renderer.RenderTexture(Handle, x, y, Width, Height);
+        }
 
-		public void SetColorMod(byte r, byte g, byte b)
-		{
-            Assert.IsNotNull(Handle, Errors.E_TEXTURE_NULL);
+        public void Draw(float x, float y)
+        {
+            Draw((int)x, (int)y);
+        }
 
-			int result = SDL.SDL_SetTextureColorMod(Handle, r, g, b);
+        public void SetColorMod(byte r, byte g, byte b)
+        {
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+            }
 
-			if (Utilities.IsError(result))
-				throw new Exception(Utilities.GetErrorMessage("SDL_SetTextureColorMod: {0}"));
-		}
+            int result = SDL.SDL_SetTextureColorMod(Handle, r, g, b);
 
-		//public void LockTexture(Surface surface)
-		//{
-		//	if (AccessMode == TextureAccessMode.Static)
-		//	{
-		//		throw new Exception("Cannot lock static textures. If you need to lock this texture, instantiate it with TextureAccessMode.Streaming.");
-		//	}
-		//	else if (AccessMode == TextureAccessMode.Streaming)
-		//	{
-		//		IntPtr pixels = IntPtr.Zero;
-		//		int pitch = 0;
-		//		int result = SDL.SDL_LockTexture(Handle, IntPtr.Zero, out pixels, out pitch);
-		//		if (result < 0)
-		//			throw new Exception(String.Format("SDL_LockTexture: {0}", SDL.SDL_GetError()));
-		//		surface.Pixels = pixels;
-		//		surface.Pitch = pitch;
-		//	}
-		//}
-		//public void UpdateTexture(Surface surface)
-		//{
-		//}
+            if (Utilities.IsError(result))
+            {
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureColorMod: {0}"));
+            }
+        }
 
-		public virtual void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        //public void LockTexture(Surface surface)
+        //{
+        //	if (AccessMode == TextureAccessMode.Static)
+        //	{
+        //		throw new Exception("Cannot lock static textures. If you need to lock this texture, instantiate it with TextureAccessMode.Streaming.");
+        //	}
+        //	else if (AccessMode == TextureAccessMode.Streaming)
+        //	{
+        //		IntPtr pixels = IntPtr.Zero;
+        //		int pitch = 0;
+        //		int result = SDL.SDL_LockTexture(Handle, IntPtr.Zero, out pixels, out pitch);
+        //		if (result < 0)
+        //			throw new Exception(String.Format("SDL_LockTexture: {0}", SDL.SDL_GetError()));
+        //		surface.Pixels = pixels;
+        //		surface.Pitch = pitch;
+        //	}
+        //}
+        //public void UpdateTexture(Surface surface)
+        //{
+        //}
 
-		private void Dispose(bool disposing)
-		{
-			if (Surface != null)
-				if(Surface.Handle != IntPtr.Zero)
-					SDL.SDL_FreeSurface(Surface.Handle);
+        public virtual void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-			SDL.SDL_DestroyTexture(Handle);
+        private void Dispose(bool disposing)
+        {
+            if (Surface != null)
+            {
+                if (Surface.Handle != IntPtr.Zero)
+                {
+                    SDL.SDL_FreeSurface(Surface.Handle);
+                }
+            }
 
-			Handle = IntPtr.Zero;
-		}
-	}
+            if (Handle != IntPtr.Zero)
+            {
+                SDL.SDL_DestroyTexture(Handle);
+                Handle = IntPtr.Zero;
+            }
+        }
+    }
 }

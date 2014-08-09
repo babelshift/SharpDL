@@ -1,64 +1,61 @@
 ﻿using SDL2;
 using SharpDL.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpDL.Graphics
 {
-	public class Font : IDisposable
-	{
-		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+    public class Font : IDisposable
+    {
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		public string FilePath { get; private set; }
+        public string FilePath { get; private set; }
 
-		public int PointSize { get; private set; }
+        public int PointSize { get; private set; }
 
-		public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get; private set; }
 
-		public int OutlineSize { get; private set; }
+        public int OutlineSize { get; private set; }
 
-		private bool IsDisposed { get; set; }
-
-		public Font(string path, int fontPointSize)
-		{
+        public Font(string path, int fontPointSize)
+        {
             if (String.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }
 
-			FilePath = path;
-			PointSize = fontPointSize;
+            FilePath = path;
+            PointSize = fontPointSize;
 
-			Handle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
-			if (Handle == IntPtr.Zero)
-				throw new Exception(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
+            Handle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
+            }
+        }
 
-			IsDisposed = false;
-		}
-
-		public void SetOutlineSize(int outlineSize)
+        public void SetOutlineSize(int outlineSize)
         {
-            Assert.IsNotNull(Handle, Errors.E_FONT_NULL);
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_FONT_NULL);
+            }
 
-			SDL_ttf.TTF_SetFontOutline(Handle, outlineSize);
-		}
+            SDL_ttf.TTF_SetFontOutline(Handle, outlineSize);
+        }
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		private void Dispose(bool disposing)
-		{
-			if (!IsDisposed)
-			{
-				SDL_ttf.TTF_CloseFont(Handle);
-				IsDisposed = true;
-			}
-		}
-	}
+        private void Dispose(bool disposing)
+        {
+            if(Handle != IntPtr.Zero)
+            {
+                SDL_ttf.TTF_CloseFont(Handle);
+                Handle = IntPtr.Zero;
+            }
+        }
+    }
 }

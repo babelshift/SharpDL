@@ -44,7 +44,9 @@ namespace SharpDL.Graphics
 
             Handle = SDL.SDL_CreateWindow(this.Title, this.X, this.Y, this.Width, this.Height, (SDL.SDL_WindowFlags)flags);
             if (Handle == IntPtr.Zero)
-                throw new Exception(String.Format("SDL_CreateWindow: {0}", SDL.SDL_GetError()));
+            {
+                throw new InvalidOperationException(String.Format("SDL_CreateWindow: {0}", SDL.SDL_GetError()));
+            }
         }
 
         public void Dispose()
@@ -60,7 +62,11 @@ namespace SharpDL.Graphics
 
         private void Dispose(bool isDisposing)
         {
-            SDL.SDL_DestroyWindow(Handle);
+            if (Handle != IntPtr.Zero)
+            {
+                SDL.SDL_DestroyWindow(Handle);
+                Handle = IntPtr.Zero;
+            }
         }
     }
 }

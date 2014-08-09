@@ -20,7 +20,10 @@ namespace SharpDL.Graphics
 
         public RenderTarget(Renderer renderer, int width, int height)
         {
-            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            if (renderer == null)
+            {
+                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+            }
 
             this.renderer = renderer;
             Width = width;
@@ -34,17 +37,29 @@ namespace SharpDL.Graphics
 
         public void SetBlendMode(BlendMode blendMode)
         {
-            Assert.IsNotNull(renderer, Errors.E_RENDER_TARGET_NULL);
+            if (renderer == null)
+            {
+                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+            }
 
             int result = SDL.SDL_SetTextureBlendMode(Handle, (SDL.SDL_BlendMode)blendMode);
             if (Utilities.IsError(result))
+            {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
+            }
         }
 
         public void Draw(int x, int y)
         {
-            Assert.IsNotNull(renderer, Errors.E_RENDER_TARGET_NULL);
-            Assert.IsNotNull(renderer, Errors.E_RENDERER_NULL);
+            if (renderer == null)
+            {
+                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+            }
+
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_RENDER_TARGET_NULL);
+            }
 
             renderer.RenderTexture(Handle, x, y, Width, Height);
         }
@@ -62,8 +77,11 @@ namespace SharpDL.Graphics
 
         private void Dispose(bool disposing)
         {
-            SDL.SDL_DestroyTexture(Handle);
-            Handle = IntPtr.Zero;
+            if (Handle != IntPtr.Zero)
+            {
+                SDL.SDL_DestroyTexture(Handle);
+                Handle = IntPtr.Zero;
+            }
         }
     }
 }

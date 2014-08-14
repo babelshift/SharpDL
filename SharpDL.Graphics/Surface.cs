@@ -42,7 +42,9 @@ namespace SharpDL.Graphics
             }
 
             if (Handle == IntPtr.Zero)
-                throw new Exception(String.Format("Error while loading image surface: {0}", SDL.SDL_GetError()));
+            {
+                throw new InvalidOperationException(String.Format("Error while loading image surface: {0}", SDL.SDL_GetError()));
+            }
 
             GetSurfaceMetaData();
         }
@@ -66,9 +68,13 @@ namespace SharpDL.Graphics
             SDL.SDL_Color rawColor = new SDL.SDL_Color() { r = color.R, g = color.G, b = color.B };
 
             if (wrapLength > 0)
+            {
                 Handle = SDL_ttf.TTF_RenderText_Blended_Wrapped(font.Handle, text, rawColor, (uint)wrapLength);
+            }
             else
+            {
                 Handle = SDL_ttf.TTF_RenderText_Blended(font.Handle, text, rawColor);
+            }
 
             if (Handle == IntPtr.Zero)
                 throw new InvalidOperationException(String.Format("Error while loading text surface: {0}", SDL.SDL_GetError()));

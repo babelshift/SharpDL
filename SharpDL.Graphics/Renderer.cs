@@ -42,7 +42,7 @@ namespace SharpDL.Graphics
             Handle = SDL.SDL_CreateRenderer(Window.Handle, Index, (uint)flags);
             if (Handle == IntPtr.Zero)
             {
-                throw new Exception(Utilities.GetErrorMessage("SDL_CreateRenderer"));
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateRenderer"));
             }
         }
 

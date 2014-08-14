@@ -14,8 +14,10 @@ namespace SharpDL.Graphics
 
             int result = SDL2.SDL.SDL_RenderDrawLine(renderer.Handle, x1, y1, x2, y2);
 
-            if (result < 0)
-                throw new Exception(String.Format("SDL_RenderDrawLine: {0}", SDL2.SDL.SDL_GetError()));
+            if (Utilities.IsError(result))
+            {
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderDrawLine: {0}"));
+            }
         }
     }
 }

@@ -65,7 +65,7 @@ namespace SharpDL.Graphics
 
             if (!success)
             {
-                throw new Exception(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
             }
 
             CleanupAndQueryTexture();

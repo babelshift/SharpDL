@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="SharpDL">
+      <HintPath>..\..\SharpDL\bin\Debug\netstandard2.0\SharpDL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDL.Events">
+      <HintPath>..\..\SharpDL\bin\Debug\netstandard2.0\SharpDL.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDL.Graphics">
+      <HintPath>..\..\SharpDL\bin\Debug\netstandard2.0\SharpDL.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDL.Input">
+      <HintPath>..\..\SharpDL\bin\Debug\netstandard2.0\SharpDL.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDL.Shared">
+      <HintPath>..\..\SharpDL\bin\Debug\netstandard2.0\SharpDL.Shared.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

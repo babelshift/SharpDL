@@ -1,96 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpDL</RootNamespace>
-    <AssemblyName>SharpDL</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj" />
+    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.csproj" />
+    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="SDL2-CS">
       <HintPath>..\Libs\SDL2-CS.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Game.cs" />
-    <Compile Include="GameTime.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="MessageBox.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Timer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj">
-      <Project>{cbac74b4-d9cd-4e22-afc8-c9553423a6c5}</Project>
-      <Name>SharpDL.Events</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.csproj">
-      <Project>{da5e47bc-f509-40f5-9fc7-9c94d1d70809}</Project>
-      <Name>SharpDL.Graphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj">
-      <Project>{91ebb67f-91dc-4721-a62e-02b39f821062}</Project>
-      <Name>SharpDL.Input</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>if "$(ConfigurationName)" == "Debug (Windows, x86)" (
-     copy $(SolutionDir)Libs\x86\Windows\*.* "$(TargetDir)"
-)
-
-if "$(ConfigurationName)" == "Debug (Windows, x64)" (
-     copy $(SolutionDir)Libs\x86-64\Windows\*.* "$(TargetDir)"
-)
-
-if "$(ConfigurationName)" == "Release (Windows, x86)" (
-     copy $(SolutionDir)Libs\x86\Windows\*.* "$(TargetDir)"
-)
-
-if "$(ConfigurationName)" == "Release (Windows, x64)" (
-     copy $(SolutionDir)Libs\x86-64\Windows\*.* "$(TargetDir)"
-)</PreBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

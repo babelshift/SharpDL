@@ -32,17 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpDL">
-      <HintPath>..\..\SharpDL\bin\Release\SharpDL.dll</HintPath>
+    <Reference Include="SharpDL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SharpDL\bin\Debug\SharpDL.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDL.Events">
-      <HintPath>..\..\SharpDL\bin\Release\SharpDL.Events.dll</HintPath>
+    <Reference Include="SharpDL.Events, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SharpDL\bin\Debug\SharpDL.Events.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDL.Graphics">
-      <HintPath>..\..\SharpDL\bin\Release\SharpDL.Graphics.dll</HintPath>
+    <Reference Include="SharpDL.Graphics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SharpDL\bin\Debug\SharpDL.Graphics.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDL.Input">
-      <HintPath>..\..\SharpDL\bin\Release\SharpDL.Input.dll</HintPath>
+    <Reference Include="SharpDL.Input, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SharpDL\bin\Debug\SharpDL.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDL.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SharpDL\bin\Debug\SharpDL.Shared.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

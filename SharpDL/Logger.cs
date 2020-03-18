@@ -11,7 +11,7 @@ namespace SharpDL
 	{
 		public static void Info(String message)
 		{
-			SDL.SDL_Log(message, __arglist(String.Empty));
+			SDL.SDL_Log(message);
 		}
 	}
 }

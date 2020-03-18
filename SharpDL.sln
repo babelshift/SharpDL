@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL", "SharpDL\SharpDL.csproj", "{65A37BD8-0987-4E05-A48A-CF59E4DE3F41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Graphics", "SharpDL.Graphics\SharpDL.Graphics.csproj", "{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL", "SharpDL.Graphics\SharpDL.Graphics.csproj", "{DA5E47BC-F509-40F5-9FC7-9C94D1D70809}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Events", "SharpDL.Events\SharpDL.Events.csproj", "{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL", "SharpDL.Events\SharpDL.Events.csproj", "{CBAC74B4-D9CD-4E22-AFC8-C9553423A6C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Input", "SharpDL.Input\SharpDL.Input.csproj", "{91EBB67F-91DC-4721-A62E-02B39F821062}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL", "SharpDL.Input\SharpDL.Input.csproj", "{91EBB67F-91DC-4721-A62E-02B39F821062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL.Shared", "SharpDL.Shared\SharpDL.Shared.csproj", "{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDL", "SharpDL.Shared\SharpDL.Shared.csproj", "{02E40AF5-4608-4A26-9B4A-27EECE8AEA61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FB3848B-E4DB-41D9-A924-D9C258748B3F}
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,7 @@ using System;
 namespace SharpDL.Graphics
 {
     [Flags]
-    public enum WindowFlags
+    public enum WindowFlags : uint
     {
         Shown = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN,
         Fullscreen = SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN,

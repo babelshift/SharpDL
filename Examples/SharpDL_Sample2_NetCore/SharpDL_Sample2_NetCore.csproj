@@ -12,6 +12,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\Libs\x86-64\Windows\libfreetype-6.dll" Link="libfreetype-6.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\libjpeg-9.dll" Link="libjpeg-9.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\libpng16-16.dll" Link="libpng16-16.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\libtiff-5.dll" Link="libtiff-5.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\libwebp-4.dll" Link="libwebp-4.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\libwebp-7.dll" Link="libwebp-7.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\SDL2.dll" Link="SDL2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\SDL2_image.dll" Link="SDL2_image.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\SDL2_ttf.dll" Link="SDL2_ttf.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Libs\x86-64\Windows\zlib1.dll" Link="zlib1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="SharpDL">
       <HintPath>..\..\SharpDL\bin\Debug\netstandard2.0\SharpDL.dll</HintPath>
     </Reference>

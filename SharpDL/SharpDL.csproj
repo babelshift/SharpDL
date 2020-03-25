@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <Description>SharpDL aims to provide a managed, cross-platform, simple framework with graphics, input, audio, and event systems using SDL2. Games created with this library should strive to be lightweight and portable. Currently, SharpDL only supports utilizing the built-in SDL 2D rendering system and does not support any OpenGL bindings.</Description>
     <VersionPrefix>2.0.0</VersionPrefix>
@@ -13,17 +13,24 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  <PropertyGroup>
+    <!-- https://github.com/nuget/home/issues/3891 -->
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj" />
-    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.csproj" />
-    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj" />
+    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SDL2-CS">
       <HintPath>..\Libs\SDL2-CS.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <Target  Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <!-- https://github.com/nuget/home/issues/3891 -->
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+    </ItemGroup>
+  </Target>
 </Project>

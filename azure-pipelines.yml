@@ -3,11 +3,11 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
-# dotnet install
-# dotnet restore
-# dotnet build
-# dotnet test
-# dotnet pack
+#x dotnet install
+#x dotnet restore
+#x dotnet build
+#x dotnet test
+#x dotnet pack
 # dotnet publish
 
 trigger:
@@ -38,3 +38,9 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'SharpDL/SharpDL.csproj'
+    versioningScheme: 'off'

@@ -37,7 +37,9 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+# Only pack if this is from a tag
 - task: DotNetCoreCLI@2
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
     command: 'pack'
     packagesToPack: 'SharpDL/SharpDL.csproj'
@@ -47,6 +49,7 @@ steps:
 # Custom nuget command has to be used to workaround issue where dotnet core doesn't support encrypted API Key publication
 # -n to skip symbols
 # --skip-duplicate to prevent publishing the same version more than once
+# Only publish if this is from a tag
 - task: DotNetCoreCLI@2
   displayName: Push Nuget Package
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
@@ -61,6 +64,7 @@ steps:
       --skip-duplicate
 
 # Deploy release to GitHub
+# Only publish if this is from a tag
 - task: GitHubRelease@1
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
@@ -69,6 +73,5 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'gitTag'
-    tagPattern: 'Release-*'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'

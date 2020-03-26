@@ -49,6 +49,7 @@ steps:
       -s $(NuGetSourceServerUrl)
       -k $(NuGetSourceServerApiKey)
       -n true
+      --skip-duplicate
 
 # Deploy release to GitHub
 - task: GitHubRelease@1

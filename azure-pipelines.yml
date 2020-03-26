@@ -38,13 +38,22 @@ steps:
     packagesToPack: 'SharpDL/SharpDL.csproj'
     versioningScheme: 'off'
 
-- task: CopyFiles@2
+# Deploy release to NuGet.org
+- task: DotNetCoreCLI@2
   inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)'
-    Contents: '**'
-    TargetFolder: '$(Pipeline.Workspace)'
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet.org'
 
-- task: PublishPipelineArtifact@1
+# Deploy release to GitHub
+- task: GitHubRelease@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    publishLocation: 'pipeline'
+    gitHubConnection: 'GitHub.com OAuth - Babelshift'
+    repositoryName: 'babelshift/SharpDL'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    tagPattern: 'Release-*'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'

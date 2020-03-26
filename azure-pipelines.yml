@@ -3,13 +3,6 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
-#x dotnet install
-#x dotnet restore
-#x dotnet build
-#x dotnet test
-#x dotnet pack
-# dotnet publish
-
 trigger:
 - master
 
@@ -44,3 +37,14 @@ steps:
     command: 'pack'
     packagesToPack: 'SharpDL/SharpDL.csproj'
     versioningScheme: 'off'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    Contents: '**'
+    TargetFolder: '$(Pipeline.Workspace)'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    publishLocation: 'pipeline'

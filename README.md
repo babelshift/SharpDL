@@ -1,6 +1,6 @@
 SharpDL
 =======
-[![Build status](https://ci.appveyor.com/api/projects/status/fea91h63ie7i8fxq?svg=true)](https://ci.appveyor.com/project/JustinSkiles/sharpdl)
+[![Build Status](https://dev.azure.com/justinskiles/justinskiles/_apis/build/status/babelshift.SharpDL?branchName=master)](https://dev.azure.com/justinskiles/justinskiles/_build/latest?definitionId=1&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/SharpDL.svg)](https://www.nuget.org/packages/SharpDL)
 
 Sharp DirectMedia Layer (XNA-like Framework for SDL)

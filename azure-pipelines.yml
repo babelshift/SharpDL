@@ -48,6 +48,7 @@ steps:
       push $(Build.ArtifactStagingDirectory)/**.nupkg
       -s $(NuGetSourceServerUrl)
       -k $(NuGetSourceServerApiKey)
+      -n
 
 # Deploy release to GitHub
 - task: GitHubRelease@1

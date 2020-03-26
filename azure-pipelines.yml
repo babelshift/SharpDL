@@ -44,7 +44,7 @@ steps:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'NuGet.org'
+    publishFeedCredentials: 'NuGet.org - jskiles1'
 
 # Deploy release to GitHub
 - task: GitHubRelease@1

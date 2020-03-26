@@ -4,7 +4,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
+  branches:
+    include: 
+    - master
+  tags:
+    include:
+    - '*'
 
 pool:
   vmImage: 'windows-latest'
@@ -39,8 +44,12 @@ steps:
     versioningScheme: 'off'
 
 # Deploy release to NuGet.org
+# Custom nuget command has to be used to workaround issue where dotnet core doesn't support encrypted API Key publication
+# -n to skip symbols
+# --skip-duplicate to prevent publishing the same version more than once
 - task: DotNetCoreCLI@2
   displayName: Push Nuget Package
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
     command: custom
     custom: nuget
@@ -53,6 +62,7 @@ steps:
 
 # Deploy release to GitHub
 - task: GitHubRelease@1
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
     gitHubConnection: 'GitHub.com OAuth - Babelshift'
     repositoryName: 'babelshift/SharpDL'

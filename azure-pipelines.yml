@@ -23,22 +23,26 @@ steps:
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
+  displayName: NuGet Restore
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: Build (Visual Studio)
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
+  displayName: Test (Visual Studio)
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
 # Only pack if this is from a tag
 - task: DotNetCoreCLI@2
+  displayName: NuGet Pack (if tagged)
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
     command: 'pack'
@@ -51,7 +55,7 @@ steps:
 # --skip-duplicate to prevent publishing the same version more than once
 # Only publish if this is from a tag
 - task: DotNetCoreCLI@2
-  displayName: Push Nuget Package
+  displayName: Push NuGet Package (if tagged)
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
     command: custom
@@ -66,6 +70,7 @@ steps:
 # Deploy release to GitHub
 # Only publish if this is from a tag
 - task: GitHubRelease@1
+  displayName: Push GitHub Release (if tagged)
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   inputs:
     gitHubConnection: 'GitHub.com OAuth - Babelshift'

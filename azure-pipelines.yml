@@ -40,11 +40,14 @@ steps:
 
 # Deploy release to NuGet.org
 - task: DotNetCoreCLI@2
+  displayName: Push Nuget Package
   inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NuGet.org - jskiles1'
+    command: custom
+    custom: nuget
+    arguments: >
+      push $(Build.ArtifactStagingDirectory)/*.nupkg
+      -s $(NuGetSourceServerUrl)
+      -k $(NuGetSourceServerApiKey)
 
 # Deploy release to GitHub
 - task: GitHubRelease@1

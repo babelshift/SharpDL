@@ -3,17 +3,17 @@ SharpDL
 [![Build Status](https://dev.azure.com/justinskiles/justinskiles/_apis/build/status/babelshift.SharpDL?branchName=master)](https://dev.azure.com/justinskiles/justinskiles/_build/latest?definitionId=1&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/SharpDL.svg)](https://www.nuget.org/packages/SharpDL)
 
-Sharp DirectMedia Layer (XNA-like Framework for SDL)
+Sharp DirectMedia Layer ([XNA](https://en.wikipedia.org/wiki/Microsoft_XNA)-like Framework for [SDL2](https://www.libsdl.org/index.php)). XNA was a free set of tools and a framework for building graphical applications (primarily for indie game development on Windows and Xbox 360). It has since been discontinued by Microsoft.
 
 Overview
 --------
 
-SharpDL aims to provide a managed, cross-platform, XNA-like framework with graphics, input, audio, and event systems based on the SDL2 library. Games created with this library should strive to be lightweight and portable (in both .NET and Mono). Currently, SharpDL only supports utilizing the built-in SDL 2D rendering system and does not support any OpenGL bindings.
+SharpDL aims to provide a managed, cross-platform, XNA-like framework with graphics, input, audio, and event systems based on the SDL2 library. Games created with this library should strive to be lightweight and portable (Windows, Mac, Linux). Currently, SharpDL only supports utilizing the built-in SDL 2D rendering system and does not support any OpenGL bindings.
 
 Important!
 ----------
 
-Because SharpDL is written in C# intended for compilation in .NET or Mono, utilizing the native SDL2 libraries requires marshalling of data types through P/Invoke. This also means that any memory allocated in "native land" (ie: in the SDL libraries) will require strict adherence to good disposal mechanisms in the managed code. Failing to free any allocated resources will result in memory leaks.
+Because SharpDL is written in C# intended for compilation in .NET Framework and .NET Core, utilizing the native SDL2 libraries requires marshalling of data types through P/Invoke. This also means that any memory allocated in "native land" (ie: in the SDL libraries) will require strict adherence to good disposal mechanisms in the managed code. Failing to free any allocated resources will result in memory leaks.
 
 For more information about the wrapper around SDL2 in order to make our P/Invoke possible, see the [SDL2-CS] [1] GitHub page.
 

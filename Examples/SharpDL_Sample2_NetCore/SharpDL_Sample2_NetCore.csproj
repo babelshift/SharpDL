@@ -12,9 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\Libs\SDL2-CS.dll" Link="SDL2-CS.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="..\..\Libs\x86-64\Windows\libfreetype-6.dll" Link="libfreetype-6.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

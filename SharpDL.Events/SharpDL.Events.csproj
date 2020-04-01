@@ -14,10 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="SDL2-CS">
       <HintPath>..\Libs\SDL2-CS.dll</HintPath>
     </Reference>

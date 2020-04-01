@@ -27,10 +27,10 @@
       <HintPath>..\Libs\SDL2-CS.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Target  Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
     <ItemGroup>
       <!-- https://github.com/nuget/home/issues/3891 -->
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
 </Project>

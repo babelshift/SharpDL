@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
@@ -45,6 +45,10 @@
     <None Include="..\..\Libs\x86-64\Windows\zlib1.dll" Link="zlib1.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpDL" Version="2.0.6" />
   </ItemGroup>
 
 </Project>

@@ -1,36 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <Description>SharpDL aims to provide a managed, cross-platform, simple framework with graphics, input, audio, and event systems using SDL2. Games created with this library should strive to be lightweight and portable. Currently, SharpDL only supports utilizing the built-in SDL 2D rendering system and does not support any OpenGL bindings.</Description>
-    <VersionPrefix>2.0.5</VersionPrefix>
+    <VersionPrefix>2.0.6</VersionPrefix>
     <Authors>Justin Skiles</Authors>
     <AssemblyName>SharpDL</AssemblyName>
     <PackageId>SharpDL</PackageId>
     <PackageProjectUrl>https://github.com/babelshift/SharpDL</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation />
   </PropertyGroup>
-  <PropertyGroup>
-    <!-- https://github.com/nuget/home/issues/3891 -->
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpDL.Events\SharpDL.Events.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\SharpDL.Graphics\SharpDL.Graphics.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\SharpDL.Input\SharpDL.Input.csproj" PrivateAssets="all" />
+    <PackageReference Include="SharpDL-SDL2-CS" Version="1.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="SDL2-CS">
-      <HintPath>..\Libs\SDL2-CS.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
-    <ItemGroup>
-      <!-- https://github.com/nuget/home/issues/3891 -->
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
-    </ItemGroup>
-  </Target>
 </Project>

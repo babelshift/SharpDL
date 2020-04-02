@@ -24,45 +24,5 @@
 	<ItemGroup>
 		<PackageReference Include="Iconic.Zlib.Netstandard" Version="1.0.0" />
 		<PackageReference Include="SharpDL-SDL2-CS" Version="1.0.11" />
-		<Content Include="SharpDL.targets">
-			<PackagePath>build\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\libfreetype-6.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\libjpeg-9.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\libpng16-16.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\libtiff-5.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\libwebp-7.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\SDL2.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\SDL2_image.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\SDL2_ttf.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
-		<Content Include="NativeLibs\zlib1.dll">
-			<PackagePath>runtimes\win-x64\native\</PackagePath>
-			<Pack>true</Pack>
-		</Content>
 	</ItemGroup>
 </Project>

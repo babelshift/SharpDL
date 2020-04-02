@@ -26,6 +26,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Iconic.Zlib.Netstandard" Version="1.0.0" />
-    <PackageReference Include="SharpDL-SDL2-CS" Version="1.0.8" />
+    <PackageReference Include="SharpDL-SDL2-CS" Version="1.0.9" />
   </ItemGroup>
 </Project>

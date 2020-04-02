@@ -19,7 +19,7 @@ variables:
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
-  value: 'Any CPU'
+  value: 'x64'
 - name: buildConfiguration
   value: 'Release'
 

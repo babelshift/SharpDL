@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 	<Platforms>x64</Platforms>
     <StartupObject></StartupObject>
+    <Configurations>Debug;Release;Azure Pipelines Build</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,6 +15,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Azure Pipelines Build|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <Description>SharpDL aims to provide a managed, cross-platform, simple framework with graphics, input, audio, and event systems using SDL2. Games created with this library should strive to be lightweight and portable. Currently, SharpDL only supports utilizing the built-in SDL 2D rendering system and does not support any OpenGL bindings.</Description>
-    <VersionPrefix>2.0.10</VersionPrefix>
+    <VersionPrefix>2.0.11</VersionPrefix>
     <Authors>Justin Skiles</Authors>
     <AssemblyName>SharpDL</AssemblyName>
     <PackageId>SharpDL</PackageId>
@@ -26,6 +26,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Iconic.Zlib.Netstandard" Version="1.0.0" />
-    <PackageReference Include="SharpDL-SDL2-CS" Version="1.0.6" />
+    <PackageReference Include="SharpDL-SDL2-CS" Version="1.0.8" />
   </ItemGroup>
 </Project>

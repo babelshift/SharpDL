@@ -21,7 +21,7 @@ variables:
 - name: buildPlatform
   value: 'x64'
 - name: buildConfiguration
-  value: 'Release'
+  value: 'Azure Pipelines Build'
 
 steps:
 - task: NuGetToolInstaller@1

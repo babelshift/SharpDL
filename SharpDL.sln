@@ -7,12 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpDL", "SharpDL\SharpDL.
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Azure Pipelines Build|Any CPU = Azure Pipelines Build|Any CPU
+		Azure Pipelines Build|x64 = Azure Pipelines Build|x64
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A729D15F-00A2-4C70-AC31-DC8B85DE51A7}.Azure Pipelines Build|Any CPU.ActiveCfg = Azure Pipelines Build|x64
+		{A729D15F-00A2-4C70-AC31-DC8B85DE51A7}.Azure Pipelines Build|x64.ActiveCfg = Azure Pipelines Build|x64
+		{A729D15F-00A2-4C70-AC31-DC8B85DE51A7}.Azure Pipelines Build|x64.Build.0 = Azure Pipelines Build|x64
 		{A729D15F-00A2-4C70-AC31-DC8B85DE51A7}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{A729D15F-00A2-4C70-AC31-DC8B85DE51A7}.Debug|x64.ActiveCfg = Debug|x64
 		{A729D15F-00A2-4C70-AC31-DC8B85DE51A7}.Debug|x64.Build.0 = Debug|x64

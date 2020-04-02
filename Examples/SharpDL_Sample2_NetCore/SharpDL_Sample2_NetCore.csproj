@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 	<Platforms>x64</Platforms>
     <StartupObject></StartupObject>
-    <Configurations>Debug;Release;Azure Pipelines Build</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpDL" Version="2.0.7" />
+    <PackageReference Include="SharpDL" Version="2.0.13" />
   </ItemGroup>
 
 </Project>

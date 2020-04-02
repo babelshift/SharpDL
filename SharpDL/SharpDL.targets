@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<ItemGroup Condition=" '$(Platform)' == 'x64' ">
+		<ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libfreetype-6.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>libfreetype-6.dll</TargetPath>
+		</ContentWithTargetPath>
+	</ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libjpeg-9.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>libjpeg-9.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libpng16-16.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>libpng16-16.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libtiff-5.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>libtiff-5.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+	
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\libwebp-7.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>libwebp-7.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\SDL2.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>SDL2.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\SDL2_image.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>SDL2_image.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\SDL2_ttf.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>SDL2_ttf.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <ContentWithTargetPath Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\zlib1.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>zlib1.dll</TargetPath>
+        </ContentWithTargetPath>
+    </ItemGroup>
+</Project>

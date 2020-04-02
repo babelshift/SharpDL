@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <Description>SharpDL aims to provide a managed, cross-platform, simple framework with graphics, input, audio, and event systems using SDL2. Games created with this library should strive to be lightweight and portable. Currently, SharpDL only supports utilizing the built-in SDL 2D rendering system and does not support any OpenGL bindings.</Description>
-    <VersionPrefix>2.0.12</VersionPrefix>
+    <VersionPrefix>2.0.13</VersionPrefix>
     <Authors>Justin Skiles</Authors>
     <AssemblyName>SharpDL</AssemblyName>
     <PackageId>SharpDL</PackageId>
@@ -10,17 +10,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>x64</Platforms>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Configurations>Debug;Release;Azure Pipelines Build</Configurations>
+    <Configurations>Debug;Release</Configurations>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Azure Pipelines Build|x64'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpDL_Sample2_NetCore
+namespace Example1_BlankWindow
 {
     class Program
     {

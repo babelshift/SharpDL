@@ -1,7 +1,7 @@
 ﻿using SharpDL;
 using SharpDL.Graphics;
 
-namespace SharpDL_Sample2_NetCore
+namespace Example1_BlankWindow
 {
     public class MainGame : Game
     {

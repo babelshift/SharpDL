@@ -48,62 +48,120 @@ SharpDL consists of four main projects: SharpDL, SharpDL.Events, SharpDL.Graphic
     <dt>SharpDL.Input</dt>
     <dd>Contains classes to handle Keyboard and Mouse input by capturing mapped SDL structures into .NET-style enumerators. Joystick and controller input is not yet available.</dd>
 </dl>
+## Getting Started
 
-## Examples
-The base `Game` class offers options to initialize SDL, create windows, create renderers, and process events. Two important steps to the initialization of the library is to create a SDL window and create a SDL renderer as shown below.
+### The Game Loop
 
-`SDL_CreateWindow` is wrapped by the `Window` class. Creating a window:
-  
-        string title = "My Window"
-        int x = 0;
-        int y = 0;
-        int width = 640;
-        int height = 480;
-        WindowFlags flags = WindowFlags.Shown | WindowFlags.GrabbedInputFocus;
-    
-        Window window = new Window(title, x, y, width, height, flags);
+Calling the `Run` method on the `Game` class will result in the following:
 
-`SDL_CreateRenderer` is wrapped by the `Renderer` class. Creating a renderer:
-    
-        int index = -1;
-        RendererFlags flags = RendererFlags.RendererAccelerated;
-    
-        Renderer renderer = new Renderer(window, index, flags);
-        renderer.SetRenderLogicalSize(640, 480); // or however large we want to render to
+1. `Initialize` will initialize `SDL` with `SDL_INIT_EVERYTHING` flag, initialize `SDL_ttf`, and initialize `SDL_image` with only PNG support.
+2. `LoadContent` will perform a no-op.
+3. Until the `Quit` method is called, the game loop will call `Update` to update the game state and `Draw` to draw the game state. Note that the game loop uses a [Fixed Time Step](https://gafferongames.com/post/fix_your_timestep/) approach
+4. `UnloadContent` will dispose the `Window`, `Renderer`, `SDL_ttf`, `SDL_image`, and `SDL`.
 
-To simply make a game without worrying about the way the library works, follow these steps (or look at the examples folder in the project).
+### Creating a Blank Window
 
-1. Inherit from the SharpDL.Game class.
+1. First create a console application.
 
-2. Override the `Initialize` method. Call `base.Initialize()` to initialize SDL.
+   `dotnet new console -o MyFirstSharpDL`
 
-You are now free to create surfaces and textures to render to the screen with your renderer object. However, you will want to override the `LoadContent`, `Update`, and `Draw` methods of the `Game` class in order to get the timing of your texture creation, updating, and rendering to work with SharpDL's game loop.
+2. Create a `MainGame` class which inherits from `Game` to handle your game logic
 
-    Texture myTexture;
-    int myTexturePositionX = 100;
-    int myTexturePositionY = 100;
-    
-    // load all game assets here such as images and audio
-    protected override void LoadContent()
-    {
-        // creates an in memory SDL Surface from the PNG at the passed path
-        Surface surface = new Surface("Content/Images/MyImage.png", SurfaceType.PNG);
-        
-        // creates a GPU-driven SDL texture using the initialized renderer and created surface
-        myTexture = new Texture(renderer, surface);
-    }
-    
-    // update the game state here such as entity positions
-    protected override void Update(GameTime gameTime)
-    {
-    }
-    
-    // draw loaded assets here
-    protected override void Draw(GameTime gameTime)
-    {
-        renderer.RenderTexture(myTexture, positionX, positionY);
-        renderer.RenderPresent();
-    }
+   ```c#
+   using SharpDL;
+   
+   namespace MyFirstSharpDL
+   {
+       public class MainGame : Game
+       {
+           
+       }
+   }
+   ```
 
-    
-You can see that this is very similar to XNA's game looping features. While the SharpDL library is extremely simple at this time, you can still create some pretty fun games from it.
+3. Update `Program.cs` to create a new instance of your `MainGame` and start it with the `Run` method.
+
+   ```c#
+   namespace MyFirstSharpDL
+   {
+       class Program
+       {
+           static void Main(string[] args)
+           {
+               MainGame game = new MainGame();
+               game.Run();
+           }
+       }
+   }
+   ```
+
+4. Override the `Initialize` method in your `MainGame` class to create a `Window` and `Renderer`. In this case, we are rendering at position (100, 100) in a window of size (1152, 720) with acceleration and v-sync.
+
+   ```c#
+   protected override void Initialize()
+   {
+       // Important. This initializes the engine.
+       base.Initialize();
+       
+   	// Create your window and renderer
+       CreateWindow("MyFirstSharpDL", 100, 100, 1152, 720, WindowFlags.Shown);
+       CreateRenderer(RendererFlags.RendererAccelerated | RendererFlags.RendererPresentVSync);
+   }
+   ```
+
+5. Build and run to see a blank window.
+
+   `dotnet build`
+
+   `dotnet run`
+
+### Rendering Textures
+
+1. Follow the steps from the above `Creating a Blank Window` example.
+
+2. Override the `LoadContent` method in your `MainGame` class to load a PNG image.
+
+   ```c#
+   private Texture texture;
+   
+   protected override void LoadContent()
+   {
+       base.LoadContent();
+       
+       // Load a PNG into a surface object and create a texture from it
+       Surface surface = new Surface("logo.png", SurfaceType.PNG);
+       texture = new Texture(Renderer, texture);
+   }
+   ```
+
+3. Override the `Draw` method in your `MainGame` class to draw the texture.
+
+   ```c#
+   protected override void Draw(GameTime gameTime)
+   {
+       base.Draw(gameTime);
+       
+       // Clear the screen of any previous draws
+       Renderer.ClearScreen();
+       
+       // Draw the texture at position (100, 100) and commit the renderer
+       texture.Draw(100, 100);
+       Renderer.RenderPresent();
+   }
+   ```
+
+4. Override the `UnloadContent` method in your `MainGame` class to dispose of textures. Forgetting this step can lead to memory leaks. Any object created through SDL is not tracked by the garbage collector automatically and needs to be manually cleaned up.
+
+   ```c#
+   protected override void UnloadContent()
+   {
+       base.UnloadContent();
+       texture.Dispose();
+   }
+   ```
+
+5. Build and run the game.
+
+   `dotnet build`
+
+   `dotnet run`

@@ -27,13 +27,27 @@ dotnet add package SharpDL
 ```
 
 ### Download Native SDL2 Libraries
-After you've imported the NuGet package, you will still need to download the native SDL2 libraries for your platform and place the libraries alongside your executable. Note that SharpDL only supports Windows 64-bit at this time. There are plans to support Linux 64-bit in the future.
+After you've imported the NuGet package, you will still need to download the native SDL2 libraries for your platform and place the libraries alongside your executable.
 
-**SDL2**: https://www.libsdl.org/download-2.0.php
+**Windows & Mac**
 
-**SDL2_image**: https://www.libsdl.org/projects/SDL_image/
+- SDL2: https://www.libsdl.org/download-2.0.php
+- SDL2_image: https://www.libsdl.org/projects/SDL_image/
+- SDL2_ttf: https://www.libsdl.org/projects/SDL_ttf/
 
-**SDL2_ttf**: https://www.libsdl.org/projects/SDL_ttf/
+**Ubuntu**
+
+```bash
+apt install libsdl2-2.0-0
+apt install libsdl2-image-2.0-0
+apt install libsdl2-ttf-2.0-0
+```
+
+**Arch**
+
+```bash
+pacman -S sdl2
+```
 
 ## Code Organization
 SharpDL consists of four main projects: SharpDL, SharpDL.Events, SharpDL.Graphics, and SharpDL.Input. A project for audio is not yet available.

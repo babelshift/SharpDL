@@ -15,7 +15,6 @@ namespace SharpDL
         private const float FRAMES_PER_SECOND = 60f;
         private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
         private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
-
         private bool isFrameRateCapped = true;
         private GameTime gameTime = new GameTime();
         private Timer gameTimer = new Timer();

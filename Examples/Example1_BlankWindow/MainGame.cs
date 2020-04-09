@@ -12,7 +12,7 @@ namespace Example1_BlankWindow
 		{
 			base.Initialize();
 
-			CreateWindow("SharpDL - Sample 1", 100, 100, 1152, 720, WindowFlags.Shown);
+			CreateWindow("Example 1 - Blank Window", 100, 100, 1152, 720, WindowFlags.Shown);
 			CreateRenderer(RendererFlags.RendererAccelerated | RendererFlags.RendererPresentVSync);
 			Renderer.SetRenderLogicalSize(1152, 720);
 		}

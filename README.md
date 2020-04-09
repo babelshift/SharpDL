@@ -44,7 +44,7 @@ apt install libsdl2-image-2.0-0
 apt install libsdl2-ttf-2.0-0
 ```
 
-**Arch**
+**Arch / Manjaro**
 
 This doesn't have the same limitation as Ubuntu because the libraries are distributed as simply `libSDL2.so` and thus are resolved by .NET Core properly. See [#7](https://github.com/babelshift/SharpDL/issues/7).
 ```bash

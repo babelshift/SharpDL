@@ -3,25 +3,29 @@ using SharpDL.Events;
 using SharpDL.Graphics;
 using SharpDL.Input;
 using System;
+using System.Collections.Generic;
 
 namespace SharpDL
 {
-    public class Game : IDisposable
+    public abstract class Game : IDisposable
     {
         #region Members
 
         private const uint EMPTY_UINT = 0;
         private const int EMPTY_INT = -1;
         private const float FRAMES_PER_SECOND = 60f;
+        private readonly GameTime gameTime = new GameTime();
+        private readonly Timer gameTimer = new Timer();
+
         private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
         private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
         private bool isFrameRateCapped = true;
-        private GameTime gameTime = new GameTime();
-        private Timer gameTimer = new Timer();
 
         #endregion Members
 
         #region Properties
+
+        protected EventManager EventManager { get; private set; }
 
         protected Window Window { get; private set; }
 
@@ -40,112 +44,18 @@ namespace SharpDL
         /// </summary>
         public Game()
         {
-            WindowClosed += Game_WindowClosed;
-        }
-
-        private void Game_WindowClosed(object sender, GameEventArgs e)
-        {
-            IsExiting = true;
+            EventManager = new EventManager();
+            EventManager.WindowClosed += OnExiting;
+            EventManager.Quitting += OnExiting;
         }
 
         #endregion Constructors
 
         #region Events
 
-        public event EventHandler<MouseWheelEventArgs> MouseWheelScrolling;
-
-        public event EventHandler<MouseButtonEventArgs> MouseButtonPressed;
-
-        public event EventHandler<MouseButtonEventArgs> MouseButtonReleased;
-
-        public event EventHandler<MouseMotionEventArgs> MouseMoving;
-
-        public event EventHandler<TextInputEventArgs> TextInputting;
-
-        public event EventHandler<TextEditingEventArgs> TextEditing;
-
-        public event EventHandler<KeyboardEventArgs> KeyPressed;
-
-        public event EventHandler<KeyboardEventArgs> KeyReleased;
-
-        public event EventHandler<VideoDeviceSystemEventArgs> VideoDeviceSystemEvent;
-
-        public event EventHandler<QuitEventArgs> Quitting;
-
-        public event EventHandler<EventArgs> Activated;
-
-        public event EventHandler<EventArgs> Deactivated;
-
-        public event EventHandler<EventArgs> Disposed;
-
-        public event EventHandler<EventArgs> Exiting;
-
-        public event EventHandler<WindowEventArgs> WindowShown;
-
-        public event EventHandler<WindowEventArgs> WindowHidden;
-
-        public event EventHandler<WindowEventArgs> WindowExposed;
-
-        public event EventHandler<WindowEventArgs> WindowMoved;
-
-        public event EventHandler<WindowEventArgs> WindowResized;
-
-        public event EventHandler<WindowEventArgs> WindowSizeChanged;
-
-        public event EventHandler<WindowEventArgs> WindowMinimized;
-
-        public event EventHandler<WindowEventArgs> WindowMaximized;
-
-        public event EventHandler<WindowEventArgs> WindowRestored;
-
-        public event EventHandler<WindowEventArgs> WindowEntered;
-
-        public event EventHandler<WindowEventArgs> WindowLeave;
-
-        public event EventHandler<WindowEventArgs> WindowFocusGained;
-
-        public event EventHandler<WindowEventArgs> WindowFocusLost;
-
-        public event EventHandler<WindowEventArgs> WindowClosed;
-
-        /// <summary>Raises the Activated event. Activation occurs when the game gains focus.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        protected virtual void OnActivated(object sender, EventArgs args)
+        private void OnExiting(object sender, GameEventArgs e)
         {
-            RaiseEvent(Activated, args);
-        }
-
-        /// <summary>Raises the Deactivated event. Deactivation occurs when the game loses focus.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        protected virtual void OnDeactivated(object sender, EventArgs args)
-        {
-            RaiseEvent(Deactivated, args);
-        }
-
-        /// <summary>Raises the Exiting event. Exiting occurs when an unrecoverable exception occurs or the
-        /// user directly exits the game.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        protected virtual void OnExiting(object sender, EventArgs args)
-        {
-            RaiseEvent(Exiting, args);
-        }
-
-        /// <summary>Checks if there are any event subscribers prior to raising the event.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="eventHandler"></param>
-        /// <param name="eventArguments"></param>
-        private void RaiseEvent<T>(EventHandler<T> eventHandler, T eventArguments)
-            where T : EventArgs
-        {
-            if (eventHandler != null)
-                eventHandler(this, eventArguments);
+            IsExiting = true;
         }
 
         #endregion Events
@@ -164,104 +74,14 @@ namespace SharpDL
             {
                 SDL.SDL_Event rawEvent = new SDL.SDL_Event();
                 while (SDL.SDL_PollEvent(out rawEvent) == 1)
-                    RaiseGameEventFromRawEvent(rawEvent);
-
+                {
+                    EventManager.HandleEvent(rawEvent);
+                }
+             
                 Tick();
             }
 
             UnloadContent();
-        }
-
-        // <summary>The passed raw SDL_Event object is translated into a SharpDL game object and raised using
-        // the appropriate EventHandler.
-        // </summary>
-        // <param name="rawEvent"></param>
-        private void RaiseGameEventFromRawEvent(SDL.SDL_Event rawEvent)
-        {
-            if (rawEvent.type == SDL.SDL_EventType.SDL_FIRSTEVENT)
-                return;
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_WINDOWEVENT)
-            {
-                WindowEventArgs eventArgs = GameEventArgsFactory<WindowEventArgs>.Create(rawEvent);
-                if (eventArgs.SubEventType == WindowEventType.Close)
-                    RaiseEvent<WindowEventArgs>(WindowClosed, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Enter)
-                    RaiseEvent<WindowEventArgs>(WindowEntered, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Exposed)
-                    RaiseEvent<WindowEventArgs>(WindowExposed, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.FocusGained)
-                    RaiseEvent<WindowEventArgs>(WindowFocusGained, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.FocusLost)
-                    RaiseEvent<WindowEventArgs>(WindowFocusLost, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Hidden)
-                    RaiseEvent<WindowEventArgs>(WindowHidden, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Leave)
-                    RaiseEvent<WindowEventArgs>(WindowLeave, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Maximized)
-                    RaiseEvent<WindowEventArgs>(WindowMaximized, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Minimized)
-                    RaiseEvent<WindowEventArgs>(WindowMinimized, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Moved)
-                    RaiseEvent<WindowEventArgs>(WindowMoved, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Resized)
-                    RaiseEvent<WindowEventArgs>(WindowResized, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Restored)
-                    RaiseEvent<WindowEventArgs>(WindowRestored, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.Shown)
-                    RaiseEvent<WindowEventArgs>(WindowShown, eventArgs);
-                else if (eventArgs.SubEventType == WindowEventType.SizeChanged)
-                    RaiseEvent<WindowEventArgs>(WindowSizeChanged, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_QUIT)
-            {
-                QuitEventArgs eventArgs = GameEventArgsFactory<QuitEventArgs>.Create(rawEvent);
-                RaiseEvent<QuitEventArgs>(Quitting, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_SYSWMEVENT)
-            {
-                VideoDeviceSystemEventArgs eventArgs = GameEventArgsFactory<VideoDeviceSystemEventArgs>.Create(rawEvent);
-                RaiseEvent<VideoDeviceSystemEventArgs>(VideoDeviceSystemEvent, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_KEYDOWN
-                || rawEvent.type == SDL.SDL_EventType.SDL_KEYUP)
-            {
-                KeyboardEventArgs eventArgs = GameEventArgsFactory<KeyboardEventArgs>.Create(rawEvent);
-                if (eventArgs.State == KeyState.Pressed)
-                    RaiseEvent<KeyboardEventArgs>(KeyPressed, eventArgs);
-                else if (eventArgs.State == KeyState.Released)
-                    RaiseEvent<KeyboardEventArgs>(KeyReleased, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTEDITING)
-            {
-                TextEditingEventArgs eventArgs = GameEventArgsFactory<TextEditingEventArgs>.Create(rawEvent);
-                RaiseEvent<TextEditingEventArgs>(TextEditing, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_TEXTINPUT)
-            {
-                TextInputEventArgs eventArgs = GameEventArgsFactory<TextInputEventArgs>.Create(rawEvent);
-                RaiseEvent<TextInputEventArgs>(TextInputting, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEMOTION)
-            {
-                MouseMotionEventArgs eventArgs = GameEventArgsFactory<MouseMotionEventArgs>.Create(rawEvent);
-                Mouse.UpdateMousePosition(eventArgs.RelativeToWindowX, eventArgs.RelativeToWindowY);
-                RaiseEvent<MouseMotionEventArgs>(MouseMoving, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP
-                || rawEvent.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
-            {
-                MouseButtonEventArgs eventArgs = GameEventArgsFactory<MouseButtonEventArgs>.Create(rawEvent);
-
-                if (eventArgs.State == MouseButtonState.Pressed)
-                    RaiseEvent<MouseButtonEventArgs>(MouseButtonPressed, eventArgs);
-                else if (eventArgs.State == MouseButtonState.Released)
-                    RaiseEvent<MouseButtonEventArgs>(MouseButtonReleased, eventArgs);
-            }
-            else if (rawEvent.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)
-            {
-                MouseWheelEventArgs eventArgs = GameEventArgsFactory<MouseWheelEventArgs>.Create(rawEvent);
-                RaiseEvent<MouseWheelEventArgs>(MouseWheelScrolling, eventArgs);
-            }
         }
 
         /// <summary>A tick is equal to a single time step forward in the game state. During each tick, the game will update total game time,
@@ -312,33 +132,22 @@ namespace SharpDL
         public void Quit()
         {
             IsExiting = true;
-            RaiseEvent(Exiting, EventArgs.Empty);
+            EventManager.HandleExiting(this, EventArgs.Empty);
         }
 
         #endregion Game Cycle Control
 
         #region Game Cycle
 
-        /// <summary>
-        /// Initializes the game by calling initialize on the SDL2 instance with "EVERYTHING".
-        /// </summary>
-        protected virtual void Initialize()
-        {
-            Initialize(SDL.SDL_INIT_EVERYTHING);
-        }
-
         /// <summary>Initializes the game by calling initialize on the SDL2 instance with the passed flags
         /// or "EVERYTHING" if 0. Additionally, this method will initialize SDL_ttf and SDL_image to load fonts and images.
         /// </summary>
-        /// <param name="flags">Bit flags indicating the way in which SDL should be initialized</param>
-        protected virtual void Initialize(uint flags)
+        /// <param name="types">Bit flags indicating the way in which SDL should be initialized</param>
+        protected virtual void Initialize(InitializeType types = InitializeType.Everything)
         {
-            if (flags == EMPTY_UINT)
-                flags = SDL.SDL_INIT_EVERYTHING;
-
-            if (SDL.SDL_Init(flags) != 0)
+            if (SDL.SDL_Init((uint)types) != 0)
             {
-                throw new InvalidOperationException(String.Format("SDL_Init: {0}", SDL.SDL_GetError()));
+                throw new InvalidOperationException($"SDL_Init: {SDL.SDL_GetError()}");
             }
 
             if (SDL_ttf.TTF_Init() != 0)
@@ -356,13 +165,7 @@ namespace SharpDL
         /// <summary>Used for potentially long lasting operations that should only occur relatively rarely. Usually, this
         /// method is used to load images, textures, maps, sounds, videos, and other game assets at the beginning of a level or area.
         /// </summary>
-        protected virtual void LoadContent()
-        {
-        }
-
-        //TimeSpan elapsedTime = TimeSpan.Zero;
-        //int frameRate = 0;
-        //int frameCounter = 0;
+        protected abstract void LoadContent();
 
         /// <summary>Update the state of the game such as positions, health, entity properties, and more.
         /// This is called before Draw in the main game loop.
@@ -483,7 +286,7 @@ namespace SharpDL
             SDL_ttf.TTF_Quit();
             SDL_image.IMG_Quit();
             SDL.SDL_Quit();
-            RaiseEvent(Disposed, EventArgs.Empty);
+            EventManager.HandleDisposed(this, EventArgs.Empty);
         }
 
         #endregion Dispose

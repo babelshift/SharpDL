@@ -9,7 +9,7 @@ namespace SharpDL.Events
 {
 	public enum GameEventType : uint
 	{
-		None = 0,
+		FirstEvent = 0,
 		Quit = SDL.SDL_EventType.SDL_QUIT,
 		WindowEvent = SDL.SDL_EventType.SDL_WINDOWEVENT,
 		VideoDeviceSystemEvent = SDL.SDL_EventType.SDL_SYSWMEVENT,

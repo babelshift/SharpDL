@@ -14,7 +14,7 @@ namespace SharpDL.Events
 
 		public UInt32 MouseDeviceID { get; private set; }
 
-		public IList<MouseButtonCode> MouseButtonsPressed { get; private set; }
+		public IEnumerable<MouseButtonCode> MouseButtonsPressed { get; private set; }
 
 		/// <summary>
 		/// Mouse X position relative to the window origin. Setter is public because we may need to intercept and adjust the value for detecting click/hover events

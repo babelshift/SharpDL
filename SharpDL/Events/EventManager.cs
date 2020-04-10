@@ -71,9 +71,9 @@ namespace SharpDL.Events
             var eventType = (GameEventType)rawEvent.type;
             switch(eventType)
             {
-                case GameEventType.FirstEvent:
+                case GameEventType.First:
                     return;
-                case GameEventType.WindowEvent:
+                case GameEventType.Window:
                     var windowEventType = (WindowEventType)rawEvent.window.windowEvent;
                     switch(windowEventType)
                     {

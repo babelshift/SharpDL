@@ -1,19 +1,20 @@
 using System;
+using SDL2;
 
 namespace SharpDL
 {
     [Flags]
-    public enum InitializeType
+    public enum InitializeType : uint
     {
-        Timer = 1,
-        Audio = 16,
-        Video = 32,
-        Joystick = 512,
-        Haptic = 4096,
-        GameController = 8192,
-        Events = 16384,
-        Sensor = 32768,
-        Everything = 62001,
-        NoParachute = 1048576
+        Timer = SDL.SDL_INIT_TIMER,
+        Audio = SDL.SDL_INIT_AUDIO,
+        Video = SDL.SDL_INIT_VIDEO,
+        Joystick = SDL.SDL_INIT_JOYSTICK,
+        Haptic = SDL.SDL_INIT_HAPTIC,
+        GameController = SDL.SDL_INIT_GAMECONTROLLER,
+        Events = SDL.SDL_INIT_EVENTS,
+        Sensor = SDL.SDL_INIT_SENSOR,
+        Everything = SDL.SDL_INIT_EVERYTHING,
+        NoParachute = SDL.SDL_INIT_NOPARACHUTE
     }
 }

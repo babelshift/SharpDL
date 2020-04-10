@@ -1,17 +1,12 @@
 using SDL2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpDL.Events
 {
 	public enum GameEventType : uint
 	{
-		FirstEvent = 0,
+		First = 0,
 		Quit = SDL.SDL_EventType.SDL_QUIT,
-		WindowEvent = SDL.SDL_EventType.SDL_WINDOWEVENT,
+		Window = SDL.SDL_EventType.SDL_WINDOWEVENT,
 		VideoDeviceSystemEvent = SDL.SDL_EventType.SDL_SYSWMEVENT,
 		KeyDown = SDL.SDL_EventType.SDL_KEYDOWN,
 		KeyUp = SDL.SDL_EventType.SDL_KEYUP,

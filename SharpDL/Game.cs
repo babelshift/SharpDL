@@ -1,4 +1,5 @@
-﻿using SDL2;
+﻿using Microsoft.Extensions.Logging;
+using SDL2;
 using SharpDL.Events;
 using SharpDL.Graphics;
 using SharpDL.Input;
@@ -8,6 +9,8 @@ namespace SharpDL
 {
     public abstract class Game : IDisposable
     {
+        private readonly ILogger<Game> logger;
+
         #region Members
 
         private const uint EMPTY_UINT = 0;
@@ -17,7 +20,8 @@ namespace SharpDL
         private readonly Timer gameTimer = new Timer();
 
         private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
-        private TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
+        private readonly TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
+        private readonly TimeSpan maxElapsedTime = TimeSpan.FromSeconds(0.5);
         private bool isFrameRateCapped = true;
 
         #endregion Members
@@ -41,8 +45,9 @@ namespace SharpDL
         /// <summary>Default constructor of the base Game class does nothing. Only when Initialize is called
         /// is anything useful done.
         /// </summary>
-        public Game()
+        public Game(ILogger<Game> logger = null)
         {
+            this.logger = logger;
             EventManager = new EventManager();
             EventManager.WindowClosed += OnExiting;
             EventManager.Quitting += OnExiting;
@@ -92,36 +97,54 @@ namespace SharpDL
         /// </summary>
         private void Tick()
         {
+            // If our frame rate is capped, we want to wait until we have elapsed enough time to have a fixed-step
+            // At 60 FPS, the target elapsed time is 1/60 or 0.01667~ seconds.
             while (isFrameRateCapped && (accumulatedElapsedTime < targetElapsedTime))
             {
                 accumulatedElapsedTime += gameTimer.ElapsedTime;
-                gameTimer.Stop();
                 gameTimer.Start();
 
                 if (isFrameRateCapped && (accumulatedElapsedTime < targetElapsedTime))
                 {
+                    // Sleep for as long as we need to reach the target elapsed time
                     TimeSpan sleepTime = targetElapsedTime - accumulatedElapsedTime;
-                    SDL.SDL_Delay((UInt32)sleepTime.TotalMilliseconds);
+                    SDL.SDL_Delay((uint)sleepTime.TotalMilliseconds);
                 }
             }
 
-            if (accumulatedElapsedTime > TimeSpan.FromSeconds(0.5))
-                accumulatedElapsedTime = TimeSpan.FromSeconds(0.5);
+            // Don't allow any updates to go beyond the max update time
+            if (accumulatedElapsedTime > maxElapsedTime)
+                accumulatedElapsedTime = maxElapsedTime;
 
+            // Fixed time step update
             if (isFrameRateCapped)
             {
                 int stepCount = 0;
 
+                // If we have waited longer than the target time (non-precision timers/waits?), we need to advance
+                // the game state in a fixed step interval.
                 while (accumulatedElapsedTime >= targetElapsedTime)
                 {
                     gameTime.TotalGameTime += targetElapsedTime;
                     accumulatedElapsedTime -= targetElapsedTime;
                     stepCount++;
 
-                    Update(gameTime);
+                    PerformUpdate(gameTime);
                 }
 
+                // In normal scenarios, this will advance the elapsed time by the target, but in cases where
+                // we have had to "catch up" because of non-precise waits, we will need to take the fixed steps
+                // into account.
                 gameTime.ElapsedGameTime = TimeSpan.FromTicks(targetElapsedTime.Ticks * stepCount);
+            }
+            // Variable time step update
+            else
+            {
+                gameTime.ElapsedGameTime = accumulatedElapsedTime;
+                gameTime.TotalGameTime += targetElapsedTime;
+                accumulatedElapsedTime = TimeSpan.Zero;
+                
+                PerformUpdate(gameTime);
             }
 
             Draw(gameTime);
@@ -148,7 +171,7 @@ namespace SharpDL
         /// initialize method.
         /// </summary>
         /// <param name="types"></param>
-        private void PerformInitialize(InitializeType types = InitializeType.Everything)
+        private void PerformInitialize(InitializeType types)
         {
             // Initialize base SDL before the game's custom initialize
             InitializeBase(types);
@@ -159,7 +182,7 @@ namespace SharpDL
         /// or "EVERYTHING" if 0. Additionally, this method will initialize SDL_ttf and SDL_image to load fonts and images.
         /// </summary>
         /// <param name="types">Bit flags indicating the way in which SDL should be initialized</param>
-        private void InitializeBase(InitializeType types = InitializeType.Everything)
+        private void InitializeBase(InitializeType types)
         {
             if (SDL.SDL_Init((uint)types) != 0)
             {
@@ -192,41 +215,19 @@ namespace SharpDL
         /// This is called before Draw in the main game loop.
         /// </summary>
         /// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
-        protected virtual void Update(GameTime gameTime)
+        protected abstract void Update(GameTime gameTime);
+
+        private void PerformUpdate(GameTime gameTime)
         {
             Mouse.UpdateMouseState();
-
-            //if (rawEvents.Count > 0)
-            //	RaiseGameEventFromRawEvent(rawEvents.Dequeue());
-
-            //elapsedTime += gameTime.ElapsedGameTime;
-
-            //if (elapsedTime >= TimeSpan.FromSeconds(1))
-            //{
-            //	elapsedTime -= TimeSpan.FromSeconds(1);
-            //	frameRate = frameCounter;
-            //	frameCounter = 0;
-            //}
+            Update(gameTime);
         }
-
-        //TrueTypeText fpsText;
 
         /// <summary>Draw the current state of the game such as textures, surfaces, maps, and other visual content.
         /// This is called after Update in the main game loop.
         /// </summary>
         /// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
-        protected virtual void Draw(GameTime gameTime)
-        {
-            //frameCounter++;
-
-            //string fps = String.Format("FPS: {0}", frameRate);
-
-            //fpsText.UpdateText(fps);
-
-            //Renderer.RenderTexture(fpsText.Texture, 0, 100);
-
-            //Renderer.RenderPresent();
-        }
+        protected abstract void Draw(GameTime gameTime);
 
         /// <summary>Used to unload game assets that were loaded during the LoadContent method. Usually, you use this to free
         /// any resources that should not be lingering any longer or are no longer required.

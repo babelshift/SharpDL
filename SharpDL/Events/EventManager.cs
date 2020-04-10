@@ -26,12 +26,6 @@ namespace SharpDL.Events
 
         public event EventHandler<QuitEventArgs> Quitting;
 
-        public event EventHandler<EventArgs> Activated;
-
-        public event EventHandler<EventArgs> Deactivated;
-
-        public event EventHandler<EventArgs> Disposed;
-
         public event EventHandler<EventArgs> Exiting;
 
         public event EventHandler<WindowEventArgs> WindowShown;
@@ -67,21 +61,12 @@ namespace SharpDL.Events
         /// /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        public void HandleExiting(object sender, EventArgs args)
+        internal void RaiseExiting(object sender, EventArgs args)
         {
             RaiseEvent(Exiting, args);
         }
 
-        /// <summary>Raises the Disposed event. Disposed occurs when the game objects are being cleaned up.
-        /// /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        public void HandleDisposed(object sender, EventArgs args)
-        {
-            RaiseEvent(Disposed, args);
-        }
-
-        public void HandleEvent(SDL.SDL_Event rawEvent)
+        internal void RaiseEvent(SDL.SDL_Event rawEvent)
         {
             var eventType = (GameEventType)rawEvent.type;
             switch(eventType)

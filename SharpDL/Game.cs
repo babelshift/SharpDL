@@ -3,36 +3,37 @@ using SDL2;
 using SharpDL.Events;
 using SharpDL.Graphics;
 using SharpDL.Input;
+using SharpDL.Shared;
 using System;
 
 namespace SharpDL
 {
     public abstract class Game : IDisposable
     {
-        private readonly ILogger<Game> logger;
-
         #region Members
 
-        private const uint EMPTY_UINT = 0;
-        private const int EMPTY_INT = -1;
-        private const float FRAMES_PER_SECOND = 60f;
+        private const float fixedFramesPerSecond = 60f;
+        private readonly ILogger<Game> logger;
         private readonly GameTime gameTime = new GameTime();
         private readonly Timer gameTimer = new Timer();
 
-        private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
-        private readonly TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / FRAMES_PER_SECOND);
+        private readonly TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / fixedFramesPerSecond);
         private readonly TimeSpan maxElapsedTime = TimeSpan.FromSeconds(0.5);
+        private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
         private bool isFrameRateCapped = true;
 
         #endregion Members
 
         #region Properties
+        protected IWindowFactory WindowFactory { get; private set; }
+
+        protected IRendererFactory RendererFactory { get; private set; }
 
         protected EventManager EventManager { get; private set; }
 
-        protected Window Window { get; private set; }
+        protected Window Window { get; set; }
 
-        protected Renderer Renderer { get; private set; }
+        protected Renderer Renderer { get; set; }
 
         protected bool IsActive { get; private set; }
 
@@ -45,8 +46,13 @@ namespace SharpDL
         /// <summary>Default constructor of the base Game class does nothing. Only when Initialize is called
         /// is anything useful done.
         /// </summary>
-        public Game(ILogger<Game> logger = null)
+        public Game(
+            IWindowFactory windowFactory, 
+            IRendererFactory rendererFactory, 
+            ILogger<Game> logger = null)
         {
+            WindowFactory = windowFactory ?? throw new ArgumentNullException(nameof(windowFactory));
+            RendererFactory = rendererFactory ?? throw new ArgumentNullException(nameof(rendererFactory));
             this.logger = logger;
             EventManager = new EventManager();
             EventManager.WindowClosed += OnExiting;
@@ -79,6 +85,7 @@ namespace SharpDL
                 SDL.SDL_Event rawEvent = new SDL.SDL_Event();
                 while (SDL.SDL_PollEvent(out rawEvent) == 1)
                 {
+                    logger?.LogTrace($"SDL_Event: {rawEvent.type.ToString()}");
                     EventManager.RaiseEvent(rawEvent);
                 }
              
@@ -235,47 +242,6 @@ namespace SharpDL
         protected abstract void UnloadContent();
 
         #endregion Game Cycle
-
-        #region Initializers
-
-        /// <summary>Creates a SDL window to render content within.
-        /// </summary>
-        /// <param name="title">Title of the window</param>
-        /// <param name="x">X position of the top left corner</param>
-        /// <param name="y">Y position of the top left corner</param>
-        /// <param name="width">Width of the window</param>
-        /// <param name="height">Height of the window</param>
-        /// <param name="flags">Bit flags indicating the way in which the window should be created</param>
-        protected void CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags)
-        {
-            Window = new Window(title, x, y, width, height, flags);
-        }
-
-        /// <summary>Creates a SDL Renderer to copy and draw textures to a window
-        /// </summary>
-        /// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
-        protected void CreateRenderer(RendererFlags flags)
-        {
-            CreateRenderer(EMPTY_INT, flags);
-        }
-
-        /// <summary>Creates a SDL Renderer to copy and draw textures to a window
-        /// </summary>
-        /// <param name="index">Index of the renderering driver. -1 to choose the first available.</param>
-        /// <param name="flags">Bit flags indicating the way in which the renderer should be created</param>
-        protected void CreateRenderer(int index, RendererFlags flags)
-        {
-            if (Window == null)
-            {
-                throw new InvalidOperationException("Window has not been initialized. You must first create a Window before creating a Renderer.");
-            }
-
-            Renderer = new Renderer(this.Window, index, flags);
-
-            SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-        }
-
-        #endregion Initializers
 
         #region Dispose
 

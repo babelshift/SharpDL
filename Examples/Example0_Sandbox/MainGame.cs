@@ -8,8 +8,8 @@ namespace Example0_Sandbox
     {
 		private readonly ILogger<MainGame> logger;
 		private IGameEngine engine;
-		private Window window;
-		private Renderer renderer;
+		private IWindow window;
+		private IRenderer renderer;
 
 		public MainGame(
 			IGameEngine engine,

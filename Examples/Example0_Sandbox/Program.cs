@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using SharpDL;
 using SharpDL.Shared;
 
 namespace Example0_Sandbox
@@ -10,7 +11,7 @@ namespace Example0_Sandbox
         static void Main(string[] args)
         {
             ServiceProvider serviceProvider = GetServiceProvider();
-            var game = serviceProvider.GetService<MainGame>();
+            var game = serviceProvider.GetService<IGame>();
             game.Run();
         }
 

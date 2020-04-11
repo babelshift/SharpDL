@@ -4,7 +4,7 @@ using SharpDL.Input;
 
 namespace SharpDL.Events
 {
-    public class EventManager
+    public class EventManager : IEventManager
     {
         public event EventHandler<MouseWheelEventArgs> MouseWheelScrolling;
 
@@ -61,12 +61,12 @@ namespace SharpDL.Events
         /// /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        internal void RaiseExiting(object sender, EventArgs args)
+        public void RaiseExiting(object sender, EventArgs args)
         {
             RaiseEvent(Exiting, args);
         }
 
-        internal void RaiseEvent(SDL.SDL_Event rawEvent)
+        public void RaiseEvent(SDL.SDL_Event rawEvent)
         {
             var eventType = (GameEventType)rawEvent.type;
             switch(eventType)

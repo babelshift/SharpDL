@@ -3,41 +3,46 @@ using SDL2;
 using SharpDL.Events;
 using SharpDL.Graphics;
 using SharpDL.Input;
-using SharpDL.Shared;
 using System;
 
 namespace SharpDL
 {
-    public abstract class Game : IDisposable
+    public sealed class GameEngine : IGameEngine
     {
         #region Members
 
         private const float fixedFramesPerSecond = 60f;
-        private readonly ILogger<Game> logger;
+        private bool isFrameRateCapped = true;
+        private readonly ILogger<GameEngine> logger;
         private readonly GameTime gameTime = new GameTime();
         private readonly Timer gameTimer = new Timer();
-
         private readonly TimeSpan targetElapsedTime = TimeSpan.FromSeconds(1 / fixedFramesPerSecond);
         private readonly TimeSpan maxElapsedTime = TimeSpan.FromSeconds(0.5);
         private TimeSpan accumulatedElapsedTime = TimeSpan.Zero;
-        private bool isFrameRateCapped = true;
 
         #endregion Members
 
         #region Properties
-        protected IWindowFactory WindowFactory { get; private set; }
 
-        protected IRendererFactory RendererFactory { get; private set; }
+        public IWindowFactory WindowFactory { get; private set; }
 
-        protected EventManager EventManager { get; private set; }
+        public IRendererFactory RendererFactory { get; private set; }
 
-        protected Window Window { get; set; }
+        public IEventManager EventManager { get; private set; }
 
-        protected Renderer Renderer { get; set; }
+        private bool IsActive { get; set; }
 
-        protected bool IsActive { get; private set; }
+        private bool IsExiting { get; set; }
 
-        protected bool IsExiting { get; private set; }
+        public Action Initialize { private get; set; }
+
+        public Action LoadContent { private get; set; }
+
+        public Action<GameTime> Update { private get; set; }
+
+        public Action<GameTime> Draw { private get; set; }
+
+        public Action UnloadContent { private get; set; }
 
         #endregion Properties
 
@@ -46,15 +51,17 @@ namespace SharpDL
         /// <summary>Default constructor of the base Game class does nothing. Only when Initialize is called
         /// is anything useful done.
         /// </summary>
-        public Game(
+        public GameEngine(
             IWindowFactory windowFactory, 
-            IRendererFactory rendererFactory, 
-            ILogger<Game> logger = null)
+            IRendererFactory rendererFactory,
+            IEventManager eventManager,
+            ILogger<GameEngine> logger = null)
         {
             WindowFactory = windowFactory ?? throw new ArgumentNullException(nameof(windowFactory));
             RendererFactory = rendererFactory ?? throw new ArgumentNullException(nameof(rendererFactory));
+            EventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
             this.logger = logger;
-            EventManager = new EventManager();
+
             EventManager.WindowClosed += OnExiting;
             EventManager.Quitting += OnExiting;
         }
@@ -75,10 +82,10 @@ namespace SharpDL
         /// <summary>Begins the game by performing the following cycle events in this order: Initialize, LoadContent,
         /// CheckInputs, Update, Draw, UnloadContent.
         /// </summary>
-        public void Run(InitializeType types = InitializeType.Everything)
+        public void Start(InitializeType types)
         {
             PerformInitialize(types);
-            LoadContent();
+            PerformLoadContent();
 
             while (!IsExiting)
             {
@@ -92,7 +99,7 @@ namespace SharpDL
                 Tick();
             }
 
-            UnloadContent();
+            PerformUnloadContent();
             Dispose();
         }
 
@@ -154,12 +161,12 @@ namespace SharpDL
                 PerformUpdate(gameTime);
             }
 
-            Draw(gameTime);
+            PerformDraw(gameTime);
         }
 
         /// <summary>Raises the Exiting event and disposes of this instance.
         /// </summary>
-        public void Quit()
+        public void End()
         {
             IsExiting = true;
             EventManager.RaiseExiting(this, EventArgs.Empty);
@@ -171,16 +178,8 @@ namespace SharpDL
 
         /// <summary>Override to initialize any custom objects or large helpers that are required by the game.
         /// </summary>
-        protected abstract void Initialize();
-
-        /// <summary>
-        /// Template Method Pattern to require initialize of the game engine before calling the game's custom
-        /// initialize method.
-        /// </summary>
-        /// <param name="types"></param>
         private void PerformInitialize(InitializeType types)
         {
-            // Initialize base SDL before the game's custom initialize
             InitializeBase(types);
             Initialize();
         }
@@ -216,14 +215,15 @@ namespace SharpDL
         /// <summary>Used for potentially long lasting operations that should only occur relatively rarely. Usually, this
         /// method is used to load images, textures, maps, sounds, videos, and other game assets at the beginning of a level or area.
         /// </summary>
-        protected abstract void LoadContent();
+        private void PerformLoadContent()
+        {
+            LoadContent();
+        }
 
         /// <summary>Update the state of the game such as positions, health, entity properties, and more.
         /// This is called before Draw in the main game loop.
         /// </summary>
         /// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
-        protected abstract void Update(GameTime gameTime);
-
         private void PerformUpdate(GameTime gameTime)
         {
             Mouse.UpdateMouseState();
@@ -234,24 +234,30 @@ namespace SharpDL
         /// This is called after Update in the main game loop.
         /// </summary>
         /// <param name="gameTime">Allows access to total game time and elapsed game time since the last update</param>
-        protected abstract void Draw(GameTime gameTime);
+        private void PerformDraw(GameTime gameTime)
+        {
+            Draw(gameTime);
+        }
 
         /// <summary>Used to unload game assets that were loaded during the LoadContent method. Usually, you use this to free
         /// any resources that should not be lingering any longer or are no longer required.
         /// </summary>
-        protected abstract void UnloadContent();
+        private void PerformUnloadContent()
+        {
+            UnloadContent();
+        }
 
         #endregion Game Cycle
 
         #region Dispose
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        ~Game()
+        ~GameEngine()
         {
             Dispose(false);
         }
@@ -260,18 +266,8 @@ namespace SharpDL
         /// base.Dispose() so that the base class objects are disposed as well.
         /// </summary>
         /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (Window != null)
-            {
-                Window.Dispose();
-            }
-
-            if (Renderer != null)
-            {
-                Renderer.Dispose();
-            }
-
             SDL_ttf.TTF_Quit();
             SDL_image.IMG_Quit();
             SDL.SDL_Quit();

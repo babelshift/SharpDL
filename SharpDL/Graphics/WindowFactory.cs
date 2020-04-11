@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Extensions.Logging;
-using SharpDL.Shared;
 
 namespace SharpDL.Graphics
 {
@@ -17,22 +16,22 @@ namespace SharpDL.Graphics
             this.loggerWindow = loggerWindow;
         }
 
-        public Window CreateWindow(string title)
+        public IWindow CreateWindow(string title)
         {
             return CreateWindow(title, 100, 100, 1280, 720, WindowFlags.Shown);
         }
 
-        public Window CreateWindow(string title, int x, int y)
+        public IWindow CreateWindow(string title, int x, int y)
         {
             return CreateWindow(title, x, y, 1280, 720, WindowFlags.Shown);
         }
 
-        public Window CreateWindow(string title, int x, int y, int width, int height)
+        public IWindow CreateWindow(string title, int x, int y, int width, int height)
         {
             return CreateWindow(title, x, y, width, height, WindowFlags.Shown);
         }
 
-        public Window CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags)
+        public IWindow CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags)
         {
             try
             {

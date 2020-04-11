@@ -17,17 +17,17 @@ namespace SharpDL.Graphics
             this.loggerRenderer = loggerRenderer;
         }
 
-        public Renderer CreateRenderer(Window window)
+        public IRenderer CreateRenderer(Window window)
         {
             return CreateRenderer(window, -1, RendererFlags.None);
         }
 
-        public Renderer CreateRenderer(Window window, int index)
+        public IRenderer CreateRenderer(Window window, int index)
         {
             return CreateRenderer(window, index, RendererFlags.None);
         }
 
-        public Renderer CreateRenderer(Window window, int index, RendererFlags flags)
+        public IRenderer CreateRenderer(Window window, int index, RendererFlags flags)
         {
             try
             {

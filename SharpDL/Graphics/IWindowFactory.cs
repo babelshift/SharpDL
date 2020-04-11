@@ -6,7 +6,7 @@ namespace SharpDL.Graphics
         /// </summary>
         /// <param name="title">String displayed in the Window title bar.</param>
         /// <returns>Instance of a Window.</returns>
-        Window CreateWindow(string title);
+        IWindow CreateWindow(string title);
 
         /// <summary>Creates a Window used for display and rendering.
         /// </summary>
@@ -14,7 +14,7 @@ namespace SharpDL.Graphics
         /// <param name="x">X coordinate to position the Window.</param>
         /// <param name="y">Y coordinate to position the Window.</param>
         /// <returns>Instance of a Window.</returns>
-        Window CreateWindow(string title, int x, int y);
+        IWindow CreateWindow(string title, int x, int y);
 
         /// <summary>Creates a Window used for display and rendering.
         /// </summary>
@@ -24,7 +24,7 @@ namespace SharpDL.Graphics
         /// <param name="width">Width of the Window.</param>
         /// <param name="height">Height of the Window.</param>
         /// <returns>Instance of a Window.</returns>
-        Window CreateWindow(string title, int x, int y, int width, int height);
+        IWindow CreateWindow(string title, int x, int y, int width, int height);
 
         /// <summary>Creates a Window used for display and rendering.
         /// </summary>
@@ -35,6 +35,6 @@ namespace SharpDL.Graphics
         /// <param name="height">Height of the Window.</param>
         /// <param name="flags">Flags to give special behaviors and features to the Window.</param>
         /// <returns>Instance of a Window.</returns>
-        Window CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags);
+        IWindow CreateWindow(string title, int x, int y, int width, int height, WindowFlags flags);
     }
 }

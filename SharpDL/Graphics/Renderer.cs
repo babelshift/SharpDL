@@ -6,12 +6,13 @@ using System.Collections.Generic;
 
 namespace SharpDL.Graphics
 {
-    public class Renderer : IDisposable
+    public class Renderer : IRenderer
     {
         private readonly ILogger<Renderer> logger;
+
         private List<RendererFlags> flags = new List<RendererFlags>();
 
-        public Window Window { get; private set; }
+        public IWindow Window { get; private set; }
 
         public int Index { get; private set; }
 
@@ -19,7 +20,7 @@ namespace SharpDL.Graphics
 
         public IntPtr Handle { get; private set; }
 
-        internal Renderer(Window window, int index, RendererFlags flags, ILogger<Renderer> logger = null)
+        internal Renderer(IWindow window, int index, RendererFlags flags, ILogger<Renderer> logger = null)
         {
             if (window == null)
             {
@@ -66,7 +67,7 @@ namespace SharpDL.Graphics
         {
             if (textureHandle == IntPtr.Zero)
             {
-                throw new ArgumentNullException("textureHandle", Errors.E_TEXTURE_NULL);
+                throw new ArgumentNullException(nameof(textureHandle), Errors.E_TEXTURE_NULL);
             }
 
             // SDL only accepts integer positions (x,y) in the rendering Rect
@@ -91,7 +92,7 @@ namespace SharpDL.Graphics
         {
             if (textureHandle == IntPtr.Zero)
             {
-                throw new ArgumentNullException("textureHandle", Errors.E_TEXTURE_NULL);
+                throw new ArgumentNullException(nameof(textureHandle), Errors.E_TEXTURE_NULL);
             }
 
             int width = source.Width;
@@ -147,7 +148,7 @@ namespace SharpDL.Graphics
             int result = SDL2.SDL.SDL_SetRenderDrawBlendMode(Handle, (SDL2.SDL.SDL_BlendMode)blendMode);
             if (Utilities.IsError(result))
             {
-                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetDrawBlendMode"));
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetRenderDrawBlendMode"));
             }
         }
 
@@ -165,6 +166,16 @@ namespace SharpDL.Graphics
 
         public void SetRenderLogicalSize(int width, int height)
         {
+            if (width < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(width));
+            }
+
+            if (height < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(height));
+            }
+
             ThrowExceptionIfRendererIsNull();
 
             int result = SDL2.SDL.SDL_RenderSetLogicalSize(Handle, width, height);

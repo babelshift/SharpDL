@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SharpDL.Graphics
 {
-    public class Window : IDisposable
+    public class Window : IWindow
     {
         private readonly ILogger<Window> logger;
 
@@ -25,13 +25,23 @@ namespace SharpDL.Graphics
 
         internal Window(string title, int x, int y, int width, int height, WindowFlags flags, ILogger<Window> logger = null)
         {
-            if(string.IsNullOrWhiteSpace(title))
+            if (string.IsNullOrWhiteSpace(title))
             {
                 title = "SharpDL Window";
             }
 
+            if (width < 0)
+            {
+                width = 0;
+            }
+
+            if (height < 0)
+            {
+                height = 0;
+            }
+
             this.logger = logger;
-            
+
             Title = title;
             X = x;
             Y = y;
@@ -40,8 +50,12 @@ namespace SharpDL.Graphics
 
             List<WindowFlags> copyFlags = new List<WindowFlags>();
             foreach (WindowFlags flag in Enum.GetValues(typeof(WindowFlags)))
+            {
                 if (flags.HasFlag(flag))
+                {
                     copyFlags.Add(flag);
+                }
+            }
 
             Flags = copyFlags;
 
@@ -60,7 +74,7 @@ namespace SharpDL.Graphics
 
         ~Window()
         {
-            logger.LogWarning("A window resource has leaked. Did you forget to dispose the object?");
+            logger?.LogWarning("A window resource has leaked. Did you forget to dispose the object?");
         }
 
         private void Dispose(bool isDisposing)

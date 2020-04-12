@@ -64,6 +64,7 @@ SharpDL consists of four main projects: SharpDL, SharpDL.Events, SharpDL.Graphic
     <dt>SharpDL.Input</dt>
     <dd>Contains classes to handle Keyboard and Mouse input by capturing mapped SDL structures into .NET-style enumerators. Joystick and controller input is not yet available.</dd>
 </dl>
+
 ## Getting Started
 
 Start with some basic guides on the Wiki:

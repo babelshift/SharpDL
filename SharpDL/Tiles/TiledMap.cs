@@ -59,7 +59,7 @@ namespace SharpTiles_Example1.Content
         /// </summary>
         /// <param name="filePath">Path to the .tmx file to load</param>
         /// <param name="renderer">Renderer object used to load tileset textures</param>
-        public TiledMap(string filePath, Renderer renderer, string contentRoot = "")
+        public TiledMap(string filePath, IRenderer renderer, string contentRoot = "")
         {
             MapContent mapContent = new MapContent(filePath, renderer, contentRoot);
 
@@ -188,13 +188,13 @@ namespace SharpTiles_Example1.Content
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="renderer"></param>
-        public void Draw(GameTime gameTime, Renderer renderer)
+        public void Draw(GameTime gameTime, IRenderer renderer)
         {
             foreach (var tileLayer in TileLayers)
             {
                 foreach (var tile in tileLayer.Tiles)
                 {
-                    tile.Draw(gameTime, renderer);
+                    tile.Draw(gameTime);
                 }
             }
         }

@@ -6,9 +6,7 @@ namespace SharpDL.Graphics
 {
     public class Texture : ITexture
     {
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private Renderer renderer;
+        private IRenderer renderer;
 
         public string FilePath { get; private set; }
 
@@ -26,7 +24,7 @@ namespace SharpDL.Graphics
 
         public TextureAccessMode AccessMode { get; private set; }
 
-        public Texture(Renderer renderer, Surface surface)
+        public Texture(IRenderer renderer, Surface surface)
         {
             if(renderer == null)
             {

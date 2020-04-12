@@ -6,7 +6,7 @@ namespace SharpDL.Graphics
 {
     public class RenderTarget : ITexture
     {
-        private Renderer renderer;
+        private IRenderer renderer;
 
         public uint PixelFormat { get; private set; }
 
@@ -18,7 +18,7 @@ namespace SharpDL.Graphics
 
         public TextureAccessMode AccessMode { get; private set; }
 
-        public RenderTarget(Renderer renderer, int width, int height)
+        public RenderTarget(IRenderer renderer, int width, int height)
         {
             if (renderer == null)
             {

@@ -42,7 +42,7 @@ namespace SharpDL.Tiles
 
         public IReadOnlyCollection<LayerContent> Layers { get { return layers.AsReadOnly(); } }
 
-        public MapContent(string filePath, Renderer renderer, string contentRoot)
+        public MapContent(string filePath, IRenderer renderer, string contentRoot)
         {
             Utilities.ThrowExceptionIfIsNullOrEmpty(filePath, "filePath");
             Debug.Assert(renderer != null, "Renderer cannot be null when loading a tiled map.");
@@ -135,7 +135,7 @@ namespace SharpDL.Tiles
             }
         }
 
-        private void BuildTileSetTextures(Renderer renderer, string contentRoot)
+        private void BuildTileSetTextures(IRenderer renderer, string contentRoot)
         {
             // build textures
             foreach (TileSetContent tileSet in tileSets)

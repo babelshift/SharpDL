@@ -63,7 +63,7 @@ namespace SharpDL.Graphics
             }
         }
 
-        internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center)
+        public void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center)
         {
             if (textureHandle == IntPtr.Zero)
             {
@@ -82,13 +82,13 @@ namespace SharpDL.Graphics
             }
         }
 
-        internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight)
+        public void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight)
         {
             Rectangle source = new Rectangle(0, 0, sourceWidth, sourceHeight);
             RenderTexture(textureHandle, positionX, positionY, source);
         }
 
-        internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, Rectangle source)
+        public void RenderTexture(IntPtr textureHandle, float positionX, float positionY, Rectangle source)
         {
             if (textureHandle == IntPtr.Zero)
             {

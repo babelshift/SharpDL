@@ -4,7 +4,7 @@ namespace SharpDL.Graphics
 {
     public static class TrueTypeTextFactory
     {
-        public static TrueTypeText CreateTrueTypeText(Renderer renderer, string fontPath, int fontSize, Color color, string text, int wrapLength)
+        public static TrueTypeText CreateTrueTypeText(IRenderer renderer, string fontPath, int fontSize, Color color, string text, int wrapLength)
         {
             Font font = null;
             Surface surface = null;

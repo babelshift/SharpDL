@@ -5,7 +5,7 @@ namespace SharpDL.Graphics
 {
     public static class Primitive
     {
-        public static void DrawLine(Renderer renderer, int x1, int y1, int x2, int y2)
+        public static void DrawLine(IRenderer renderer, int x1, int y1, int x2, int y2)
         {
             if (renderer == null)
             {

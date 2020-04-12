@@ -6,8 +6,6 @@ namespace SharpDL.Graphics
 {
     public class Font : IDisposable
     {
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public string FilePath { get; private set; }
 
         public int PointSize { get; private set; }

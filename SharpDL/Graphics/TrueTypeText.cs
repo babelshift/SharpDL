@@ -19,7 +19,7 @@ namespace SharpDL.Graphics
 
         public int WrapLength { get; set; }
 
-        public TrueTypeText(Renderer renderer, Surface surface, string text, Font textFont, Color color, int wrapLength)
+        public TrueTypeText(IRenderer renderer, Surface surface, string text, Font textFont, Color color, int wrapLength)
         {
             if (renderer == null)
             {

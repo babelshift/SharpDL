@@ -94,8 +94,7 @@ namespace SharpDL.Tiles
         /// this method will only render in an orthogonal projection. If isometric is required, inherit and override this method with proper behaviors.
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="renderer"></param>
-        public virtual void Draw(GameTime gameTime, Renderer renderer)
+        public virtual void Draw(GameTime gameTime)
         {
             if (IsEmpty) return;
 

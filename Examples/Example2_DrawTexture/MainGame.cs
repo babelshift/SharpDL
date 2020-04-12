@@ -1,55 +1,77 @@
 using System;
+using Microsoft.Extensions.Logging;
 using SharpDL;
 using SharpDL.Graphics;
 
 namespace Example2_DrawTexture
 {
-    public class MainGame : Game
+    public class MainGame : IGame
     {
+		private readonly ILogger<MainGame> logger;
+		private IGameEngine engine;
+		private IWindow window;
+		private IRenderer renderer;
+        
         private Texture textureGitLogo;
         private Texture textureVisualStudioLogo;
         private Texture textureYboc;
 
-        /// <summary>
-        /// Initialize SDL2 and subsystems. Initialize Window and Renderer.
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
-
-			CreateWindow("Example 2 - Draw Texture", 100, 100, 1152, 720, WindowFlags.Shown);
-			CreateRenderer(RendererFlags.RendererAccelerated | RendererFlags.RendererPresentVSync);
-			Renderer.SetRenderLogicalSize(1152, 720);
+        public MainGame(
+			IGameEngine engine,
+			ILogger<MainGame> logger = null)
+		{
+			this.engine = engine;
+			this.logger = logger;
+			engine.Initialize = () => Initialize();
+			engine.LoadContent = () => LoadContent();
+			engine.Update = (gameTime) => Update(gameTime);
+			engine.Draw = (gameTime) => Draw(gameTime);
+			engine.UnloadContent = () => UnloadContent();
         }
 
-        /// <summary>
-        /// Load external content such as images, audio, and tile maps
-        /// </summary>
-        protected override void LoadContent()
-        {
-            base.LoadContent();
+		public void Run()
+		{
+			engine.Start(GameEngineInitializeType.Everything);
+		}
 
+        /// <summary>Initialize SDL and any sub-systems. Window and Renderer must be initialized before use.
+		/// </summary>
+		private void Initialize()
+		{
+			window = engine.WindowFactory.CreateWindow("Example 2 - Draw Texture");
+			renderer = engine.RendererFactory.CreateRenderer(window);
+			renderer.SetRenderLogicalSize(1280, 720);
+		}
+
+		/// <summary>Load any game assets such as textures and audio.
+		/// </summary>
+		private void LoadContent()
+		{
             // Creates an in memory SDL Surface from the PNG at the passed path
             Surface surfaceGitLogo = new Surface("Content/logo_git.png", SurfaceType.PNG);
             Surface surfaceVisualStudioLogo = new Surface("Content/logo_vs_2019.png", SurfaceType.PNG);
             Surface surfaceYboc = new Surface("Content/logo_yboc.png", SurfaceType.PNG);
             
             // Creates a GPU-driven SDL texture using the initialized renderer and created surface
-            textureGitLogo = new Texture(Renderer, surfaceGitLogo);
-            textureVisualStudioLogo = new Texture(Renderer, surfaceVisualStudioLogo);
-            textureYboc = new Texture(Renderer, surfaceYboc);
-        }
-        
-        /// <summary>
-        /// Updates the drawn renderer after the update method has ticked the game forward.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        protected override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-            
+            textureGitLogo = new Texture(renderer, surfaceGitLogo);
+            textureVisualStudioLogo = new Texture(renderer, surfaceVisualStudioLogo);
+            textureYboc = new Texture(renderer, surfaceYboc);
+		}
+
+		/// <summary>Update the state of the game.
+		/// </summary>
+		/// <param name="gameTime"></param>
+		private void Update(GameTime gameTime)
+		{
+		}
+
+		/// <summary>Render the current state of the game.
+		/// </summary>
+		/// <param name="gameTime"></param>
+		private void Draw(GameTime gameTime)
+		{
             // Clear the screen on each iteration so that we don't get stale renders
-            Renderer.ClearScreen();
+            renderer.ClearScreen();
 
             // Draw the Git logo at (0,0) and -45 degree angle rotated around the center (calculated Vector)
             textureGitLogo.Draw(0, 0, -45, new Vector(textureGitLogo.Width / 2, textureGitLogo.Height / 2));
@@ -64,19 +86,15 @@ namespace Example2_DrawTexture
             textureYboc.Draw(800, 600, new Rectangle(0, 0, 50, 50)); 
 
             // Update the rendered state of the screen
-            Renderer.RenderPresent();
-        }
-        
-        /// <summary>
-        /// Disposes of any content loaded in memory. Important for unmanaged resources like
-        /// SDL2 textures. You'll get memory leaks if you don't dispose those!
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
+			renderer.RenderPresent();
+		}
 
+		/// <summary>Unload and dispose of any assets. Remember to dispose SDL-native objects!
+		/// </summary>
+		private void UnloadContent()
+		{
             textureGitLogo.Dispose();
             textureVisualStudioLogo.Dispose();
-        }
+		}
     }
 }

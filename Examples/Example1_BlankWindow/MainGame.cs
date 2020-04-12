@@ -1,55 +1,68 @@
-﻿using SharpDL;
+﻿using Microsoft.Extensions.Logging;
+using SharpDL;
 using SharpDL.Graphics;
 
 namespace Example1_BlankWindow
 {
-    public class MainGame : Game
+    public class MainGame : IGame
     {
-		/// <summary>
-		/// Initialize SDL and any sub-systems. Window and Renderer must be initialized before use.
-		/// </summary>
-		protected override void Initialize()
-		{
-			base.Initialize();
+        private readonly ILogger<MainGame> logger;
+        private IGameEngine engine;
+        private IWindow window;
+        private IRenderer renderer;
 
-			CreateWindow("Example 1 - Blank Window", 100, 100, 1152, 720, WindowFlags.Shown);
-			CreateRenderer(RendererFlags.RendererAccelerated | RendererFlags.RendererPresentVSync);
-			Renderer.SetRenderLogicalSize(1152, 720);
-		}
+        public MainGame(
+            IGameEngine engine,
+            ILogger<MainGame> logger = null)
+        {
+            this.engine = engine;
+            this.logger = logger;
+            engine.Initialize = () => Initialize();
+            engine.LoadContent = () => LoadContent();
+            engine.Update = (gameTime) => Update(gameTime);
+            engine.Draw = (gameTime) => Draw(gameTime);
+            engine.UnloadContent = () => UnloadContent();
+        }
 
-		/// <summary>
-		/// Load any game assets such as textures and audio.
-		/// </summary>
-		protected override void LoadContent()
-		{
-			base.LoadContent();
-		}
+        public void Run()
+        {
+            engine.Start(GameEngineInitializeType.Everything);
+        }
 
-		/// <summary>
-		/// Update the state of the game.
-		/// </summary>
-		/// <param name="gameTime"></param>
-		protected override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
-		}
+        /// <summary>Initialize SDL and any sub-systems. Window and Renderer must be initialized before use.
+        /// </summary>
+        private void Initialize()
+        {
+            window = engine.WindowFactory.CreateWindow("Example 1 - Blank Window");
+            renderer = engine.RendererFactory.CreateRenderer(window);
+            renderer.SetRenderLogicalSize(1152, 720);
+        }
 
-		/// <summary>
-		/// Render the current state of the game.
-		/// </summary>
-		/// <param name="gameTime"></param>
-		protected override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
-			Renderer.RenderPresent();
-		}
+        /// <summary>Load any game assets such as textures and audio.
+        /// </summary>
+        private void LoadContent()
+        {
+        }
 
-		/// <summary>
-		/// Unload and dispose of any assets. Remember to dispose SDL-native objects!
-		/// </summary>
-		protected override void UnloadContent()
-		{
-			base.UnloadContent();
-		}
-	}
+        /// <summary>Update the state of the game.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void Update(GameTime gameTime)
+        {
+        }
+
+        /// <summary>Render the current state of the game.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        private void Draw(GameTime gameTime)
+        {
+            renderer.RenderPresent();
+        }
+
+        /// <summary>Unload and dispose of any assets. Remember to dispose SDL-native objects!
+        /// </summary>
+        private void UnloadContent()
+        {
+        }
+    }
 }

@@ -9,6 +9,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+<ItemGroup>
+    <Content Include="Content\logo_git.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\logo_vs_2019.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\logo_yboc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\NativeLibs\libfreetype-6.dll" Link="libfreetype-6.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -26,7 +26,7 @@ namespace Example0_Sandbox
 
 		public void Run()
 		{
-			engine.Start(InitializeType.Everything);
+			engine.Start(GameEngineInitializeType.Everything);
 		}
 
 		/// <summary>Initialize SDL and any sub-systems. Window and Renderer must be initialized before use.

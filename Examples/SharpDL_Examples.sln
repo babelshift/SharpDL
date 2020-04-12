@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example2_DrawTexture", "Exa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example0_Sandbox", "Example0_Sandbox\Example0_Sandbox.csproj", "{9368165A-A423-44BC-AE32-709C79848CB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example3_EventHandling", "Example3_EventHandling\Example3_EventHandling.csproj", "{B40BE89A-CBC8-481B-94C5-B102AC894C69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{9368165A-A423-44BC-AE32-709C79848CB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9368165A-A423-44BC-AE32-709C79848CB5}.Release|x64.ActiveCfg = Release|Any CPU
 		{9368165A-A423-44BC-AE32-709C79848CB5}.Release|x64.Build.0 = Release|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Debug|x64.Build.0 = Debug|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Release|x64.ActiveCfg = Release|Any CPU
+		{B40BE89A-CBC8-481B-94C5-B102AC894C69}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

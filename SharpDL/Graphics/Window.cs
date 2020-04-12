@@ -8,6 +8,7 @@ namespace SharpDL.Graphics
     public class Window : IWindow
     {
         private readonly ILogger<Window> logger;
+        private SafeWindowHandle safeHandle;
 
         public string Title { get; private set; }
 
@@ -21,7 +22,7 @@ namespace SharpDL.Graphics
 
         public IEnumerable<WindowFlags> Flags { get; private set; }
 
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
         internal Window(string title, int x, int y, int width, int height, WindowFlags flags, ILogger<Window> logger = null)
         {
@@ -59,11 +60,12 @@ namespace SharpDL.Graphics
 
             Flags = copyFlags;
 
-            Handle = SDL.SDL_CreateWindow(this.Title, this.X, this.Y, this.Width, this.Height, (SDL.SDL_WindowFlags)flags);
-            if (Handle == IntPtr.Zero)
+            IntPtr unsafeHandle = SDL.SDL_CreateWindow(this.Title, this.X, this.Y, this.Width, this.Height, (SDL.SDL_WindowFlags)flags);
+            if (unsafeHandle == IntPtr.Zero)
             {
                 throw new InvalidOperationException($"SDL_CreateWindow: {SDL.SDL_GetError()}");
             }
+            safeHandle = new SafeWindowHandle(unsafeHandle);
         }
 
         public void Dispose()
@@ -72,17 +74,11 @@ namespace SharpDL.Graphics
             GC.SuppressFinalize(this);
         }
 
-        ~Window()
+        private void Dispose(bool disposing)
         {
-            logger?.LogWarning("A window resource has leaked. Did you forget to dispose the object?");
-        }
-
-        private void Dispose(bool isDisposing)
-        {
-            if (Handle != IntPtr.Zero)
+            if (disposing)
             {
-                SDL.SDL_DestroyWindow(Handle);
-                Handle = IntPtr.Zero;
+                safeHandle.Dispose();
             }
         }
     }

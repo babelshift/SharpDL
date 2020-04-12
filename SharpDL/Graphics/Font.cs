@@ -6,11 +6,13 @@ namespace SharpDL.Graphics
 {
     public class Font : IDisposable
     {
+        private SafeFontHandle safeHandle;
+
         public string FilePath { get; private set; }
 
         public int PointSize { get; private set; }
 
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
         public int OutlineSize { get; private set; }
 
@@ -24,11 +26,12 @@ namespace SharpDL.Graphics
             FilePath = path;
             PointSize = fontPointSize;
 
-            Handle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
-            if (Handle == IntPtr.Zero)
+            IntPtr unsafeHandle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
+            if (unsafeHandle == IntPtr.Zero)
             {
                 throw new InvalidOperationException(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
             }
+            safeHandle = new SafeFontHandle(unsafeHandle);
         }
 
         public void SetOutlineSize(int outlineSize)
@@ -49,10 +52,9 @@ namespace SharpDL.Graphics
 
         private void Dispose(bool disposing)
         {
-            if(Handle != IntPtr.Zero)
+            if(disposing)
             {
-                SDL_ttf.TTF_CloseFont(Handle);
-                Handle = IntPtr.Zero;
+                safeHandle.Dispose();
             }
         }
     }

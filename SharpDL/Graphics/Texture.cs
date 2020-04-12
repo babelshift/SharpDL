@@ -4,9 +4,11 @@ using System;
 
 namespace SharpDL.Graphics
 {
+
     public class Texture : ITexture
     {
         private IRenderer renderer;
+        private SafeTextureHandle safeHandle;
 
         public string FilePath { get; private set; }
 
@@ -20,13 +22,13 @@ namespace SharpDL.Graphics
 
         public Surface Surface { get; private set; }
 
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
         public TextureAccessMode AccessMode { get; private set; }
 
         public Texture(IRenderer renderer, Surface surface)
         {
-            if(renderer == null)
+            if (renderer == null)
             {
                 throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
             }
@@ -50,8 +52,9 @@ namespace SharpDL.Graphics
                 throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
             }
 
-            SDL.SDL_DestroyTexture(Handle);
-            Handle = IntPtr.Zero;
+            // Don't want to dispose this entire Texture object because that would kill the instance.
+            // Instead we just dispose our Texture handle and create a new one.
+            safeHandle.Dispose();
             Surface = surface;
 
             CreateTextureAndCleanup(surface.Width, surface.Height);
@@ -75,12 +78,14 @@ namespace SharpDL.Graphics
 
             if (Surface == null) { return success; }
 
-            if (Surface.Handle == IntPtr.Zero) { return success; }
+            IntPtr unsafeHandle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, Surface.Handle);
 
-            Handle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, Surface.Handle);
-
-            if (Handle != IntPtr.Zero)
+            if (unsafeHandle != IntPtr.Zero)
+            {
                 success = true;
+            }
+
+            safeHandle = new SafeTextureHandle(unsafeHandle);
 
             return success;
         }
@@ -181,47 +186,18 @@ namespace SharpDL.Graphics
             }
         }
 
-        //public void LockTexture(Surface surface)
-        //{
-        //	if (AccessMode == TextureAccessMode.Static)
-        //	{
-        //		throw new Exception("Cannot lock static textures. If you need to lock this texture, instantiate it with TextureAccessMode.Streaming.");
-        //	}
-        //	else if (AccessMode == TextureAccessMode.Streaming)
-        //	{
-        //		IntPtr pixels = IntPtr.Zero;
-        //		int pitch = 0;
-        //		int result = SDL.SDL_LockTexture(Handle, IntPtr.Zero, out pixels, out pitch);
-        //		if (result < 0)
-        //			throw new Exception(String.Format("SDL_LockTexture: {0}", SDL.SDL_GetError()));
-        //		surface.Pixels = pixels;
-        //		surface.Pitch = pitch;
-        //	}
-        //}
-        //public void UpdateTexture(Surface surface)
-        //{
-        //}
-
-        public virtual void Dispose()
+        public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
+            GC.SuppressFinalize(true);
         }
 
         private void Dispose(bool disposing)
         {
-            if (Surface != null)
+            if (disposing)
             {
-                if (Surface.Handle != IntPtr.Zero)
-                {
-                    SDL.SDL_FreeSurface(Surface.Handle);
-                }
-            }
-
-            if (Handle != IntPtr.Zero)
-            {
-                SDL.SDL_DestroyTexture(Handle);
-                Handle = IntPtr.Zero;
+                Surface.Dispose();
+                safeHandle.Dispose();
             }
         }
     }

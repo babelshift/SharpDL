@@ -9,6 +9,7 @@ namespace SharpDL.Graphics
     public class Renderer : IRenderer
     {
         private readonly ILogger<Renderer> logger;
+        private SafeRendererHandle safeHandle;
 
         private List<RendererFlags> flags = new List<RendererFlags>();
 
@@ -18,7 +19,7 @@ namespace SharpDL.Graphics
 
         public IEnumerable<RendererFlags> Flags { get { return flags; } }
 
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
         internal Renderer(IWindow window, int index, RendererFlags flags, ILogger<Renderer> logger = null)
         {
@@ -45,11 +46,12 @@ namespace SharpDL.Graphics
                 }
             }
 
-            Handle = SDL.SDL_CreateRenderer(Window.Handle, Index, (SDL.SDL_RendererFlags)flags);
-            if (Handle == IntPtr.Zero)
+            IntPtr unsafeHandle = SDL.SDL_CreateRenderer(Window.Handle, Index, (SDL.SDL_RendererFlags)flags);
+            if (unsafeHandle == IntPtr.Zero)
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateRenderer"));
             }
+            safeHandle = new SafeRendererHandle(unsafeHandle);
         }
 
         public void ClearScreen()
@@ -199,17 +201,11 @@ namespace SharpDL.Graphics
             GC.SuppressFinalize(this);
         }
 
-        ~Renderer()
-        {
-            logger?.LogWarning("A renderer resource has leaked. Did you forget to dispose the object?");
-        }
-
         private void Dispose(bool disposing)
         {
-            if (Handle != IntPtr.Zero)
+            if (disposing)
             {
-                SDL.SDL_DestroyRenderer(Handle);
-                Handle = IntPtr.Zero;
+                safeHandle.Dispose();
             }
         }
     }

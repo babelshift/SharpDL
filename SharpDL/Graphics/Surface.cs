@@ -5,22 +5,20 @@ using System.Runtime.InteropServices;
 
 namespace SharpDL.Graphics
 {
+
     public class Surface : IDisposable
     {
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private SafeSurfaceHandle safeHandle;
 
         public string FilePath { get; private set; }
 
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
         public SurfaceType Type { get; private set; }
 
         public int Width { get; private set; }
 
         public int Height { get; private set; }
-
-        //public IntPtr Pixels { get; set; }
-        //public int Pitch { get; set; }
 
         public Surface(string filePath, SurfaceType surfaceType)
         {
@@ -32,19 +30,23 @@ namespace SharpDL.Graphics
             FilePath = filePath;
             Type = surfaceType;
 
+            IntPtr unsafeHandle = IntPtr.Zero;
+
             if (surfaceType == SurfaceType.BMP)
             {
-                Handle = SDL.SDL_LoadBMP(FilePath);
+                unsafeHandle = SDL.SDL_LoadBMP(FilePath);
             }
             else if (surfaceType == SurfaceType.PNG)
             {
-                Handle = SDL_image.IMG_Load(FilePath);
+                unsafeHandle = SDL_image.IMG_Load(FilePath);
             }
 
-            if (Handle == IntPtr.Zero)
+            if (unsafeHandle == IntPtr.Zero)
             {
                 throw new InvalidOperationException(String.Format("Error while loading image surface: {0}", SDL.SDL_GetError()));
             }
+
+            safeHandle = new SafeSurfaceHandle(unsafeHandle);
 
             GetSurfaceMetaData();
         }
@@ -67,17 +69,23 @@ namespace SharpDL.Graphics
             Type = SurfaceType.Text;
             SDL.SDL_Color rawColor = new SDL.SDL_Color() { r = color.R, g = color.G, b = color.B };
 
+            IntPtr unsafeHandle = IntPtr.Zero;
+
             if (wrapLength > 0)
             {
-                Handle = SDL_ttf.TTF_RenderText_Blended_Wrapped(font.Handle, text, rawColor, (uint)wrapLength);
+                unsafeHandle = SDL_ttf.TTF_RenderText_Blended_Wrapped(font.Handle, text, rawColor, (uint)wrapLength);
             }
             else
             {
-                Handle = SDL_ttf.TTF_RenderText_Blended(font.Handle, text, rawColor);
+                unsafeHandle = SDL_ttf.TTF_RenderText_Blended(font.Handle, text, rawColor);
             }
 
-            if (Handle == IntPtr.Zero)
+            if (unsafeHandle == IntPtr.Zero)
+            {
                 throw new InvalidOperationException(String.Format("Error while loading text surface: {0}", SDL.SDL_GetError()));
+            }
+
+            safeHandle = new SafeSurfaceHandle(unsafeHandle);
 
             GetSurfaceMetaData();
         }
@@ -92,8 +100,6 @@ namespace SharpDL.Graphics
             SDL.SDL_Surface rawSurface = (SDL.SDL_Surface)Marshal.PtrToStructure(Handle, typeof(SDL.SDL_Surface));
             Width = rawSurface.w;
             Height = rawSurface.h;
-            //Pixels = rawSurface.pixels;
-            //Pitch = rawSurface.pitch;
         }
 
         public void Dispose()
@@ -102,17 +108,11 @@ namespace SharpDL.Graphics
             GC.SuppressFinalize(this);
         }
 
-        ~Surface()
-        {
-            //log.Debug("A surface resource has leaked. Did you forget to dispose the object?");
-        }
-
         private void Dispose(bool disposing)
         {
-            if (Handle != IntPtr.Zero)
+            if (disposing)
             {
-                SDL.SDL_FreeSurface(Handle);
-                Handle = IntPtr.Zero;
+                safeHandle.Dispose();
             }
         }
     }

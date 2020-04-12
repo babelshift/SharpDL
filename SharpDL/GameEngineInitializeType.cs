@@ -4,7 +4,7 @@ using SDL2;
 namespace SharpDL
 {
     [Flags]
-    public enum InitializeType : uint
+    public enum GameEngineInitializeType : uint
     {
         Timer = SDL.SDL_INIT_TIMER,
         Audio = SDL.SDL_INIT_AUDIO,

@@ -82,7 +82,7 @@ namespace SharpDL
         /// <summary>Begins the game by performing the following cycle events in this order: Initialize, LoadContent,
         /// CheckInputs, Update, Draw, UnloadContent.
         /// </summary>
-        public void Start(InitializeType types)
+        public void Start(GameEngineInitializeType types)
         {
             PerformInitialize(types);
             PerformLoadContent();
@@ -178,7 +178,7 @@ namespace SharpDL
 
         /// <summary>Override to initialize any custom objects or large helpers that are required by the game.
         /// </summary>
-        private void PerformInitialize(InitializeType types)
+        private void PerformInitialize(GameEngineInitializeType types)
         {
             InitializeBase(types);
             Initialize();
@@ -188,7 +188,7 @@ namespace SharpDL
         /// or "EVERYTHING" if 0. Additionally, this method will initialize SDL_ttf and SDL_image to load fonts and images.
         /// </summary>
         /// <param name="types">Bit flags indicating the way in which SDL should be initialized</param>
-        private void InitializeBase(InitializeType types)
+        private void InitializeBase(GameEngineInitializeType types)
         {
             if (SDL.SDL_Init((uint)types) != 0)
             {

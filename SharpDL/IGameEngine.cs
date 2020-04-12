@@ -48,7 +48,7 @@ namespace SharpDL
         /// defined on the IGameEngine interface.
         /// </summary>
         /// <param name="initilizeTypes">Enumerated subsystems to initialize.</param>
-        void Start(InitializeType initilizeTypes);
+        void Start(GameEngineInitializeType initilizeTypes);
 
         /// <summary>
         /// Ends the game engine. 

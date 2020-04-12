@@ -78,3 +78,4 @@ Move on to the Examples in the repository:
   - [Sandbox](https://github.com/babelshift/SharpDL/tree/master/Examples/Example0_Sandbox) (anything goes, I change this regularly)
   - [Blank Window](https://github.com/babelshift/SharpDL/tree/master/Examples/Example1_BlankWindow)
   - [Draw Texture](https://github.com/babelshift/SharpDL/tree/master/Examples/Example2_DrawTexture)
+  - [Event Handling](https://github.com/babelshift/SharpDL/tree/master/Examples/Example3_EventHandling)

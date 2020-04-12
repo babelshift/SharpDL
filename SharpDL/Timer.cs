@@ -1,22 +1,18 @@
 ﻿using SDL2;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpDL
 {
 	public class Timer
 	{
-		private UInt32 startTicks;
-		private UInt32 pausedTicks;
-		bool isStarted;
-		bool isPaused;
+		private uint startedAtTicks = 0;
+		private uint pausedTicks = 0;
+		private bool isStarted = false;
+		private bool isPaused = false;
 
-		public TimeSpan StartTime
+		public TimeSpan StartedAtTime
 		{
-			get { return TimeSpan.FromMilliseconds((double)startTicks); }
+			get { return TimeSpan.FromMilliseconds((double)startedAtTicks); }
 		}
 
 		public TimeSpan ElapsedTime
@@ -28,7 +24,7 @@ namespace SharpDL
 					if (isPaused)
 						return TimeSpan.FromMilliseconds((double)pausedTicks);
 					else
-						return TimeSpan.FromMilliseconds((double)(SDL.SDL_GetTicks() - startTicks));
+						return TimeSpan.FromMilliseconds((double)(SDL.SDL_GetTicks() - startedAtTicks));
 				}
 				else
 					return TimeSpan.Zero;
@@ -39,19 +35,11 @@ namespace SharpDL
 
 		public bool IsPaused { get { return isPaused; } }
 
-		public Timer()
-		{
-			startTicks = 0;
-			pausedTicks = 0;
-			isPaused = false;
-			isStarted = false;
-		}
-
 		public void Start()
 		{
 			isStarted = true;
 			isPaused = false;
-			startTicks = SDL.SDL_GetTicks();
+			startedAtTicks = SDL.SDL_GetTicks();
 		}
 
 		public void Stop()
@@ -65,7 +53,7 @@ namespace SharpDL
 			if (isStarted && !isPaused)
 			{
 				isPaused = true;
-				pausedTicks = SDL.SDL_GetTicks() - startTicks;
+				pausedTicks = SDL.SDL_GetTicks() - startedAtTicks;
 			}
 		}
 
@@ -74,7 +62,7 @@ namespace SharpDL
 			if (isPaused)
 			{
 				isPaused = false;
-				startTicks = SDL.SDL_GetTicks() - pausedTicks;
+				startedAtTicks = SDL.SDL_GetTicks() - pausedTicks;
 				pausedTicks = 0;
 			}
 		}

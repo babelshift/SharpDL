@@ -1,12 +1,13 @@
-﻿using SDL2;
+﻿using Microsoft.Extensions.Logging;
+using SDL2;
 using System;
 using System.Collections.Generic;
 
 namespace SharpDL.Graphics
 {
-    public class Window : IDisposable
+    public class Window : IWindow
     {
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILogger<Window> logger;
 
         public string Title { get; private set; }
 
@@ -22,12 +23,24 @@ namespace SharpDL.Graphics
 
         public IntPtr Handle { get; private set; }
 
-        public Window(string title, int x, int y, int width, int height, WindowFlags flags)
+        internal Window(string title, int x, int y, int width, int height, WindowFlags flags, ILogger<Window> logger = null)
         {
-            if (String.IsNullOrEmpty(title))
+            if (string.IsNullOrWhiteSpace(title))
             {
                 title = "SharpDL Window";
             }
+
+            if (width < 0)
+            {
+                width = 0;
+            }
+
+            if (height < 0)
+            {
+                height = 0;
+            }
+
+            this.logger = logger;
 
             Title = title;
             X = x;
@@ -37,15 +50,19 @@ namespace SharpDL.Graphics
 
             List<WindowFlags> copyFlags = new List<WindowFlags>();
             foreach (WindowFlags flag in Enum.GetValues(typeof(WindowFlags)))
+            {
                 if (flags.HasFlag(flag))
+                {
                     copyFlags.Add(flag);
+                }
+            }
 
             Flags = copyFlags;
 
             Handle = SDL.SDL_CreateWindow(this.Title, this.X, this.Y, this.Width, this.Height, (SDL.SDL_WindowFlags)flags);
             if (Handle == IntPtr.Zero)
             {
-                throw new InvalidOperationException(String.Format("SDL_CreateWindow: {0}", SDL.SDL_GetError()));
+                throw new InvalidOperationException($"SDL_CreateWindow: {SDL.SDL_GetError()}");
             }
         }
 
@@ -57,7 +74,7 @@ namespace SharpDL.Graphics
 
         ~Window()
         {
-            //log.Debug("A window resource has leaked. Did you forget to dispose the object?");
+            logger?.LogWarning("A window resource has leaked. Did you forget to dispose the object?");
         }
 
         private void Dispose(bool isDisposing)

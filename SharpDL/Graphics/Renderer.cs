@@ -1,18 +1,18 @@
-﻿using SDL2;
+﻿using Microsoft.Extensions.Logging;
+using SDL2;
 using SharpDL.Shared;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SharpDL.Graphics
 {
-    public class Renderer : IDisposable
+    public class Renderer : IRenderer
     {
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILogger<Renderer> logger;
 
         private List<RendererFlags> flags = new List<RendererFlags>();
 
-        public Window Window { get; private set; }
+        public IWindow Window { get; private set; }
 
         public int Index { get; private set; }
 
@@ -20,13 +20,19 @@ namespace SharpDL.Graphics
 
         public IntPtr Handle { get; private set; }
 
-        public Renderer(Window window, int index, RendererFlags flags)
+        internal Renderer(IWindow window, int index, RendererFlags flags, ILogger<Renderer> logger = null)
         {
             if (window == null)
             {
-                throw new ArgumentNullException(Errors.E_WINDOW_NULL);
+                throw new ArgumentNullException(nameof(window), "Window has not been initialized. You must first create a Window before creating a Renderer.");
             }
 
+            if (index < -1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            this.logger = logger;
             Window = window;
             Index = index;
 
@@ -59,9 +65,9 @@ namespace SharpDL.Graphics
 
         internal void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center)
         {
-            if(textureHandle == IntPtr.Zero)
+            if (textureHandle == IntPtr.Zero)
             {
-                throw new ArgumentNullException("textureHandle", Errors.E_TEXTURE_NULL);
+                throw new ArgumentNullException(nameof(textureHandle), Errors.E_TEXTURE_NULL);
             }
 
             // SDL only accepts integer positions (x,y) in the rendering Rect
@@ -86,7 +92,7 @@ namespace SharpDL.Graphics
         {
             if (textureHandle == IntPtr.Zero)
             {
-                throw new ArgumentNullException("textureHandle", Errors.E_TEXTURE_NULL);
+                throw new ArgumentNullException(nameof(textureHandle), Errors.E_TEXTURE_NULL);
             }
 
             int width = source.Width;
@@ -142,7 +148,7 @@ namespace SharpDL.Graphics
             int result = SDL2.SDL.SDL_SetRenderDrawBlendMode(Handle, (SDL2.SDL.SDL_BlendMode)blendMode);
             if (Utilities.IsError(result))
             {
-                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetDrawBlendMode"));
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetRenderDrawBlendMode"));
             }
         }
 
@@ -160,6 +166,16 @@ namespace SharpDL.Graphics
 
         public void SetRenderLogicalSize(int width, int height)
         {
+            if (width < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(width));
+            }
+
+            if (height < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(height));
+            }
+
             ThrowExceptionIfRendererIsNull();
 
             int result = SDL2.SDL.SDL_RenderSetLogicalSize(Handle, width, height);
@@ -171,7 +187,7 @@ namespace SharpDL.Graphics
 
         private void ThrowExceptionIfRendererIsNull()
         {
-            if(Handle == IntPtr.Zero)
+            if (Handle == IntPtr.Zero)
             {
                 throw new InvalidOperationException(Errors.E_RENDERER_NULL);
             }
@@ -185,7 +201,7 @@ namespace SharpDL.Graphics
 
         ~Renderer()
         {
-            //log.Debug("A renderer resource has leaked. Did you forget to dispose the object?");
+            logger?.LogWarning("A renderer resource has leaked. Did you forget to dispose the object?");
         }
 
         private void Dispose(bool disposing)

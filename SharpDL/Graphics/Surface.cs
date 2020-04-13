@@ -1,49 +1,38 @@
 ﻿using SDL2;
-using SharpDL.Shared;
 using System;
 using System.Runtime.InteropServices;
 
 namespace SharpDL.Graphics
 {
-
-    public class Surface : IDisposable
+    public class Surface : ISurface
     {
         private SafeSurfaceHandle safeHandle;
 
         public string FilePath { get; private set; }
 
-        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
-
-        public SurfaceType Type { get; private set; }
-
         public int Width { get; private set; }
 
         public int Height { get; private set; }
+
+        public SurfaceType Type { get; private set; }
+
+        public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
         public Surface(string filePath, SurfaceType surfaceType)
         {
             if (String.IsNullOrEmpty(filePath))
             {
-                throw new ArgumentNullException("filePath", Errors.E_SURFACE_PATH_MISSING);
+                throw new ArgumentNullException(nameof(filePath));
             }
 
             FilePath = filePath;
             Type = surfaceType;
 
-            IntPtr unsafeHandle = IntPtr.Zero;
-
-            if (surfaceType == SurfaceType.BMP)
-            {
-                unsafeHandle = SDL.SDL_LoadBMP(FilePath);
-            }
-            else if (surfaceType == SurfaceType.PNG)
-            {
-                unsafeHandle = SDL_image.IMG_Load(FilePath);
-            }
+            IntPtr unsafeHandle = SDL_image.IMG_Load(FilePath);
 
             if (unsafeHandle == IntPtr.Zero)
             {
-                throw new InvalidOperationException(String.Format("Error while loading image surface: {0}", SDL.SDL_GetError()));
+                throw new InvalidOperationException($"Error while loading image surface: {SDL.SDL_GetError()}");
             }
 
             safeHandle = new SafeSurfaceHandle(unsafeHandle);
@@ -60,11 +49,19 @@ namespace SharpDL.Graphics
         {
             if (font == null)
             {
-                throw new ArgumentNullException("font", Errors.E_FONT_NULL);
+                throw new ArgumentNullException(nameof(font));
+            }
+
+            // Only check null instead of Empty/Whitespace because SDL allows everything but null for rendering fonts.
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
             }
 
             if (wrapLength < 0)
-                throw new ArgumentOutOfRangeException("wrapLength", "Wrap length must be greater than 0.");
+            {
+                throw new ArgumentOutOfRangeException(nameof(wrapLength), "Wrap length must be greater than or equal to 0.");
+            }
 
             Type = SurfaceType.Text;
             SDL.SDL_Color rawColor = new SDL.SDL_Color() { r = color.R, g = color.G, b = color.B };
@@ -82,7 +79,7 @@ namespace SharpDL.Graphics
 
             if (unsafeHandle == IntPtr.Zero)
             {
-                throw new InvalidOperationException(String.Format("Error while loading text surface: {0}", SDL.SDL_GetError()));
+                throw new InvalidOperationException($"Error while loading text surface: {SDL.SDL_GetError()}");
             }
 
             safeHandle = new SafeSurfaceHandle(unsafeHandle);
@@ -92,11 +89,6 @@ namespace SharpDL.Graphics
 
         private void GetSurfaceMetaData()
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_FONT_NULL);
-            }
-
             SDL.SDL_Surface rawSurface = (SDL.SDL_Surface)Marshal.PtrToStructure(Handle, typeof(SDL.SDL_Surface));
             Width = rawSurface.w;
             Height = rawSurface.h;

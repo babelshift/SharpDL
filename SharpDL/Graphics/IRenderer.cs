@@ -83,6 +83,6 @@ namespace SharpDL.Graphics
         /// <summary>Updates the Renderer's current texture target for rendering operations.
         /// </summary>
         /// <param name="renderTarget">Texture to render to.</param>
-        void SetRenderTarget(RenderTarget renderTarget);
+        void SetRenderTarget(ITexture renderTarget);
     }
 }

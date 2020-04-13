@@ -129,7 +129,7 @@ namespace SharpDL.Graphics
             }
         }
 
-        public void SetRenderTarget(RenderTarget renderTarget)
+        public void SetRenderTarget(ITexture renderTarget)
         {
             ThrowExceptionIfRendererIsNull();
 

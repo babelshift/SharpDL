@@ -37,7 +37,7 @@ namespace SharpDL.Tiles
         /// <summary>
         /// Texture from which to select a rectangle source texture (similar to selecting from a sprite sheet)
         /// </summary>
-        public Texture Texture { get; private set; }
+        public ITexture Texture { get; private set; }
 
         /// <summary>
         /// Rectangle determining where in the Texture to select the specific texture for our sprite or frame
@@ -65,7 +65,7 @@ namespace SharpDL.Tiles
         /// <param name="source"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Tile(Texture texture, Rectangle source, int width, int height)
+        public Tile(ITexture texture, Rectangle source, int width, int height)
         {
             index = -1;
             IsEmpty = false;

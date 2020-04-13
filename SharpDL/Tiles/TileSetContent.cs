@@ -25,7 +25,7 @@ namespace SharpDL.Tiles
 
         public Color? ColorKey { get; private set; }
 
-        public Texture Texture { get; set; }
+        public ITexture Texture { get; set; }
 
         public IList<TileContent> Tiles { get; private set; }
 

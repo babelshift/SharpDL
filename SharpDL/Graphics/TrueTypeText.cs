@@ -11,7 +11,7 @@ namespace SharpDL.Graphics
 
         public Color Color { get; private set; }
 
-        public Texture Texture { get; private set; }
+        public ITexture Texture { get; private set; }
 
         public int OutlineSize { get { return Font.OutlineSize; } }
 
@@ -19,7 +19,7 @@ namespace SharpDL.Graphics
 
         public int WrapLength { get; set; }
 
-        public TrueTypeText(IRenderer renderer, Surface surface, string text, Font textFont, Color color, int wrapLength)
+        public TrueTypeText(IRenderer renderer, ISurface surface, string text, Font textFont, Color color, int wrapLength)
         {
             if (renderer == null)
             {
@@ -54,7 +54,7 @@ namespace SharpDL.Graphics
 
             Text = text;
 
-            Surface surface = new Surface(Font, Text, Color, wrapLength);
+            ISurface surface = new Surface(Font, Text, Color, wrapLength);
             Texture.UpdateSurfaceAndTexture(surface);
         }
 

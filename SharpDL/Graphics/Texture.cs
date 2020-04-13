@@ -50,7 +50,7 @@ namespace SharpDL.Graphics
             QueryTexture(unsafeHandle);
         }
 
-        public Texture(IRenderer renderer, Surface surface)
+        public Texture(IRenderer renderer, ISurface surface)
         {
             if (renderer == null)
             {
@@ -80,7 +80,7 @@ namespace SharpDL.Graphics
             return unsafeHandle;
         }
 
-        private IntPtr CreateTextureFromSurface(Surface surface)
+        private IntPtr CreateTextureFromSurface(ISurface surface)
         {
             IntPtr unsafeHandle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, surface.Handle);
             if (unsafeHandle == IntPtr.Zero)
@@ -103,7 +103,7 @@ namespace SharpDL.Graphics
             Height = height;
         }
 
-        public void UpdateSurfaceAndTexture(Surface surface)
+        public void UpdateSurfaceAndTexture(ISurface surface)
         {
             if (surface == null)
             {
@@ -117,7 +117,7 @@ namespace SharpDL.Graphics
             CreateTextureAndCleanup(surface);
         }
         
-        private void CreateTextureAndCleanup(Surface surface)
+        private void CreateTextureAndCleanup(ISurface surface)
         {
             IntPtr unsafeHandle = CreateTextureFromSurface(surface);
             safeHandle = new SafeTextureHandle(unsafeHandle);
@@ -140,6 +140,21 @@ namespace SharpDL.Graphics
             if (Utilities.IsError(result))
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureBlendMode"));
+            }
+        }
+        
+        public void SetColorMod(byte r, byte g, byte b)
+        {
+            if (Handle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+            }
+
+            int result = SDL.SDL_SetTextureColorMod(Handle, r, g, b);
+
+            if (Utilities.IsError(result))
+            {
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureColorMod: {0}"));
             }
         }
 
@@ -193,21 +208,6 @@ namespace SharpDL.Graphics
         public void Draw(float x, float y)
         {
             Draw((int)x, (int)y);
-        }
-
-        public void SetColorMod(byte r, byte g, byte b)
-        {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
-            }
-
-            int result = SDL.SDL_SetTextureColorMod(Handle, r, g, b);
-
-            if (Utilities.IsError(result))
-            {
-                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_SetTextureColorMod: {0}"));
-            }
         }
 
         public void Dispose()

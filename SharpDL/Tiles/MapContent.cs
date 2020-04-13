@@ -144,7 +144,7 @@ namespace SharpDL.Tiles
 
                 // need to use colorkey
                 // need to support more than PNG
-                Surface surface = new Surface(path, SurfaceType.PNG);
+                ISurface surface = new Surface(path, SurfaceType.PNG);
                 tileSet.Texture = new Texture(renderer, surface);
             }
         }

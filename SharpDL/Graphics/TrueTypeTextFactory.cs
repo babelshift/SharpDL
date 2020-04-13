@@ -7,7 +7,7 @@ namespace SharpDL.Graphics
         public static TrueTypeText CreateTrueTypeText(IRenderer renderer, string fontPath, int fontSize, Color color, string text, int wrapLength)
         {
             Font font = null;
-            Surface surface = null;
+            ISurface surface = null;
             TrueTypeText trueTypeText = null;
 
             try

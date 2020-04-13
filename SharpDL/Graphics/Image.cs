@@ -7,9 +7,9 @@ namespace SharpDL.Graphics
     {
         public ImageFormat Format { get; private set; }
 
-        public Texture Texture { get; private set; }
+        public ITexture Texture { get; private set; }
 
-        public Image(IRenderer renderer, Surface surface, ImageFormat imageFormat)
+        public Image(IRenderer renderer, ISurface surface, ImageFormat imageFormat)
         {
             if (renderer == null)
             {

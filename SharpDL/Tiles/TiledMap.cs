@@ -141,7 +141,7 @@ namespace SharpTiles_Example1.Content
             // we don't want to look up tiles with ID 0 in tile sets because Tiled Map Editor treats ID 0 as an empty tile
             if (tileIndex > Tile.EmptyTileID)
             {
-                Texture tileSetTexture = null;
+                ITexture tileSetTexture = null;
                 Rectangle source = new Rectangle();
 
                 foreach (TileSetContent tileSet in tileSets)

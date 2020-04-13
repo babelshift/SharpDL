@@ -1,5 +1,4 @@
 ﻿using SDL2;
-using System;
 
 namespace SharpDL.Shared
 {
@@ -19,7 +18,7 @@ namespace SharpDL.Shared
 
 		public static string GetErrorMessage(string method)
 		{
-			return String.Format("{0}: {1}", method, SDL.SDL_GetError());
+			return $"{method}: {SDL.SDL_GetError()}";
 		}
 
         public static bool IsNull(object argument)

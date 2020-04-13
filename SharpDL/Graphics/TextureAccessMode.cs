@@ -2,7 +2,7 @@
 
 namespace SharpDL.Graphics
 {
-    public enum TextureAccessMode
+    public enum TextureAccessMode : int
     {
         Static = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC,
         Streaming = SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,

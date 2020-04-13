@@ -10,98 +10,122 @@ namespace SharpDL.Graphics
         private IRenderer renderer;
         private SafeTextureHandle safeHandle;
 
-        public string FilePath { get; private set; }
-
-        public uint PixelFormat { get; private set; }
-
-        public int Access { get; private set; }
-
         public int Width { get; private set; }
 
         public int Height { get; private set; }
 
-        public Surface Surface { get; private set; }
+        public PixelFormat PixelFormat { get; private set; }
+
+        public TextureAccessMode AccessMode { get; private set; }
 
         public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
-        public TextureAccessMode AccessMode { get; private set; }
+        public Texture(IRenderer renderer, int width, int height)
+            : this(renderer, width, height, PixelFormat.RGBA8888, TextureAccessMode.Static)
+        {
+        }
+
+        public Texture(IRenderer renderer, int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
+        {
+            if (renderer == null)
+            {
+                throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (width < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(width));
+            }
+
+            if (height < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(height));
+            }
+
+            this.renderer = renderer;
+
+            IntPtr unsafeHandle = CreateTexture(width, height, pixelFormat, accessMode);
+            safeHandle = new SafeTextureHandle(unsafeHandle);
+
+            QueryTexture(unsafeHandle);
+        }
 
         public Texture(IRenderer renderer, Surface surface)
         {
             if (renderer == null)
             {
-                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+                throw new ArgumentNullException(nameof(renderer));
             }
+
             if (surface == null)
             {
-                throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
+                throw new ArgumentNullException(nameof(surface));
             }
 
             this.renderer = renderer;
-            FilePath = surface.FilePath;
-            AccessMode = TextureAccessMode.Static;
-            Surface = surface;
 
-            CreateTextureAndCleanup(surface.Width, surface.Height);
+            CreateTextureAndCleanup(surface);
+        }
+
+        private IntPtr CreateTexture(int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
+        {
+            uint mappedPixelFormat = PixelFormatMap.EnumToSDL(pixelFormat);
+
+            IntPtr unsafeHandle = SDL.SDL_CreateTexture(renderer.Handle, mappedPixelFormat, (int)accessMode, width, height);
+            if (unsafeHandle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
+            }
+
+            return unsafeHandle;
+        }
+
+        private IntPtr CreateTextureFromSurface(Surface surface)
+        {
+            IntPtr unsafeHandle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, surface.Handle);
+            if (unsafeHandle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
+            }
+
+            return unsafeHandle;
+        }
+        
+        /// <summary>Look up the texture details to make sure it matches what we expect
+        /// </summary>
+        /// <param name="textureHandle">Unsafe handle to the texture</param>
+        private void QueryTexture(IntPtr textureHandle)
+        {
+            SDL.SDL_QueryTexture(textureHandle, out uint format, out int access, out int width, out int height);
+            PixelFormat = PixelFormatMap.SDLToEnum(format);
+            AccessMode = (TextureAccessMode)access;
+            Width = width;
+            Height = height;
         }
 
         public void UpdateSurfaceAndTexture(Surface surface)
         {
             if (surface == null)
             {
-                throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
+                throw new ArgumentNullException(nameof(surface));
             }
 
             // Don't want to dispose this entire Texture object because that would kill the instance.
             // Instead we just dispose our Texture handle and create a new one.
             safeHandle.Dispose();
-            Surface = surface;
 
-            CreateTextureAndCleanup(surface.Width, surface.Height);
+            CreateTextureAndCleanup(surface);
         }
-
-        private void CreateTextureAndCleanup(int width, int height)
+        
+        private void CreateTextureAndCleanup(Surface surface)
         {
-            bool success = CreateTexture(width, height);
-
-            if (!success)
-            {
-                throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
-            }
-
-            CleanupAndQueryTexture();
-        }
-
-        private bool CreateTexture(int width, int height)
-        {
-            bool success = false;
-
-            if (Surface == null) { return success; }
-
-            IntPtr unsafeHandle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, Surface.Handle);
-
-            if (unsafeHandle != IntPtr.Zero)
-            {
-                success = true;
-            }
-
+            IntPtr unsafeHandle = CreateTextureFromSurface(surface);
             safeHandle = new SafeTextureHandle(unsafeHandle);
 
-            return success;
-        }
+            // We are done with the in memory surface
+            surface.Dispose();
 
-        private void CleanupAndQueryTexture()
-        {
-            Surface.Dispose();
-
-            uint format;
-            int access, width, height;
-            SDL.SDL_QueryTexture(Handle, out format, out access, out width, out height);
-
-            PixelFormat = format;
-            Access = access;
-            Width = width;
-            Height = height;
+            QueryTexture(unsafeHandle);
         }
 
         public void SetBlendMode(BlendMode blendMode)
@@ -196,7 +220,6 @@ namespace SharpDL.Graphics
         {
             if (disposing)
             {
-                Surface.Dispose();
                 safeHandle.Dispose();
             }
         }

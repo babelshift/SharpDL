@@ -4,15 +4,15 @@ namespace SharpDL.Graphics
 {
     public interface ITexture : IDisposable
     {
-        uint PixelFormat { get; }
-
         int Width { get; }
 
         int Height { get; }
 
-        IntPtr Handle { get; }
+        PixelFormat PixelFormat { get; }
 
         TextureAccessMode AccessMode { get; }
+
+        IntPtr Handle { get; }
 
         void SetBlendMode(BlendMode blendMode);
 

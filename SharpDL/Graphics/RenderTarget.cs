@@ -8,15 +8,15 @@ namespace SharpDL.Graphics
     {
         private IRenderer renderer;
 
-        public uint PixelFormat { get; private set; }
-
         public int Width { get; private set; }
 
         public int Height { get; private set; }
 
-        public IntPtr Handle { get; private set; }
-
+        public PixelFormat PixelFormat { get; private set; }
+        
         public TextureAccessMode AccessMode { get; private set; }
+        
+        public IntPtr Handle { get; private set; }
 
         public RenderTarget(IRenderer renderer, int width, int height)
         {

@@ -16,7 +16,7 @@ namespace SharpDL.Shared
         public static IServiceCollection AddSharpGame<T>(this IServiceCollection services)
             where T : class, IGame
         {
-            if(services == null)
+            if (services == null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
@@ -27,6 +27,7 @@ namespace SharpDL.Shared
             services.TryAdd(ServiceDescriptor.Singleton<IRendererFactory, RendererFactory>());
             services.TryAdd(ServiceDescriptor.Singleton<ISurfaceFactory, SurfaceFactory>());
             services.TryAdd(ServiceDescriptor.Singleton<ITextureFactory, TextureFactory>());
+            services.TryAdd(ServiceDescriptor.Singleton<ITrueTypeTextFactory, TrueTypeTextFactory>());
             services.TryAdd(ServiceDescriptor.Singleton<IEventManager, EventManager>());
 
             return services;

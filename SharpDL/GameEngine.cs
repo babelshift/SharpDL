@@ -32,6 +32,8 @@ namespace SharpDL
 
         public ISurfaceFactory SurfaceFactory { get; private set; }
 
+        public ITrueTypeTextFactory TrueTypeTextFactory { get; private set; }
+
         public IEventManager EventManager { get; private set; }
 
         private bool IsActive { get; set; }
@@ -60,6 +62,7 @@ namespace SharpDL
             IRendererFactory rendererFactory,
             ITextureFactory textureFactory,
             ISurfaceFactory surfaceFactory,
+            ITrueTypeTextFactory trueTypeTextFactory,
             IEventManager eventManager,
             ILogger<GameEngine> logger = null)
         {
@@ -68,6 +71,7 @@ namespace SharpDL
             TextureFactory = textureFactory ?? throw new ArgumentNullException(nameof(textureFactory));
             SurfaceFactory = surfaceFactory ?? throw new ArgumentNullException(nameof(surfaceFactory));
             EventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
+            TrueTypeTextFactory = trueTypeTextFactory ?? throw new ArgumentNullException(nameof(trueTypeTextFactory));
             this.logger = logger;
 
             EventManager.WindowClosed += OnExiting;

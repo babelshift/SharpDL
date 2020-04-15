@@ -46,6 +46,10 @@ namespace SharpDL
         /// <summary>Used to create surfaces for eventually rendered textures and text.
         /// </summary>
         ISurfaceFactory SurfaceFactory { get; }
+        
+        /// <summary>Used to create TTF elements for drawing text.
+        /// </summary>
+        ITrueTypeTextFactory TrueTypeTextFactory { get; }
 
         /// <summary>Used to subscribe to game loop events.
         /// </summary>

@@ -44,6 +44,7 @@ namespace SharpDL.Graphics
                 font = new Font(fontPath, fontSize);
                 surface = new Surface(font, text, color, wrapLength);
                 trueTypeText = new TrueTypeText(renderer, surface, text, font, color, wrapLength);
+                logger?.LogTrace($"TrueTypeText created. Width = {trueTypeText.Texture.Width}, Height = {trueTypeText.Texture.Height}, Font = {trueTypeText.Font.FilePath}, WrapLength = {trueTypeText.WrapLength}.");
                 return trueTypeText;
             }
             catch (Exception ex)

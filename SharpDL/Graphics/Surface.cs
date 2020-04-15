@@ -40,12 +40,12 @@ namespace SharpDL.Graphics
             GetSurfaceMetaData();
         }
 
-        public Surface(Font font, string text, Color color)
+        public Surface(IFont font, string text, Color color)
             : this(font, text, color, 0)
         {
         }
 
-        public Surface(Font font, string text, Color color, int wrapLength)
+        public Surface(IFont font, string text, Color color, int wrapLength)
         {
             if (font == null)
             {

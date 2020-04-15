@@ -4,7 +4,7 @@ using System;
 
 namespace SharpDL.Graphics
 {
-    public class Font : IDisposable
+    public class Font : IFont
     {
         private SafeFontHandle safeHandle;
 
@@ -18,13 +18,15 @@ namespace SharpDL.Graphics
 
         public Font(string path, int fontPointSize)
         {
-            if (String.IsNullOrEmpty(path))
+            if (String.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException(nameof(path));
             }
 
-            FilePath = path;
-            PointSize = fontPointSize;
+            if (fontPointSize < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(fontPointSize), "Font point size must be greater than or equal to 0.");
+            }
 
             IntPtr unsafeHandle = SDL_ttf.TTF_OpenFont(path, fontPointSize);
             if (unsafeHandle == IntPtr.Zero)
@@ -32,6 +34,9 @@ namespace SharpDL.Graphics
                 throw new InvalidOperationException(String.Format("TTF_OpenFont: {0}", SDL.SDL_GetError()));
             }
             safeHandle = new SafeFontHandle(unsafeHandle);
+
+            FilePath = path;
+            PointSize = fontPointSize;
         }
 
         public void SetOutlineSize(int outlineSize)
@@ -52,7 +57,7 @@ namespace SharpDL.Graphics
 
         private void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 safeHandle.Dispose();
             }

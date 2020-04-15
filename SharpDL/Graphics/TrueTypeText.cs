@@ -3,11 +3,11 @@ using System;
 
 namespace SharpDL.Graphics
 {
-    public class TrueTypeText : IDisposable
+    public class TrueTypeText : ITrueTypeText
     {
         public string Text { get; private set; }
 
-        public Font Font { get; private set; }
+        public IFont Font { get; private set; }
 
         public Color Color { get; private set; }
 
@@ -19,43 +19,59 @@ namespace SharpDL.Graphics
 
         public int WrapLength { get; set; }
 
-        public TrueTypeText(IRenderer renderer, ISurface surface, string text, Font textFont, Color color, int wrapLength)
+        public TrueTypeText(IRenderer renderer, ISurface surface, string text, Font font, Color color, int wrapLength)
         {
             if (renderer == null)
             {
-                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+                throw new ArgumentNullException(nameof(renderer));
             }
+
             if (surface == null)
             {
-                throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
-            }
-            if (textFont == null)
-            {
-                throw new ArgumentNullException("textFont", Errors.E_FONT_NULL);
+                throw new ArgumentNullException(nameof(surface));
             }
 
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
+            if (font == null)
+            {
+                throw new ArgumentNullException(nameof(font));
+            }
+
+            if (wrapLength < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(wrapLength), "Wrap length must be greater than or equal to 0.");
+            }
+
+            Texture = new Texture(renderer, surface);
+
+            IsWrapped = wrapLength > 0;
             Text = text;
-            Font = textFont;
+            Font = font;
             Color = color;
             WrapLength = wrapLength;
-            if (wrapLength > 0)
-                IsWrapped = true;
-            else
-                IsWrapped = false;
-            Texture = new Texture(renderer, surface);
         }
 
-        public void UpdateText(string text, int wrapLength = 0)
+        public void UpdateText(string text)
         {
-            if(Texture == null)
+            UpdateText(text, 0);
+        }
+
+        public void UpdateText(string text, int wrapLength)
+        {
+            if (Texture == null)
             {
                 throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
             }
 
-            Text = text;
-
-            ISurface surface = new Surface(Font, Text, Color, wrapLength);
+            ISurface surface = new Surface(Font, text, Color, wrapLength);
             Texture.UpdateSurfaceAndTexture(surface);
+
+            Text = text;
+            IsWrapped = wrapLength > 0;
         }
 
         public void SetOutlineSize(int outlineSize)
@@ -63,6 +79,11 @@ namespace SharpDL.Graphics
             if (Font == null)
             {
                 throw new InvalidOperationException(Errors.E_FONT_NULL);
+            }
+
+            if (outlineSize < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(outlineSize), "Outline size must be greater than or equal to 0.");
             }
 
             Font.SetOutlineSize(outlineSize);
@@ -76,14 +97,17 @@ namespace SharpDL.Graphics
 
         private void Dispose(bool disposing)
         {
-            if (Texture != null)
+            if (disposing)
             {
-                Texture.Dispose();
-            }
+                if (Texture != null)
+                {
+                    Texture.Dispose();
+                }
 
-            if (Font != null)
-            {
-                Font.Dispose();
+                if (Font != null)
+                {
+                    Font.Dispose();
+                }
             }
         }
     }

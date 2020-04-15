@@ -11,9 +11,11 @@ namespace Example0_Sandbox
 		private IWindow window;
 		private IRenderer renderer;
 
-        private Texture textureGitLogo;
-        private Texture textureVisualStudioLogo;
-        private Texture textureYboc;
+        private ITexture textureGitLogo;
+        private ITexture textureVisualStudioLogo;
+        private ITexture textureYboc;
+
+		private ITrueTypeText ttf;
 		
 		public MainGame(
 			IGameEngine engine,
@@ -47,14 +49,16 @@ namespace Example0_Sandbox
 		private void LoadContent()
 		{
             // Creates an in memory SDL Surface from the PNG at the passed path
-            Surface surfaceGitLogo = new Surface("Content/logo_git.png", SurfaceType.PNG);
-            Surface surfaceVisualStudioLogo = new Surface("Content/logo_vs_2019.png", SurfaceType.PNG);
-            Surface surfaceYboc = new Surface("Content/logo_yboc.png", SurfaceType.PNG);
+            ISurface surfaceGitLogo = engine.SurfaceFactory.CreateSurface("Content/logo_git.png", SurfaceType.PNG);
+            ISurface surfaceVisualStudioLogo = engine.SurfaceFactory.CreateSurface("Content/logo_vs_2019.png", SurfaceType.PNG);
+            ISurface surfaceYboc = engine.SurfaceFactory.CreateSurface("Content/logo_yboc.png", SurfaceType.PNG);
             
             // Creates a GPU-driven SDL texture using the initialized renderer and created surface
-            textureGitLogo = new Texture(renderer, surfaceGitLogo);
-            textureVisualStudioLogo = new Texture(renderer, surfaceVisualStudioLogo);
-            textureYboc = new Texture(renderer, surfaceYboc);
+            textureGitLogo = engine.TextureFactory.CreateTexture(renderer, surfaceGitLogo);
+            textureVisualStudioLogo = engine.TextureFactory.CreateTexture(renderer, surfaceVisualStudioLogo);
+            textureYboc = engine.TextureFactory.CreateTexture(renderer, surfaceYboc);
+
+			ttf = engine.TrueTypeTextFactory.CreateTrueTypeText(renderer, "Content/Adumu.ttf", 24, Color.White, "Hello world!", 0);
 		}
 
 		/// <summary>Update the state of the game.
@@ -83,6 +87,9 @@ namespace Example0_Sandbox
 
             // Draw the YBOC logo at (900, 900) cropped to a 50x50 rectangle with (0,0) being the starting point
             textureYboc.Draw(800, 600, new Rectangle(0, 0, 50, 50)); 
+
+			// Draw text at 400,100
+			ttf.Texture.Draw(400, 100);
 
             // Update the rendered state of the screen
 			renderer.RenderPresent();

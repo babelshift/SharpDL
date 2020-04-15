@@ -4,7 +4,6 @@ using System;
 
 namespace SharpDL.Graphics
 {
-
     public class Texture : ITexture
     {
         private IRenderer renderer;
@@ -19,11 +18,6 @@ namespace SharpDL.Graphics
         public TextureAccessMode AccessMode { get; private set; }
 
         public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
-
-        internal Texture(IRenderer renderer, int width, int height)
-            : this(renderer, width, height, PixelFormat.RGBA8888, TextureAccessMode.Static)
-        {
-        }
 
         internal Texture(IRenderer renderer, int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
         {

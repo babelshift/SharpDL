@@ -10,7 +10,7 @@ namespace SharpDL
         /// This method should initialize any long running game assets, systems, and services.
         /// </summary>
         Action Initialize { set; }
-        
+
         /// <summary>Defines the LoadContent method that should be injected into the game loop.
         /// This method should load any game assets, images, sounds, models, etc.
         /// </summary>
@@ -30,7 +30,7 @@ namespace SharpDL
         /// This method should dispose of any game assets (especially any unmanaged resources).
         /// </summary>
         Action UnloadContent { set; }
-        
+
         /// <summary>Used to create windows in which a renderer will display assets.
         /// </summary>
         IWindowFactory WindowFactory { get; }
@@ -38,6 +38,14 @@ namespace SharpDL
         /// <summary>Used to create renderers tied to a window in which assets will be displayed.
         /// </summary>
         IRendererFactory RendererFactory { get; }
+
+        /// <summary>Used to create textures to be rendered.
+        /// </summary>
+        ITextureFactory TextureFactory { get; }
+
+        /// <summary>Used to create surfaces for eventually rendered textures and text.
+        /// </summary>
+        ISurfaceFactory SurfaceFactory { get; }
 
         /// <summary>Used to subscribe to game loop events.
         /// </summary>

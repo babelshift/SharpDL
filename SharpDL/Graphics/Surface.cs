@@ -40,16 +40,6 @@ namespace SharpDL.Graphics
             GetSurfaceMetaData();
         }
 
-        internal Surface(IFont font, string text)
-            : this(font, text, Color.Black, 0)
-        {
-        }
-
-        internal Surface(IFont font, string text, Color color)
-            : this(font, text, color, 0)
-        {
-        }
-
         internal Surface(IFont font, string text, Color color, int wrapLength)
         {
             if (font == null)

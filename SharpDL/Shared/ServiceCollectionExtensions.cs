@@ -25,6 +25,8 @@ namespace SharpDL.Shared
             services.TryAdd(ServiceDescriptor.Singleton<IGameEngine, GameEngine>());
             services.TryAdd(ServiceDescriptor.Singleton<IWindowFactory, WindowFactory>());
             services.TryAdd(ServiceDescriptor.Singleton<IRendererFactory, RendererFactory>());
+            services.TryAdd(ServiceDescriptor.Singleton<ISurfaceFactory, SurfaceFactory>());
+            services.TryAdd(ServiceDescriptor.Singleton<ITextureFactory, TextureFactory>());
             services.TryAdd(ServiceDescriptor.Singleton<IEventManager, EventManager>());
 
             return services;

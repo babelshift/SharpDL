@@ -27,6 +27,10 @@ namespace SharpDL
         public IWindowFactory WindowFactory { get; private set; }
 
         public IRendererFactory RendererFactory { get; private set; }
+        
+        public ITextureFactory TextureFactory { get; private set; }
+
+        public ISurfaceFactory SurfaceFactory { get; private set; }
 
         public IEventManager EventManager { get; private set; }
 
@@ -54,11 +58,15 @@ namespace SharpDL
         public GameEngine(
             IWindowFactory windowFactory, 
             IRendererFactory rendererFactory,
+            ITextureFactory textureFactory,
+            ISurfaceFactory surfaceFactory,
             IEventManager eventManager,
             ILogger<GameEngine> logger = null)
         {
             WindowFactory = windowFactory ?? throw new ArgumentNullException(nameof(windowFactory));
             RendererFactory = rendererFactory ?? throw new ArgumentNullException(nameof(rendererFactory));
+            TextureFactory = textureFactory ?? throw new ArgumentNullException(nameof(textureFactory));
+            SurfaceFactory = surfaceFactory ?? throw new ArgumentNullException(nameof(surfaceFactory));
             EventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
             this.logger = logger;
 

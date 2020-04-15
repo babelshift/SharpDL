@@ -18,7 +18,7 @@ namespace SharpDL.Graphics
 
         public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
-        public Surface(string filePath, SurfaceType surfaceType)
+        internal Surface(string filePath, SurfaceType surfaceType)
         {
             if (String.IsNullOrEmpty(filePath))
             {
@@ -40,12 +40,17 @@ namespace SharpDL.Graphics
             GetSurfaceMetaData();
         }
 
-        public Surface(IFont font, string text, Color color)
+        internal Surface(IFont font, string text)
+            : this(font, text, Color.Black, 0)
+        {
+        }
+
+        internal Surface(IFont font, string text, Color color)
             : this(font, text, color, 0)
         {
         }
 
-        public Surface(IFont font, string text, Color color, int wrapLength)
+        internal Surface(IFont font, string text, Color color, int wrapLength)
         {
             if (font == null)
             {

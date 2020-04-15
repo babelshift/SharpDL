@@ -20,12 +20,12 @@ namespace SharpDL.Graphics
 
         public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
 
-        public Texture(IRenderer renderer, int width, int height)
+        internal Texture(IRenderer renderer, int width, int height)
             : this(renderer, width, height, PixelFormat.RGBA8888, TextureAccessMode.Static)
         {
         }
 
-        public Texture(IRenderer renderer, int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
+        internal Texture(IRenderer renderer, int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
         {
             if (renderer == null)
             {
@@ -50,7 +50,7 @@ namespace SharpDL.Graphics
             QueryTexture(unsafeHandle);
         }
 
-        public Texture(IRenderer renderer, ISurface surface)
+        internal Texture(IRenderer renderer, ISurface surface)
         {
             if (renderer == null)
             {
@@ -67,7 +67,7 @@ namespace SharpDL.Graphics
             CreateTextureAndCleanup(surface);
         }
 
-        private IntPtr CreateTexture(int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
+        internal IntPtr CreateTexture(int width, int height, PixelFormat pixelFormat, TextureAccessMode accessMode)
         {
             uint mappedPixelFormat = PixelFormatMap.EnumToSDL(pixelFormat);
 
@@ -80,9 +80,10 @@ namespace SharpDL.Graphics
             return unsafeHandle;
         }
 
-        private IntPtr CreateTextureFromSurface(ISurface surface)
+        internal IntPtr CreateTextureFromSurface(ISurface surface)
         {
             IntPtr unsafeHandle = SDL.SDL_CreateTextureFromSurface(renderer.Handle, surface.Handle);
+
             if (unsafeHandle == IntPtr.Zero)
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_CreateTextureFromSurface"));
@@ -130,11 +131,6 @@ namespace SharpDL.Graphics
 
         public void SetBlendMode(BlendMode blendMode)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
-            }
-
             int result = SDL2.SDL.SDL_SetTextureBlendMode(Handle, (SDL.SDL_BlendMode)blendMode);
 
             if (Utilities.IsError(result))
@@ -145,11 +141,6 @@ namespace SharpDL.Graphics
         
         public void SetColorMod(byte r, byte g, byte b)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
-            }
-
             int result = SDL.SDL_SetTextureColorMod(Handle, r, g, b);
 
             if (Utilities.IsError(result))
@@ -160,24 +151,16 @@ namespace SharpDL.Graphics
 
         public void Draw(int x, int y, double angle, Vector center)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
-            }
             if (renderer == null)
             {
                 throw new InvalidOperationException(Errors.E_RENDERER_NULL);
             }
-
+            
             renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
         }
 
         public void Draw(int x, int y, Rectangle sourceBounds)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
-            }
             if (renderer == null)
             {
                 throw new InvalidOperationException(Errors.E_RENDERER_NULL);
@@ -193,10 +176,6 @@ namespace SharpDL.Graphics
 
         public void Draw(int x, int y)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
-            }
             if (renderer == null)
             {
                 throw new InvalidOperationException(Errors.E_RENDERER_NULL);

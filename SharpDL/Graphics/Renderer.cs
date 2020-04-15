@@ -9,6 +9,7 @@ namespace SharpDL.Graphics
     public class Renderer : IRenderer
     {
         private readonly ILogger<Renderer> logger;
+
         private SafeRendererHandle safeHandle;
 
         private List<RendererFlags> flags = new List<RendererFlags>();
@@ -20,6 +21,11 @@ namespace SharpDL.Graphics
         public IEnumerable<RendererFlags> Flags { get { return flags; } }
 
         public IntPtr Handle { get { return safeHandle.DangerousGetHandle(); } }
+
+        internal Renderer(IWindow window, ILogger<Renderer> logger = null)
+            : this(window, 0, RendererFlags.None)
+        {
+        }
 
         internal Renderer(IWindow window, int index, RendererFlags flags, ILogger<Renderer> logger = null)
         {

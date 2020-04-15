@@ -58,6 +58,16 @@ namespace SharpDL.Graphics
         public Rectangle(int x, int y, int width, int height)
             : this()
         {
+            if(width < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(width), "Width must be greater than or equal to 0.");
+            }
+            
+            if(height < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(height), "Height must be greater than or equal to 0.");
+            }
+
             X = x;
             Y = y;
             Width = width;

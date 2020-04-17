@@ -69,11 +69,11 @@ namespace SharpDL.Graphics
             }
         }
 
-        public void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center)
+        public void RenderTexture(ITexture texture, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center)
         {
-            if (textureHandle == IntPtr.Zero)
+            if (texture.Handle == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(textureHandle));
+                throw new ArgumentNullException(nameof(texture.Handle));
             }
 
             // SDL only accepts integer positions (x,y) in the rendering Rect
@@ -81,24 +81,24 @@ namespace SharpDL.Graphics
             SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = 0, y = 0, w = sourceWidth, h = sourceHeight };
             SDL.SDL_Point centerPoint = new SDL.SDL_Point() { x = (int)center.X, y = (int)center.Y };
 
-            int result = SDL.SDL_RenderCopyEx(Handle, textureHandle, ref sourceRectangle, ref destinationRectangle, angle, ref centerPoint, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            int result = SDL.SDL_RenderCopyEx(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle, angle, ref centerPoint, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
             if (Utilities.IsError(result))
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderCopyEx"));
             }
         }
 
-        public void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight)
+        public void RenderTexture(ITexture texture, float positionX, float positionY, int sourceWidth, int sourceHeight)
         {
             Rectangle source = new Rectangle(0, 0, sourceWidth, sourceHeight);
-            RenderTexture(textureHandle, positionX, positionY, source);
+            RenderTexture(texture, positionX, positionY, source);
         }
 
-        public void RenderTexture(IntPtr textureHandle, float positionX, float positionY, Rectangle source)
+        public void RenderTexture(ITexture texture, float positionX, float positionY, Rectangle source)
         {
-            if (textureHandle == IntPtr.Zero)
+            if (texture.Handle == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(textureHandle));
+                throw new ArgumentNullException(nameof(texture.Handle));
             }
 
             int width = source.Width;
@@ -108,7 +108,7 @@ namespace SharpDL.Graphics
             SDL.SDL_Rect destinationRectangle = new SDL.SDL_Rect() { x = (int)positionX, y = (int)positionY, w = width, h = height };
             SDL.SDL_Rect sourceRectangle = new SDL.SDL_Rect() { x = source.X, y = source.Y, w = width, h = height };
 
-            int result = SDL.SDL_RenderCopy(Handle, textureHandle, ref sourceRectangle, ref destinationRectangle);
+            int result = SDL.SDL_RenderCopy(Handle, texture.Handle, ref sourceRectangle, ref destinationRectangle);
             if (Utilities.IsError(result))
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderCopy"));

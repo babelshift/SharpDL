@@ -38,7 +38,7 @@ namespace SharpDL.Graphics
         /// <param name="sourceHeight">Source height to draw. Useful to crop.</param>
         /// <param name="angle">Angle of rotation of texture.</param>
         /// <param name="center">Center of rotation of texture.</param>
-        void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center);
+        void RenderTexture(ITexture texture, float positionX, float positionY, int sourceWidth, int sourceHeight, double angle, Vector center);
 
         /// <summary>Renders a texture identified by the texture handle at a position, angle, and center.
         /// </summary>
@@ -47,7 +47,7 @@ namespace SharpDL.Graphics
         /// <param name="positionY">Y coordinate to draw the texture.</param>
         /// <param name="sourceWidth">Source width to draw. Useful to crop.</param>
         /// <param name="sourceHeight">Source height to draw. Useful to crop.</param>
-        void RenderTexture(IntPtr textureHandle, float positionX, float positionY, int sourceWidth, int sourceHeight);
+        void RenderTexture(ITexture texture, float positionX, float positionY, int sourceWidth, int sourceHeight);
 
         /// <summary>Renders a texture identified by the texture handle at a position, angle, and center.
         /// </summary>
@@ -55,7 +55,7 @@ namespace SharpDL.Graphics
         /// <param name="positionX">X coordinate to draw the texture.</param>
         /// <param name="positionY">Y coordinate to draw the texture.</param>
         /// <param name="source">Rectangular coordinates in which to crop the texture.</param>
-        void RenderTexture(IntPtr textureHandle, float positionX, float positionY, Rectangle source);
+        void RenderTexture(ITexture texture, float positionX, float positionY, Rectangle source);
 
         /// <summary>Resets the Renderer's render target back to null.
         /// </summary>

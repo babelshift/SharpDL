@@ -58,7 +58,7 @@ namespace Example0_Sandbox
             textureVisualStudioLogo = engine.TextureFactory.CreateTexture(renderer, surfaceVisualStudioLogo);
             textureYboc = engine.TextureFactory.CreateTexture(renderer, surfaceYboc);
 
-			ttf = engine.TrueTypeTextFactory.CreateTrueTypeText(renderer, "Content/Adumu.ttf", 24, Color.White, "Hello world!", 0);
+			ttf = engine.TrueTypeTextFactory.CreateTrueTypeText(renderer, "Content/Adumu.ttf", "Hello world!", 24, Color.White);
 		}
 
 		/// <summary>Update the state of the game.

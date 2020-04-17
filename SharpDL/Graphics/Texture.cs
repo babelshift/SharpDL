@@ -150,7 +150,7 @@ namespace SharpDL.Graphics
                 throw new InvalidOperationException("Renderer is null. Has it been disposed?");
             }
             
-            renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
+            renderer.RenderTexture(this, x, y, Width, Height, angle, center);
         }
 
         public void Draw(int x, int y, Rectangle sourceBounds)
@@ -160,7 +160,7 @@ namespace SharpDL.Graphics
                 throw new InvalidOperationException("Renderer is null. Has it been disposed?");
             }
 
-            renderer.RenderTexture(Handle, x, y, sourceBounds);
+            renderer.RenderTexture(this, x, y, sourceBounds);
         }
 
         public void Draw(float x, float y, Rectangle sourceBounds)
@@ -175,7 +175,7 @@ namespace SharpDL.Graphics
                 throw new InvalidOperationException("Renderer is null. Has it been disposed?");
             }
 
-            renderer.RenderTexture(Handle, x, y, Width, Height);
+            renderer.RenderTexture(this, x, y, Width, Height);
         }
 
         public void Draw(float x, float y)

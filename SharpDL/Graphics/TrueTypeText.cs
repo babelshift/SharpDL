@@ -64,7 +64,7 @@ namespace SharpDL.Graphics
         {
             if (Texture == null)
             {
-                throw new InvalidOperationException(Errors.E_TEXTURE_NULL);
+                throw new InvalidOperationException("Texture is null. Has it been disposed?");
             }
 
             ISurface surface = new Surface(Font, text, Color, wrapLength);
@@ -78,7 +78,7 @@ namespace SharpDL.Graphics
         {
             if (Font == null)
             {
-                throw new InvalidOperationException(Errors.E_FONT_NULL);
+                throw new InvalidOperationException("Font is null. Has it been disposed?");
             }
 
             if (outlineSize < 0)

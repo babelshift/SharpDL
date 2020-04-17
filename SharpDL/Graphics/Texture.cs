@@ -147,7 +147,7 @@ namespace SharpDL.Graphics
         {
             if (renderer == null)
             {
-                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
+                throw new InvalidOperationException("Renderer is null. Has it been disposed?");
             }
             
             renderer.RenderTexture(Handle, x, y, Width, Height, angle, center);
@@ -157,7 +157,7 @@ namespace SharpDL.Graphics
         {
             if (renderer == null)
             {
-                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
+                throw new InvalidOperationException("Renderer is null. Has it been disposed?");
             }
 
             renderer.RenderTexture(Handle, x, y, sourceBounds);
@@ -172,7 +172,7 @@ namespace SharpDL.Graphics
         {
             if (renderer == null)
             {
-                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
+                throw new InvalidOperationException("Renderer is null. Has it been disposed?");
             }
 
             renderer.RenderTexture(Handle, x, y, Width, Height);

@@ -20,17 +20,5 @@ namespace SharpDL.Shared
 		{
 			return $"{method}: {SDL.SDL_GetError()}";
 		}
-
-        public static bool IsNull(object argument)
-        {
-            if (argument == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

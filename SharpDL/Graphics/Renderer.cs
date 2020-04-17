@@ -62,8 +62,6 @@ namespace SharpDL.Graphics
 
         public void ClearScreen()
         {
-            ThrowExceptionIfRendererIsNull();
-
             int result = SDL.SDL_RenderClear(Handle);
             if (Utilities.IsError(result))
             {
@@ -75,7 +73,7 @@ namespace SharpDL.Graphics
         {
             if (textureHandle == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(textureHandle), Errors.E_TEXTURE_NULL);
+                throw new ArgumentNullException(nameof(textureHandle));
             }
 
             // SDL only accepts integer positions (x,y) in the rendering Rect
@@ -100,7 +98,7 @@ namespace SharpDL.Graphics
         {
             if (textureHandle == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(textureHandle), Errors.E_TEXTURE_NULL);
+                throw new ArgumentNullException(nameof(textureHandle));
             }
 
             int width = source.Width;
@@ -119,15 +117,11 @@ namespace SharpDL.Graphics
 
         public void RenderPresent()
         {
-            ThrowExceptionIfRendererIsNull();
-
             SDL.SDL_RenderPresent(Handle);
         }
 
         public void ResetRenderTarget()
         {
-            ThrowExceptionIfRendererIsNull();
-
             int result = SDL2.SDL.SDL_SetRenderTarget(Handle, IntPtr.Zero);
             if (Utilities.IsError(result))
             {
@@ -137,11 +131,9 @@ namespace SharpDL.Graphics
 
         public void SetRenderTarget(ITexture renderTarget)
         {
-            ThrowExceptionIfRendererIsNull();
-
             if (!flags.Contains(RendererFlags.SupportRenderTargets))
             {
-                throw new InvalidOperationException(Errors.E_RENDERER_NO_RENDER_TARGET_SUPPORT);
+                throw new InvalidOperationException("This renderer does not support render targets. Did you create the renderer with the RendererFlags.SupportRenderTargets flag?");
             }
 
             int result = SDL2.SDL.SDL_SetRenderTarget(Handle, renderTarget.Handle);
@@ -162,8 +154,6 @@ namespace SharpDL.Graphics
 
         public void SetDrawColor(byte r, byte g, byte b, byte a)
         {
-            ThrowExceptionIfRendererIsNull();
-
             int result = SDL.SDL_SetRenderDrawColor(Handle, r, g, b, a);
 
             if (Utilities.IsError(result))
@@ -184,20 +174,10 @@ namespace SharpDL.Graphics
                 throw new ArgumentOutOfRangeException(nameof(height));
             }
 
-            ThrowExceptionIfRendererIsNull();
-
             int result = SDL2.SDL.SDL_RenderSetLogicalSize(Handle, width, height);
             if (Utilities.IsError(result))
             {
                 throw new InvalidOperationException(Utilities.GetErrorMessage("SDL_RenderSetLogicalSize"));
-            }
-        }
-
-        private void ThrowExceptionIfRendererIsNull()
-        {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_RENDERER_NULL);
             }
         }
 

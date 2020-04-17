@@ -41,11 +41,6 @@ namespace SharpDL.Graphics
 
         public void SetOutlineSize(int outlineSize)
         {
-            if (Handle == IntPtr.Zero)
-            {
-                throw new InvalidOperationException(Errors.E_FONT_NULL);
-            }
-
             SDL_ttf.TTF_SetFontOutline(Handle, outlineSize);
         }
 

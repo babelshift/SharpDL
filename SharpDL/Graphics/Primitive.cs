@@ -9,7 +9,7 @@ namespace SharpDL.Graphics
         {
             if (renderer == null)
             {
-                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+                throw new ArgumentNullException(nameof(renderer));
             }
 
             int result = SDL2.SDL.SDL_RenderDrawLine(renderer.Handle, x1, y1, x2, y2);

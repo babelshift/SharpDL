@@ -13,11 +13,12 @@ namespace SharpDL.Graphics
         {
             if (renderer == null)
             {
-                throw new ArgumentNullException("renderer", Errors.E_RENDERER_NULL);
+                throw new ArgumentNullException(nameof(renderer));
             }
+
             if (surface == null)
             {
-                throw new ArgumentNullException("surface", Errors.E_SURFACE_NULL);
+                throw new ArgumentNullException(nameof(surface));
             }
 
             if (surface.Type == SurfaceType.Text)

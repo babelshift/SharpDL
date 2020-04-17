@@ -51,26 +51,11 @@ This doesn't have the same limitation as Ubuntu because the libraries are distri
 pacman -S sdl2
 ```
 
-## Code Organization
-SharpDL consists of four main projects: SharpDL, SharpDL.Events, SharpDL.Graphics, and SharpDL.Input. A project for audio is not yet available.
-
-<dl>
-    <dt>SharpDL</dt>
-    <dd>Responsible for the base <code>Game</code> class, <code>GameTime</code>, and some experimental classes such as <code>Logger</code> and <code>Timer</code>.</dd>
-    <dt>SharpDL.Events</dt>
-    <dd>responsible for various <code>EventArgs</code> implementations that are based on the <code>SDL_Event</code> union. For example, the SDL_Event union is processed in the SharpDL's <code>Run</code> loop, <code>EventArgs</code> of the proper type are created, and an <code>event</code> of that handles that type is fired. This allows for a more .NET-like event system.</dd>
-    <dt>SharpDL.Graphics</dt>
-    <dd>Contains any class that is responsible for graphical operations such as creating a SDL_Window, rendering with a SDL_Renderer, creating a SDL_Surface, or loading a SDL_Texture. Examples of some of these classes are <code>Color</code>, <code>Font</code>, <code>Renderer</code>, <code>Window</code>, <code>Texture</code>, <code>TrueTypeText</code>, and more. Some classes do not have direct relations to SDL structures such as <code>Vector</code>, which represents an X,Y coordinate in a 2D space.</dd>
-    <dt>SharpDL.Input</dt>
-    <dd>Contains classes to handle Keyboard and Mouse input by capturing mapped SDL structures into .NET-style enumerators. Joystick and controller input is not yet available.</dd>
-</dl>
-
 ## Getting Started
 
 Start with some basic guides on the Wiki:
 
-- [Version 3.0+](https://github.com/babelshift/SharpDL/wiki/Getting-Started-(Version-3.0))
-- [Version 2.0](https://github.com/babelshift/SharpDL/wiki/Getting-Started-(Version-2.0))
+- [Getting Started](https://github.com/babelshift/SharpDL/wiki/1.-Getting-Started)
 
 Move on to the Examples in the repository:
 

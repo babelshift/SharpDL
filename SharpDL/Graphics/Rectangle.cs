@@ -4,66 +4,76 @@ namespace SharpDL.Graphics
 {
     public struct Rectangle
     {
+        /// <summary>Top left corner X coordinate.
+        /// </summary>
         public int X { get; private set; }
 
+        /// <summary>
+        /// Top left corner Y coordinate.
+        /// </summary>
         public int Y { get; private set; }
 
+        /// <summary>
+        /// Width of the Rectangle in pixels.
+        /// </summary>
         public int Width { get; private set; }
 
+        /// <summary>
+        /// Height of the Rectangle in pixels.
+        /// </summary>
         public int Height { get; private set; }
 
-        public int Bottom { get { return Y + Height; } }
+        /// <summary>
+        /// Equal to Y coordinate plus the Height.
+        /// </summary>
+        public int Bottom => Y + Height;
 
-        public int Top { get { return Y; } }
+        /// <summary>Equal to Y.
+        /// </summary>
+        public int Top => Y;
 
-        public int Left { get { return X; } }
+        /// <summary>Equal to X.
+        /// </summary>
+        public int Left => X;
 
-        public int Right { get { return X + Width; } }
+        /// <summary>Equal to X plus the Width.
+        /// </summary>
+        public int Right => X + Width;
 
-        public static Rectangle Empty
-        {
-            get
-            {
-                return new Rectangle()
-                {
-                    Height = 0,
-                    Width = 0,
-                    X = 0,
-                    Y = 0
-                };
-            }
-        }
+        /// <summary>Returns a Rectangle at (0,0) with 0 width and 0 height.
+        /// </summary>
+        /// <returns></returns>
+        public static Rectangle Empty => new Rectangle(0, 0, 0, 0);
 
-        public bool IsEmpty
-        {
-            get
-            {
-                if (Width == 0 && Height == 0)
-                    return true;
-                else
-                    return false;
-            }
-        }
+        /// <summary>
+        /// Returns true if width = 0 and height = 0.
+        /// </summary>
+        public bool IsEmpty => Width == 0 && Height == 0;
 
-        public Point Location { get { return new Point(X, Y); } }
+        /// <summary>Returns a Point in 2D space at the top left corner of the Rectangle.
+        /// </summary>
+        public Point Location => new Point(X, Y);
 
-        public Point Center
-        {
-            get
-            {
-                return new Point(this.X + (this.Width / 2), this.Y + (this.Height / 2));
-            }
-        }
+        /// <summary>Returns a 2D point closest to the center of the Rectangle.
+        /// </summary>
+        public Point Center => new Point(this.X + (this.Width / 2), this.Y + (this.Height / 2));
 
+        /// <summary>
+        /// Constructs a new rectangle.
+        /// </summary>
+        /// <param name="x">X coordinate of top left corner</param>
+        /// <param name="y">Y coordinate of top left corner.</param>
+        /// <param name="width">Width in pixels</param>
+        /// <param name="height">Height in pixels</param>
         public Rectangle(int x, int y, int width, int height)
             : this()
         {
-            if(width < 0)
+            if (width < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(width), "Width must be greater than or equal to 0.");
             }
-            
-            if(height < 0)
+
+            if (height < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(height), "Height must be greater than or equal to 0.");
             }
@@ -74,39 +84,51 @@ namespace SharpDL.Graphics
             Height = height;
         }
 
+        /// <summary>
+        /// Indicates if a Point falls within the bounds of the Rectangle.
+        /// </summary>
+        /// <param name="point">Point to check within a Rectangle.</param>
+        /// <returns>True if the Point is contained within the Rectangle. Otherwise false.</returns>
         public bool Contains(Point point)
         {
-            if (Left <= point.X && Right >= point.X && Top <= point.Y && Bottom >= point.Y)
-                return true;
-            else
-                return false;
-        }
-
-        public bool Contains(Rectangle rectangle)
-        {
-            if (Left <= rectangle.Left && Right >= rectangle.Right && Top <= rectangle.Top && Bottom >= rectangle.Bottom)
-                return true;
-            else
-                return false;
-        }
-
-        public bool Contains(Vector vector)
-        {
-            if (Left <= vector.X && Right >= vector.X && Top <= vector.Y && Bottom >= vector.Y)
-                return true;
-            else
-                return false;
+            return (Left <= point.X) && (Right >= point.X) && (Top <= point.Y) && (Bottom >= point.Y);
         }
 
         /// <summary>
-        /// Determines if two rectangles intersect.
+        /// Indicates if a Rectangle is fully contained within this Rectangle.
         /// </summary>
-        /// <param name="rectangle">Rectangle.</param>
-        public bool Intersects(Rectangle rectangle)
+        /// <param name="rectangle">Rectangle to check if fully contained within this instanced Rectangle.</param>
+        /// <returns>True if the Rectangle is contained within this instanced Rectangle. Otherwise false.</returns>
+        public bool Contains(Rectangle rectangle)
         {
-            return rectangle.Left <= Right && Left <= rectangle.Right && rectangle.Top <= Bottom && Top <= rectangle.Bottom;
+            return (Left <= rectangle.Left) && (Right >= rectangle.Right) && (Top <= rectangle.Top) && (Bottom >= rectangle.Bottom);
         }
 
+        /// <summary>
+        /// Indicates if a Vector is fully contained within this Rectangle.
+        /// </summary>
+        /// <param name="vector">Vector to check if fully contained within this instanced Rectangle.</param>
+        /// <returns>True if the Vector is contained within this instanced Rectangle. Otherwise false.</returns>
+        public bool Contains(Vector vector)
+        {
+            return (Left <= vector.X) && (Right >= vector.X) && (Top <= vector.Y) && (Bottom >= vector.Y);
+        }
+
+
+        /// <summary>Determines if two Rectangles intersect.
+        /// </summary>
+        /// <param name="rectangle">Rectangle to check if intersects with this instanced Rectangle.</param>
+        /// <returns>True if the Rectangles intersect. Otherwise false.
+        public bool Intersects(Rectangle rectangle)
+        {
+            return (rectangle.Left <= Right) && (Left <= rectangle.Right) && (rectangle.Top <= Bottom) && (Top <= rectangle.Bottom);
+        }
+
+        /// <summary>
+        /// Calculates the depth at which two Rectangles are intersecting.
+        /// </summary>
+        /// <param name="rectangle">Rectangle aginst which to check the intersection depth.</param>
+        /// <returns>Vector containing the depth at which the Rectangles intersect.</returns>
         public Vector GetIntersectionDepth(Rectangle rectangle)
         {
             // Calculate half sizes.
@@ -132,6 +154,7 @@ namespace SharpDL.Graphics
             // Calculate and return intersection depths.
             float depthX = distanceX > 0 ? minDistanceX - distanceX : -minDistanceX - distanceX;
             float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
+
             return new Vector(depthX, depthY);
         }
     }

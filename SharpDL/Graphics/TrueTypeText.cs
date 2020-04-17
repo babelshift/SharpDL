@@ -78,7 +78,7 @@ namespace SharpDL.Graphics
         {
             if (Font == null)
             {
-                throw new InvalidOperationException("Font is null. Has it been disposed?");
+                throw new InvalidOperationException("Font is null.");
             }
 
             if (outlineSize < 0)

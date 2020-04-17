@@ -13,7 +13,17 @@ namespace SharpDL.Graphics
             this.logger = logger;
         }
 
-        public ITrueTypeText CreateTrueTypeText(IRenderer renderer, string fontPath, int fontSize, Color color, string text, int wrapLength)
+        public ITrueTypeText CreateTrueTypeText(IRenderer renderer, string fontPath, string text, int fontSize)
+        {
+            return CreateTrueTypeText(renderer, fontPath, text, fontSize, Color.Black, 0);
+        }
+        
+        public ITrueTypeText CreateTrueTypeText(IRenderer renderer, string fontPath, string text, int fontSize, Color color)
+        {
+            return CreateTrueTypeText(renderer, fontPath, text, fontSize, color, 0);
+        }
+
+        public ITrueTypeText CreateTrueTypeText(IRenderer renderer, string fontPath, string text, int fontSize, Color color, int wrapLength)
         {
             Font font = null;
             ISurface surface = null;

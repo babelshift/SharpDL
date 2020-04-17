@@ -55,8 +55,7 @@ pacman -S sdl2
 
 Start with some basic guides on the Wiki:
 
-- [Version 3.0+](https://github.com/babelshift/SharpDL/wiki/Getting-Started-(Version-3.0))
-- [Version 2.0](https://github.com/babelshift/SharpDL/wiki/Getting-Started-(Version-2.0))
+- [Getting Started](https://github.com/babelshift/SharpDL/wiki/1.-Getting-Started)
 
 Move on to the Examples in the repository:
 

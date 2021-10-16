@@ -6,7 +6,7 @@
    - [EventHandling](https://github.com/OneMeanDragon/SharpDL/tree/master/Examples/VBExamples/Example3_EventHandling)
      - [KeyBoardEvents](https://github.com/OneMeanDragon/SharpDL/tree/master/Examples/VBExamples/Example3A_KeyboardEvents)
      - [MouseEvents](https://github.com/OneMeanDragon/SharpDL/tree/master/Examples/VBExamples/Example3B_MouseEvents)
-     - [RenderText](https://github.com/OneMeanDragon/SharpDL/tree/master/Examples/VBExamples/Example3C_RenderText)
+     - [RenderText](https://github.com/OneMeanDragon/SharpDL/tree/master/Examples/VBExamples/Example3C_RenderText) _As I noticed in the exp branch this will need updating when the time comes._
 
 ## NuGet Packages that I did not have by default which the main examples use
 
